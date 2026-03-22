@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Règlement Officiel — MyStiC RP 🌴</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --gold: #00e5a0;
+  --gold-light: #4dffc4;
+  --dark: #06090f;
+  --dark2: #0b0f18;
+  --dark3: #111825;
+  --dark4: #182030;
+  --text: #e8f4ec;
+  --muted: #5a7068;
+  --teal: #00c9e0;
+  --coral: #ff6b35;
+  --red: #ff6b6b;
+  --orange: #ffcd3c;
+  --purple: #c084fc;
+  --pink: #ff3ea5;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--dark);color:var(--text);font-family:'Outfit',sans-serif;overflow-x:hidden;}
+
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9998;opacity:0.4;
+}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 3rem;
+  background:rgba(6,9,15,0.9);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(0,229,160,0.12);
+}
+.nav-logo{
+  font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:0.08em;
+  color:var(--gold);text-shadow:0 0 30px rgba(0,229,160,0.4);
+  text-decoration:none;display:flex;align-items:center;gap:0.2rem;
+}
+.nav-logo span{color:var(--text);}
+.nav-right{display:flex;align-items:center;gap:1rem;}
+.btn-back{
+  color:var(--muted);font-size:0.8rem;font-weight:500;
+  letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;
+  transition:color 0.2s;
+}
+.btn-back:hover{color:var(--text);}
+.btn-discord{
+  display:flex;align-items:center;gap:0.4rem;
+  background:#5865F2;color:#fff;padding:0.45rem 1.1rem;
+  border-radius:4px;font-weight:600;font-size:0.78rem;
+  letter-spacing:0.06em;text-decoration:none;text-transform:uppercase;
+  transition:background 0.2s,transform 0.2s;
+}
+.btn-discord:hover{background:#4752c4;transform:translateY(-1px);}
+
+/* HERO */
+.hero{
+  padding:10rem 2rem 5rem;text-align:center;
+  position:relative;overflow:hidden;background:var(--dark2);
+  border-bottom:1px solid rgba(0,229,160,0.08);
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 90% at 50% -10%,rgba(0,229,160,0.12) 0%,transparent 55%),
+    radial-gradient(ellipse 50% 40% at 85% 100%,rgba(255,107,53,0.08) 0%,transparent 50%),
+    radial-gradient(ellipse 40% 35% at 10% 90%,rgba(0,201,224,0.07) 0%,transparent 50%);
+  pointer-events:none;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.25);
+  border-radius:100px;padding:0.4rem 1.1rem;
+  font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.5rem;position:relative;
+}
+.hero h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(4rem,10vw,9rem);
+  line-height:0.9;letter-spacing:0.04em;position:relative;
+}
+.hero h1 .g{
+  background:linear-gradient(135deg,var(--gold),var(--teal));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 50px rgba(0,229,160,0.3));
+}
+.hero-sub{
+  font-size:0.97rem;color:var(--muted);max-width:520px;
+  margin:1.2rem auto 0;line-height:1.75;font-weight:300;position:relative;
+}
+.warning-bar{
+  display:inline-flex;align-items:center;gap:0.8rem;
+  background:rgba(255,107,107,0.07);border:1px solid rgba(255,107,107,0.22);
+  border-radius:8px;padding:0.75rem 1.6rem;margin-top:2rem;
+  font-size:0.83rem;color:#fca5a5;position:relative;
+}
+
+/* TOC */
+.toc-wrap{background:var(--dark3);border-bottom:1px solid rgba(0,229,160,0.09);position:sticky;top:62px;z-index:100;}
+.toc{max-width:1100px;margin:0 auto;padding:0.9rem 2rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;}
+.toc-label{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.16em;color:var(--muted);white-space:nowrap;}
+.toc-pills{display:flex;gap:0.4rem;flex-wrap:wrap;}
+.toc-pill{
+  text-decoration:none;font-size:0.76rem;font-weight:500;
+  padding:0.28rem 0.8rem;border-radius:100px;
+  border:1px solid rgba(0,229,160,0.12);color:var(--muted);transition:all 0.2s;
+}
+.toc-pill:hover{border-color:var(--gold);color:var(--gold);background:rgba(0,229,160,0.06);}
+
+/* MAIN */
+main{max-width:1100px;margin:0 auto;padding:4rem 2rem 7rem;}
+
+/* CATEGORY */
+.cat{margin-bottom:4rem;opacity:0;transform:translateY(24px);transition:opacity 0.55s ease,transform 0.55s ease;}
+.cat.vis{opacity:1;transform:translateY(0);}
+
+.cat-hd{
+  display:flex;align-items:center;gap:1.2rem;
+  margin-bottom:1.8rem;padding-bottom:1.2rem;
+  border-bottom:1px solid rgba(0,229,160,0.08);
+}
+.cat-icon{
+  width:52px;height:52px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;flex-shrink:0;
+}
+.ci-green{background:rgba(0,229,160,0.09);border:1px solid rgba(0,229,160,0.2);}
+.ci-teal{background:rgba(0,201,224,0.09);border:1px solid rgba(0,201,224,0.2);}
+.ci-red{background:rgba(255,107,107,0.09);border:1px solid rgba(255,107,107,0.2);}
+.ci-orange{background:rgba(255,205,60,0.09);border:1px solid rgba(255,205,60,0.2);}
+.ci-purple{background:rgba(192,132,252,0.09);border:1px solid rgba(192,132,252,0.2);}
+.ci-coral{background:rgba(255,107,53,0.09);border:1px solid rgba(255,107,53,0.2);}
+.ci-pink{background:rgba(255,62,165,0.09);border:1px solid rgba(255,62,165,0.2);}
+.ci-gold{background:rgba(0,229,160,0.09);border:1px solid rgba(0,229,160,0.2);}
+
+.cat-num{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--muted);margin-bottom:0.2rem;}
+.cat-title{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:0.04em;line-height:1;}
+.ct-green{color:var(--gold);}
+.ct-teal{color:var(--teal);}
+.ct-red{color:var(--red);}
+.ct-orange{color:var(--orange);}
+.ct-purple{color:var(--purple);}
+.ct-coral{color:var(--coral);}
+.ct-pink{color:var(--pink);}
+
+/* RULES */
+.rules{display:flex;flex-direction:column;gap:0.8rem;}
+
+.rule{
+  background:var(--dark2);border:1px solid rgba(255,255,255,0.04);
+  border-radius:9px;padding:1.2rem 1.5rem;
+  display:flex;gap:1.3rem;align-items:flex-start;
+  transition:border-color 0.2s,transform 0.2s;cursor:default;
+}
+.rule:hover{border-color:rgba(0,229,160,0.18);transform:translateX(4px);}
+
+.rule-l{display:flex;flex-direction:column;align-items:center;gap:0.4rem;min-width:2rem;}
+.rule-code{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;line-height:1;opacity:0.3;}
+.rc-green{color:var(--gold);}
+.rc-teal{color:var(--teal);}
+.rc-red{color:var(--red);}
+.rc-orange{color:var(--orange);}
+.rc-purple{color:var(--purple);}
+.rc-coral{color:var(--coral);}
+.rc-pink{color:var(--pink);}
+
+.dot{width:6px;height:6px;border-radius:50%;}
+.d-h{background:var(--red);box-shadow:0 0 6px rgba(255,107,107,0.6);}
+.d-m{background:var(--gold);box-shadow:0 0 6px rgba(0,229,160,0.6);}
+.d-l{background:var(--teal);box-shadow:0 0 6px rgba(0,201,224,0.6);}
+
+.rule-b{}
+.rule-title{font-weight:700;font-size:0.93rem;margin-bottom:0.3rem;display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;}
+.rule-desc{font-size:0.84rem;color:var(--muted);line-height:1.65;}
+
+/* TAGS */
+.tag{font-size:0.63rem;text-transform:uppercase;letter-spacing:0.12em;padding:0.16rem 0.52rem;border-radius:100px;font-weight:700;}
+.t-ban{background:rgba(255,107,107,0.14);color:var(--red);border:1px solid rgba(255,107,107,0.28);}
+.t-warn{background:rgba(255,205,60,0.12);color:var(--orange);border:1px solid rgba(255,205,60,0.26);}
+.t-kick{background:rgba(0,229,160,0.11);color:var(--gold);border:1px solid rgba(0,229,160,0.26);}
+.t-staff{background:rgba(0,201,224,0.11);color:var(--teal);border:1px solid rgba(0,201,224,0.26);}
+.t-info{background:rgba(192,132,252,0.11);color:var(--purple);border:1px solid rgba(192,132,252,0.26);}
+
+/* SUBSECTION */
+.sub-title{
+  font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.06em;
+  color:var(--teal);margin:1.8rem 0 0.8rem;
+  display:flex;align-items:center;gap:0.6rem;
+}
+.sub-title::before{content:'';width:20px;height:1px;background:var(--teal);opacity:0.5;}
+
+/* LIST */
+.rule-list{
+  list-style:none;display:flex;flex-direction:column;gap:0.45rem;
+  margin-top:0.5rem;
+}
+.rule-list li{
+  font-size:0.84rem;color:var(--muted);line-height:1.6;
+  padding-left:1.2rem;position:relative;
+}
+.rule-list li::before{
+  content:'·';position:absolute;left:0;
+  color:var(--gold);font-weight:700;
+}
+.rule-list li strong{color:var(--text);}
+
+/* INTERDICTIONS BOX */
+.interdit-box{
+  background:rgba(255,107,107,0.05);border:1px solid rgba(255,107,107,0.18);
+  border-radius:9px;padding:1.2rem 1.5rem;margin-top:1rem;
+}
+.interdit-title{
+  font-size:0.72rem;text-transform:uppercase;letter-spacing:0.16em;
+  color:var(--red);margin-bottom:0.7rem;font-weight:700;
+  display:flex;align-items:center;gap:0.5rem;
+}
+.interdit-box .rule-list li::before{color:var(--red);}
+
+/* INFO BOX */
+.info-box{
+  background:rgba(0,201,224,0.05);border:1px solid rgba(0,201,224,0.15);
+  border-radius:9px;padding:1.2rem 1.5rem;margin-top:1rem;
+}
+.info-title{
+  font-size:0.72rem;text-transform:uppercase;letter-spacing:0.16em;
+  color:var(--teal);margin-bottom:0.7rem;font-weight:700;
+}
+
+/* WARN BOX */
+.warn-box{
+  background:rgba(255,205,60,0.05);border:1px solid rgba(255,205,60,0.18);
+  border-radius:9px;padding:1.2rem 1.5rem;margin-top:1rem;
+}
+.warn-title{
+  font-size:0.72rem;text-transform:uppercase;letter-spacing:0.16em;
+  color:var(--orange);margin-bottom:0.7rem;font-weight:700;
+}
+.warn-box .rule-list li::before{color:var(--orange);}
+
+/* TABLE */
+.table-wrap{background:var(--dark2);border:1px solid rgba(255,255,255,0.04);border-radius:9px;overflow:hidden;margin:1rem 0;}
+table{width:100%;border-collapse:collapse;font-size:0.82rem;}
+th{text-align:left;padding:0.8rem 1rem;background:rgba(255,255,255,0.025);color:var(--muted);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.14em;border-bottom:1px solid rgba(255,255,255,0.05);}
+td{padding:0.85rem 1rem;border-bottom:1px solid rgba(255,255,255,0.03);color:var(--text);vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(0,229,160,0.015);}
+.s-ban{color:var(--red);font-weight:700;}
+.s-tmp{color:var(--orange);font-weight:700;}
+.s-warn{color:var(--gold);font-weight:700;}
+.s-kick{color:var(--teal);font-weight:700;}
+
+/* DIVIDER */
+.sep{height:1px;background:linear-gradient(90deg,transparent,rgba(0,229,160,0.15),transparent);margin:3rem 0;}
+
+/* CTA */
+.cta{
+  text-align:center;background:var(--dark3);
+  border:1px solid rgba(0,229,160,0.12);border-radius:14px;
+  padding:3.5rem 2rem;margin-top:3rem;position:relative;overflow:hidden;
+}
+.cta::before{
+  content:'MyStiC RP';position:absolute;
+  font-family:'Bebas Neue',sans-serif;font-size:12rem;
+  color:rgba(0,229,160,0.025);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  white-space:nowrap;pointer-events:none;letter-spacing:0.05em;
+}
+.cta h3{
+  font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:0.05em;
+  background:linear-gradient(135deg,var(--gold),var(--teal));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:0.7rem;position:relative;
+}
+.cta p{color:var(--muted);font-size:0.93rem;margin-bottom:2rem;font-weight:300;position:relative;}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;position:relative;}
+.btn-primary{
+  background:var(--gold);color:var(--dark);
+  font-family:'Outfit',sans-serif;font-weight:700;
+  font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;
+  padding:0.85rem 2rem;border-radius:5px;text-decoration:none;
+  transition:transform 0.2s,box-shadow 0.2s,background 0.2s;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,229,160,0.35);background:var(--gold-light);}
+.btn-secondary{
+  background:transparent;color:var(--text);
+  font-family:'Outfit',sans-serif;font-weight:500;
+  font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;
+  padding:0.85rem 2rem;border:1px solid rgba(232,244,236,0.18);
+  border-radius:5px;text-decoration:none;transition:border-color 0.2s,color 0.2s;
+}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold);}
+
+/* FOOTER */
+footer{background:var(--dark2);border-top:1px solid rgba(0,229,160,0.1);padding:2.5rem 2rem;text-align:center;}
+.footer-logo{
+  font-family:'Bebas Neue',sans-serif;font-size:2rem;
+  background:linear-gradient(135deg,var(--gold),var(--teal));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:0.5rem;
+}
+.footer-copy{font-size:0.75rem;color:rgba(100,120,112,0.4);}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.5s ease,transform 0.5s ease;}
+.reveal.vis{opacity:1;transform:translateY(0);}
+
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem;}
+  .toc-wrap{top:56px;}
+  .rule{flex-direction:column;gap:0.7rem;}
+  .rule-l{flex-direction:row;align-items:center;gap:0.5rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">MyStiC<span> RP</span> 🌴</a>
+  <div class="nav-right">
+    <a href="index.html" class="btn-back">← Retour au site</a>
+    <a href="https://discord.gg/GBMj67FYdM" target="_blank" class="btn-discord">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.08.116 18.12a19.79 19.79 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+      Discord
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-badge">📜 Règlement Officiel — Mis à jour 2026</div>
+  <h1><span class="g">Règle</span>ment<br/>Officiel</h1>
+  <p class="hero-sub">Toutes les règles à respecter pour jouer sur MyStiC RP. La lecture et l'acceptation sont obligatoires avant de rejoindre le serveur.</p>
+  <div class="warning-bar">⚠️ &nbsp;Toute infraction grave peut entraîner un bannissement définitif sans appel.</div>
+</div>
+
+<!-- TOC -->
+<div class="toc-wrap">
+  <div class="toc">
+    <div class="toc-label">Sommaire :</div>
+    <div class="toc-pills">
+      <a href="#discord" class="toc-pill">💬 Discord</a>
+      <a href="#graphismes" class="toc-pill">🖥️ Graphismes</a>
+      <a href="#generalites" class="toc-pill">🌎 Généralités</a>
+      <a href="#police" class="toc-pill">👮 Police</a>
+      <a href="#prison" class="toc-pill">🏦 Prison</a>
+      <a href="#ems" class="toc-pill">🚑 EMS / SAMC</a>
+      <a href="#entreprises" class="toc-pill">🏢 Entreprises</a>
+      <a href="#illegal" class="toc-pill">🔫 Illégal</a>
+      <a href="#braquages" class="toc-pill">💰 Braquages</a>
+      <a href="#sanctions" class="toc-pill">🚨 Sanctions</a>
+    </div>
+  </div>
+</div>
+
+<main>
+
+<!-- ===== SECTION 01 — DISCORD ===== -->
+<div class="cat reveal" id="discord">
+  <div class="cat-hd">
+    <div class="cat-icon ci-green">📌</div>
+    <div>
+      <div class="cat-num">Section 01</div>
+      <div class="cat-title ct-green">Règlement Discord & Généralités</div>
+    </div>
+  </div>
+  <div class="rules">
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-green">D1</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Respect des membres</div>
+        <div class="rule-desc">Respectez les autres utilisateurs. Toute forme de harcèlement, d'intimidation ou de discours de haine est strictement interdite. Les insultes, propos vulgaires, racistes, homophobes, transphobes et sexistes ne sont pas tolérés. Gardez les conversations cordiales et respectueuses.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-green">D2</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Contenu interdit <span class="tag t-ban">BAN</span></div>
+        <div class="rule-desc">Aucun contenu illégal ou inapproprié n'est autorisé : images, vidéos, liens enfreignant les lois. Le partage de contenu personnel (photos, informations personnelles) sans consentement est strictement interdit. Pas de publicité pour d'autres serveurs RP.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-green">D3</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Spam & Publicité</div>
+        <div class="rule-desc">Pas de spam ou de publicité sans autorisation préalable. Cela inclut les messages privés non sollicités et la promotion de produits ou services non pertinents pour le serveur.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-green">D4</div><div class="dot d-l"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Canaux de discussion</div>
+        <div class="rule-desc">Respectez les canaux de discussion. Utilisez le canal approprié pour discuter d'un sujet spécifique. Évitez les hors-sujets ou conversations inappropriées.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-green">D5</div><div class="dot d-l"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Décisions des modérateurs</div>
+        <div class="rule-desc">Les décisions des modérateurs sont finales. Si vous avez un problème avec un utilisateur ou modérateur, contactez un administrateur. Les règles peuvent être modifiées à tout moment — il est de votre responsabilité de vous tenir à jour.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-green">D6</div><div class="dot d-l"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Ouverture de tickets Staff</div>
+        <div class="rule-desc">Lors de l'ouverture d'un ticket, utilisez des formules de politesse, restez respectueux même en cas de désaccord. Évitez les tickets sans raison valable. Si vous ne répondez pas dans les 24h, le ticket sera fermé automatiquement. Soyez clair et précis. Ne mentionnez pas les membres du staff directement — soyez patient.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- ===== SECTION 02 — GRAPHISMES ===== -->
+<div class="cat reveal" id="graphismes">
+  <div class="cat-hd">
+    <div class="cat-icon ci-teal">🖥️</div>
+    <div>
+      <div class="cat-num">Section 02</div>
+      <div class="cat-title ct-teal">Graphismes & Packs</div>
+    </div>
+  </div>
+  <div class="rules">
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-teal">G1</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Modifications de jeu interdites <span class="tag t-ban">BAN</span></div>
+        <div class="rule-desc">Les modifications de jeu sont strictement interdites. Toute infraction sera sanctionnée.</div>
+        <div class="interdit-box" style="margin-top:0.7rem;">
+          <div class="interdit-title">⛔ Éléments interdits</div>
+          <ul class="rule-list">
+            <li>No props, no element, no water, no bush, etc.</li>
+            <li>L'utilisation de crosshairs externes (viseurs tiers)</li>
+            <li>L'utilisation de hit effects (effets de coups/portées)</li>
+            <li>La modification de la FOV (champ de vision)</li>
+            <li>L'utilisation d'objets (props), d'éléments, d'eau, de buissons</li>
+            <li>L'utilisation de fichiers avantageux tels que le full stamina</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- ===== SECTION 03 — GÉNÉRALITÉS RP ===== -->
+<div class="cat reveal" id="generalites">
+  <div class="cat-hd">
+    <div class="cat-icon ci-gold">🌎</div>
+    <div>
+      <div class="cat-num">Section 03</div>
+      <div class="cat-title ct-green">Généralités RP</div>
+    </div>
+  </div>
+  <div class="rules">
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-green">R1</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Propos & contenu interdits <span class="tag t-ban">BAN</span></div>
+        <div class="rule-desc">Les propos racistes, xénophobes, homophobes ou haineux sont formellement interdits. Toute image ou contenu à caractère religieux, sexuel, homophobe ou haineux est interdit.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-green">R2</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Personnage mineur interdit <span class="tag t-ban">BAN</span></div>
+        <div class="rule-desc">Il n'est pas possible d'interpréter un personnage mineur sur le serveur. Votre personnage doit être signalé — obligatoirement, sous peine de sanction. Exception possible via ticket avec autorisation staff.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-green">R3</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Vocal extérieur à FiveM interdit <span class="tag t-ban">BAN</span></div>
+        <div class="rule-desc">L'utilisation d'un vocal extérieur à FiveM est strictement interdite et sera immédiatement sanctionnée, que vous soyez connectés sur le serveur ou en jeu avec d'autres joueurs.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-green">R4</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Streamhack interdit <span class="tag t-ban">BAN</span></div>
+        <div class="rule-desc">Le streamhack est interdit : être sur un stream d'un autre joueur en même temps que vous êtes en jeu avec lui. Toute personne reconnue coupable de streamhack sera sanctionnée.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-green">R5</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">RP sexuel interdit <span class="tag t-ban">BAN</span></div>
+        <div class="rule-desc">Le RP sexe ou les messages à caractère sexuel sont interdits. Exception possible via ticket, peu importe les raisons et l'âge des joueurs.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-green">R6</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Dialecte HRP interdit en jeu <span class="tag t-warn">AVERT.</span></div>
+        <div class="rule-desc">Le dialecte HRP est interdit pendant votre RP. Les expressions telles que "papillon", "j'ai une gopro" ou "faire un ticket" ne doivent pas être utilisées en jeu.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-green">R7</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Bugs & Glitchs <span class="tag t-ban">BAN</span></div>
+        <div class="rule-desc">L'utilisation de bugs ou de glitchs dans votre RP est strictement interdite (par ex. utiliser une animation pour sortir d'une cellule, spammer une touche pour avantager votre RP). L'utilisation de bugs est interdite sur le serveur.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-green">R8</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Véhicules métiers</div>
+        <div class="rule-desc">Les véhicules des métiers d'intérim doivent être utilisés uniquement pour leur activité principale. Le staff se réserve le droit de supprimer tout véhicule qui ne correspond pas à l'activité concernée.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-green">R9</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Achat & rachat de carte bancaire interdit <span class="tag t-ban">BAN</span></div>
+        <div class="rule-desc">L'achat et le rachat de carte bancaire est strictement interdit.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-green">R10</div><div class="dot d-l"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Annonces légales & réseaux sociaux RP</div>
+        <div class="rule-desc">Il est autorisé de mettre des annonces pour des services illégaux sur les applications RP (Pages Jaunes, Marketplace, etc.). Il n'est pas interdit de publier des posts illégaux sur Birdy ou Instapic — mais favorisez le RP.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-green">R11</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Matériel & tenues de factions <span class="tag t-ban">BAN</span></div>
+        <div class="rule-desc">La détention et l'utilisation de matériaux des entreprises (ex : Kit Répa / Bandage EMS) est strictement interdite en dehors du service. La détention et l'utilisation de tenues Police/EMS est interdite pour les civils et/ou hors service — y compris les tenues y faisant référence dans le but de se faire passer pour un membre d'une faction. Exception possible sous accord staff dans le cadre d'une scène proposée par un tier.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-green">R12</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Vengeance ancien personnage interdite <span class="tag t-ban">BAN</span></div>
+        <div class="rule-desc">Il est interdit de venger son ancien personnage avec son nouveau. Toute information de l'ancien personnage doit être effacée de votre mémoire.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-green">R13</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Fuite à la nage / course-poursuite</div>
+        <div class="rule-desc">Partir à la nage ou partir pendant ou après une course-poursuite hors scène avec bateaux est soumis aux règles RP — validée même avec une voiture. La fuite dans l'eau suite à une course-poursuite est soumise à une possibilité de tir d'arme à feu de la part des poursuiveurs.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- ===== SECTION 04 — POLICE ===== -->
+<div class="cat reveal" id="police">
+  <div class="cat-hd">
+    <div class="cat-icon ci-teal">👮</div>
+    <div>
+      <div class="cat-num">Section 04</div>
+      <div class="cat-title ct-teal">Règlement Police — SASP / LSPD</div>
+    </div>
+  </div>
+
+  <div class="info-box" style="margin-bottom:1.2rem;">
+    <div class="info-title">📌 Présentation — SASP</div>
+    <div style="font-size:0.84rem;color:var(--muted);line-height:1.65;">Le San Andreas State Police (SASP) est responsable de la gestion des forces de police, de la lutte contre la criminalité routière, des enquêtes et de la protection des dignitaires. Postes principaux : Sandy Shore, Blaine County, La Mesa, Roxwood, Davis, Mission Row (QG).</div>
+    <div style="font-size:0.82rem;color:var(--muted);margin-top:0.6rem;">📋 Critères d'éligibilité : âge minimum 15 ans HRP, aucun bannissement lourd sur le serveur. Candidatures via le Discord de la faction.</div>
+  </div>
+
+  <div class="rules">
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-teal">P1</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">RP Ripou <span class="tag t-staff">DOSSIER STAFF</span></div>
+        <div class="rule-desc">Le RP Ripou est strictement interdit. Il est cependant possible de déposer un dossier soumis à validation Staff. Il est strictement interdit de voler du matériel, des uniformes, véhicules et armes à tout service public, quelle que soit votre implication dans le milieu illégal — sous peine de bannissement définitif (sauf autorisation).</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-teal">P2</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Exclusivité du personnage SASP <span class="tag t-ban">BAN</span></div>
+        <div class="rule-desc">Tous les membres du SASP sont tenus de ne pas exercer une autre profession parallèlement ni de prendre une deuxième identité (deuxième personnage). Les joueurs SASP/LSPD ne peuvent pas avoir un P2 ou un autre slot. En cas de nouveau projet illégal, le joueur est tenu de wipe et terminer son personnage (qui sera lock par l'administration) avant de commencer dans l'illégal.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-teal">P3</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Fouilles & procédures</div>
+        <div class="rule-desc">Un citoyen doit être fouillé pour une raison valable (délit, etc.). Les fouilles sont autorisées dans les lieux publics en fonction de l'état de la ville (defcon / niveau d'alerte). Lorsque vous êtes en service, obligation de porter l'uniforme. Hors service : obligation de laisser tout l'équipement dans votre casier.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-teal">P4</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Transfert de matériel interdit <span class="tag t-ban">BAN DÉFINITIF</span></div>
+        <div class="rule-desc">Le transfert de matériel de police (armes, menottes, uniformes, objets de police) est interdit et passible d'un bannissement définitif du serveur.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-teal">P5</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Poursuites & PIT</div>
+        <div class="rule-desc">Lors d'une poursuite, le nombre de véhicules de police peut augmenter en fonction de la durée. La police n'est autorisée à PIT un véhicule qu'à vitesse modérée et sous demande du Command Staff.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-teal">P6</div><div class="dot d-l"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Bodycam & rapports obligatoires</div>
+        <div class="rule-desc">En service, les agents SASP sont équipés de caméras corporelles (bodycam). Ces images peuvent être utilisées en RP par le bureau des affaires internes et le département de la justice. En cas d'utilisation d'une arme à feu, un rapport doit être établi — sinon le département de la justice appliquera des sanctions. Les munitions sont comptées.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-teal">P7</div><div class="dot d-l"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Zones de sécurité</div>
+        <div class="rule-desc">Les postes de police sont des zones de sécurité (zone safe). Il est interdit de braquer, kidnapper ou agresser d'autres joueurs dans ces zones. Tout fonctionnaire exposé à des actes illégaux est passible de la prison à vie ou de la peine de mort (Fin du personnage).</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-teal">P8</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Embuscade interdite sur agents</div>
+        <div class="rule-desc">Vous ne pouvez pas attirer un agent dans une embuscade à cause de son emploi RP. Exemple interdit : appeler un officier sur les lieux d'une affaire et le prendre en otage à son arrivée.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-teal">P9</div><div class="dot d-l"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Application des peines — Code Pénal</div>
+        <div class="rule-desc">Lorsqu'un agent doit émettre une facture, amende ou appliquer une pénalité, il est tenu de respecter le code pénal. Tout manquement ou facturation abusive peut entraîner l'exclusion du joueur de la faction. Tout civil qui refuse de payer une facture peut être sujet à une peine de prison.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- ===== SECTION 05 — PRISON ===== -->
+<div class="cat reveal" id="prison">
+  <div class="cat-hd">
+    <div class="cat-icon ci-orange">🏦</div>
+    <div>
+      <div class="cat-num">Section 05</div>
+      <div class="cat-title ct-orange">Règlement Prison</div>
+    </div>
+  </div>
+  <div class="rules">
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-orange">PR1</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">RP prisonnier obligatoire</div>
+        <div class="rule-desc">Dès votre entrée à la prison de Bolingbroke, vous devez jouer le RP lié à la prison. Vous devez adapter votre RP à celui d'un prisonnier. Lorsque vous êtes condamné au TIG ou à l'UC, vous devez vous conformer à la sentence — aucune évasion n'est possible pour le moment.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-orange">PR2</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Évasion — Convoi uniquement</div>
+        <div class="rule-desc">S'il doit y avoir une évasion, elle doit avoir lieu pendant le convoi. En prison, les agents peuvent revêtir un uniforme de gardien et effectuer un RP pénitentiaire.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-orange">PR3</div><div class="dot d-l"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Bracelet électronique</div>
+        <div class="rule-desc">Le bracelet électronique informe la police de votre position toutes les 5 minutes. Il n'est pas possible de retirer le bracelet par ses propres moyens.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- ===== SECTION 06 — EMS / SAMC ===== -->
+<div class="cat reveal" id="ems">
+  <div class="cat-hd">
+    <div class="cat-icon ci-pink">🚑</div>
+    <div>
+      <div class="cat-num">Section 06</div>
+      <div class="cat-title ct-pink">EMS — SAMC</div>
+    </div>
+  </div>
+
+  <div class="info-box" style="margin-bottom:1.2rem;">
+    <div class="info-title">🪢 Présentation — SAMC</div>
+    <div style="font-size:0.84rem;color:var(--muted);line-height:1.65;">La San Andreas Medical Company (SAMC) est née le 11 février 2024 de la fusion du LSMC et du BCMC. Elle regroupe plusieurs centres médicaux : PillBox Hill, Paleto, Sandy Shores, Roxwood, Cayo Medical Center. Elle dispose de services spécialisés (Search And Rescue, chirurgie, psychologie, obstétrique, laboratoire, mortuaire).<br/><br/>🎓 Pour rejoindre : candidater via le Discord de la faction. Présence et investissement obligatoires. Formation d'une soirée après acceptation.</div>
+  </div>
+
+  <div class="rules">
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-pink">E1</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Service obligatoire pour soigner <span class="tag t-ban">BAN</span></div>
+        <div class="rule-desc">Il est obligatoire aux EMS d'être en service pour effectuer des soins et les facturer. Il est interdit de prendre son service dans l'objectif de soigner une connaissance. Les soins sans tenue de service ou dans l'accueil de l'hôpital sont interdits.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-pink">E2</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Neutralité & Légalité <span class="tag t-ban">BAN</span></div>
+        <div class="rule-desc">Les EMS doivent respecter la loi et ne peuvent pas être impliqués dans des activités illégales, sauf s'ils en sont eux-mêmes les victimes. Les véhicules de service ne doivent être utilisés qu'à des fins professionnelles — jamais personnelles.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-pink">E3</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Changement de rôle illégal/EMS interdit <span class="tag t-ban">BAN DÉFINITIF</span></div>
+        <div class="rule-desc">Il est strictement interdit de changer de rôle en passant de l'illégal au statut EMS ou inversement. Tout manquement sera sanctionné par un wipe du personnage et un blacklist/bannissement. Il est interdit en tant qu'EMS d'avoir un autre slot personnage dans l'illégal.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-pink">E4</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Sérieux des scènes de soins</div>
+        <div class="rule-desc">Les scènes de soins doivent être effectuées avec le plus grand sérieux et de manière réaliste. Si un joueur signale une fracture de jambe, effectuez tous les examens nécessaires — pas de "pansement magique". Les EMS ont la possibilité de déposer des dossiers de mort RP médicale selon le dossier médical.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-pink">E5</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">ATA — Arrêt Temporaire d'Activité</div>
+        <div class="rule-desc">Un ATA est émis à l'encontre d'un joueur en cas de blessure causée par accident, arme blanche ou arme à feu — restriction du personnage avec durée variable selon la gravité. Les ATA n'excèdent pas 24h max. Blessure légère à modérée : 24–45 min. Blessures lourdes : 1 à 24h.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-pink">E6</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Matériel médical <span class="tag t-ban">BAN</span></div>
+        <div class="rule-desc">Il est interdit de vendre/donner du matériel médical aux civils hors prescriptions. Le port ou stockage d'items EMS hors service ou dans une instance est strictement interdit. Le port ou l'utilisation de radio hors service (usage personnel) est prohibé.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-pink">E7</div><div class="dot d-l"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Transport de patients</div>
+        <div class="rule-desc">Il est interdit de transporter des patients dans des véhicules non adaptés. Un membre de la faction EMS ne peut pas avoir d'autre job en parallèle.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sub-title" style="color:var(--red);">☠️ EMS Illégaux — Conditions spéciales</div>
+  <div class="rules">
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-pink">EI1</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Activités illégales EMS <span class="tag t-staff">EXAMEN DOSSIER</span></div>
+        <div class="rule-desc">Il est possible de cumuler le rôle EMS avec des activités illégales — uniquement après examen de dossier et sous la gestion exclusive du Staff. Toute pratique illégale non validée entraîne un bannissement permanent. Activités autorisées : tournois de boxe clandestins, bagarres sauvages, soins en hôpitaux clandestins.</div>
+        <div class="info-box">
+          <div class="info-title">📋 Conditions EMS Illégaux</div>
+          <ul class="rule-list">
+            <li>En cas de fusillade, récupération discrète d'arme lors des soins autorisée (sans se faire repérer)</li>
+            <li>L'EMS peut choisir deux groupes qu'il prend sous sa responsabilité pour prodiguer des soins</li>
+            <li>En dehors de ces deux groupes : intervention uniquement sur demande explicite du groupe officiel, sous conditions, une fois par semaine</li>
+            <li>La vente de certains produits est autorisée sous certaines limites</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-title">⚡ Mort RP Médicale</div>
+  <div class="rules">
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-pink">MR1</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Procédure Mort RP</div>
+        <div class="rule-desc">Les Mort RP sont attribués de manière discrétionnaire et font l'objet d'une évaluation individuelle. Seuls les médecins ayant reçu une autorisation préalable peuvent initier un Mort RP. Un indicateur visuel (tête de mort via stéthoscope) permet d'identifier les personnages concernés. Si les indications RP (/me) suggèrent que le joueur souhaite mourir mais que l'icône n'est pas cochée, maintenez le personnage en coma artificiel et transmettez l'info au staff avec l'identifiant du joueur.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- ===== SECTION 07 — ENTREPRISES ===== -->
+<div class="cat reveal" id="entreprises">
+  <div class="cat-hd">
+    <div class="cat-icon ci-coral">🏢</div>
+    <div>
+      <div class="cat-num">Section 07</div>
+      <div class="cat-title ct-coral">Entreprises & Métiers</div>
+    </div>
+  </div>
+  <div class="rules">
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-coral">EN1</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Règles générales d'entreprise</div>
+        <div class="rule-desc">Vous devez respecter le Code des taxes, du travail et des entreprises mis en place par le gouvernement en RP. L'argent de l'entreprise ne vous appartient pas — toute dépense doit être justifiée comme liée à l'activité. Il est interdit d'utiliser les fonds de l'entreprise à des fins personnelles.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-coral">EN2</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Blanchiment limité <span class="tag t-ban">BAN</span></div>
+        <div class="rule-desc">Il est interdit de blanchir plus de 100 000 $ par semaine, que ce soit pour votre propre compte ou au profit de groupes illégaux.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-coral">EN3</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Cession & wipe d'entreprise</div>
+        <div class="rule-desc">Si vous souhaitez céder votre entreprise, consultez le gouvernement. En cas de wipe ou de mort RP, informez également le gouvernement. Il est interdit de vendre des véhicules d'entreprise à des particuliers — uniquement au concessionnaire concerné.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-coral">EN4</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Cumul de postes</div>
+        <div class="rule-desc">Il est interdit d'avoir plusieurs de vos personnages au sein de la même entreprise. Les patrons et co-patrons ne sont pas autorisés à vendre leurs biens personnels à leur propre entreprise. Vous ne pouvez être employé que dans deux entreprises de secteurs différents (ex : Auto Exotic ET LS Custom = interdit). Vous ne pouvez pas occuper un poste de direction dans deux entreprises en même temps.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-coral">EN5</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Réembauche & licenciements</div>
+        <div class="rule-desc">Il est interdit de réembaucher une personne ayant subi un wipe dans un délai de 3 semaines. Les licenciements doivent rester en RP et être justifiés par des raisons RP. Si la raison est HRP, elle doit être validée par les référents des entreprises. Maximum 80 employés par entreprise (direction incluse).</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-coral">EN6</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Comportement en service</div>
+        <div class="rule-desc">Il est interdit de prendre son service uniquement pour effectuer une vente, réparation ou autre activité puis d'y mettre fin immédiatement. Les entreprises officielles sont le reflet de l'image du serveur — comportement exemplaire obligatoire.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-coral">EN7</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Discord en RP — Conditions</div>
+        <div class="rule-desc">L'utilisation de Discord à des fins RP est interdite, sauf pour : réception des candidatures, activités gouvernementales avec secrétaire RP, affichage du règlement/carte/catalogue, annonces internes, SAMC. Tout le reste doit être effectué en RP.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sub-title">👨‍🔧 Mécanos</div>
+  <div class="rules">
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-coral">MC1</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Règles spécifiques Mécanos</div>
+        <div class="rule-desc">À la fin du service, déposez tous vos kits de réparation dans le stock. Il est interdit de commencer son service uniquement pour dépanner des amis. Les mécanos sont limités à deux 4x4 maximum (zones inaccessibles uniquement).</div>
+        <div class="info-box">
+          <div class="info-title">🚗 Véhicules autorisés pour les mécanos</div>
+          <ul class="rule-list">
+            <li><strong>flatbed</strong></li>
+            <li><strong>flatbed4</strong></li>
+            <li><strong>flatbed3</strong> — équipé d'une remorque dynamique</li>
+            <li><strong>slamtruck</strong></li>
+            <li><strong>towtruck</strong></li>
+            <li><strong>towtruck2</strong></li>
+            <li><strong>amb_rox-towtruck</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-title" style="color:var(--orange);">🎤 Maison de Disque & Label</div>
+  <div class="rules">
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-orange">MD1</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Publication de contenu musical</div>
+        <div class="rule-desc">Les maisons de disque doivent publier leur contenu exclusivement sur la chaîne YouTube dédiée (ULM ou Underdogs). Avant de poster, vérifiez la conformité du contenu. Uniquement les sons créés et enregistrés sur le serveur sont autorisés.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-title" style="color:var(--teal);">🚗 Concessionnaire</div>
+  <div class="rules">
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-teal">CC1</div><div class="dot d-l"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Règles concessionnaire</div>
+        <div class="rule-desc">Cautions pour locations : max 15 000 $. Rachat de véhicules autorisé uniquement s'ils figurent dans le catalogue. Mise en location : tous véhicules même hors catalogue. Retours fournisseurs pour occasions : rachetés à 80% du prix usine (envoyez les IDs dans le channel Discord entreprise).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-title" style="color:var(--purple);">📰 Presse</div>
+  <div class="rules">
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-purple">PR1</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Règles presse</div>
+        <div class="rule-desc">Life Invader et Weazel News sont strictement légales — la direction ne peut pas commettre d'actes illégaux. Les médias publient exclusivement sur leur chaîne YouTube (Weazel News ou Life Invader). Les journaux ont l'interdiction de fournir des cartes de visite vierges — contenu ajouté par eux-mêmes, non éditable/duplicable. Seule la direction peut en acheter.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-title" style="color:var(--gold);">🦺 Agent de Sécurité</div>
+  <div class="rules">
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-green">AS1</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Gestion des menottes</div>
+        <div class="rule-desc">Les menottes ne doivent pas être conservées par les employés — elles doivent être remises et stockées dans le coffre de l'entreprise. Données et récupérées à chaque fin de service, sous peine de sanctions staff.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="sep"></div>
+
+<!-- ===== SECTION 08 — ILLÉGAL ===== -->
+<div class="cat reveal" id="illegal">
+  <div class="cat-hd">
+    <div class="cat-icon ci-red">🔫</div>
+    <div>
+      <div class="cat-num">Section 08</div>
+      <div class="cat-title ct-red">Règlement Illégal — Gangs & Organisations</div>
+    </div>
+  </div>
+  <div class="rules">
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-red">IL1</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Comportement général</div>
+        <div class="rule-desc">Vous devez avoir une tenue adaptée au lore de votre personnage et de votre groupe. Respectez le "fear naturel" envers les services publics — vous êtes des criminels à votre échelle. Il n'y a pas de fear orga, à vous de vous imposer en RP. Ne parlez pas de vos expériences RP passées. Toute insinuation HRP est à proscrire.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-red">IL2</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Restrictions de groupe <span class="tag t-ban">BAN</span></div>
+        <ul class="rule-list" style="margin-top:0.4rem;">
+          <li>Interdiction de participer à des actions illégales avec un groupe sans avoir été recruté dans son CREW</li>
+          <li>Interdiction d'avoir plus d'un personnage dans l'illégal</li>
+          <li>Interdiction de trahir son groupe pour les intérêts d'un autre groupe (sauf cohérence RP)</li>
+          <li>Interdiction d'avoir des entrepôts en commun avec d'autres groupes (déconseillé fortement)</li>
+          <li>Interdiction pour les petites frappes de revendiquer un point de récolte ou de braquage</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-red">IL3</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Alliances & Interactions inter-groupes</div>
+        <div class="rule-desc">Les alliances entre gangs sont interdites. Les alliances économiques entre groupes du même rang sont interdites.</div>
+        <div class="info-box">
+          <div class="info-title">📋 Règles d'alliances</div>
+          <ul class="rule-list">
+            <li><strong>Orga</strong> : ne peut pas avoir d'alliance éco avec une autre orga. Peut traiter avec gang et MC.</li>
+            <li><strong>Gang</strong> : ne peut pas avoir d'alliance éco avec un autre gang. Peut traiter avec orga et MC.</li>
+            <li><strong>MC</strong> : ne peut pas avoir d'alliance éco avec un autre MC. Peut traiter avec gang et orga.</li>
+            <li>Les Gangs peuvent engager des Petites Frappes pour leurs tables</li>
+            <li>Il est autorisé de recruter des indépendants ou petites frappes pour attaquer un groupe officiel (gangs seulement)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-red">IL4</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Drive-by <span class="tag t-staff">ACCORD STAFF</span></div>
+        <div class="rule-desc">Le drive-by est autorisé pour les groupes officiels sous ticket (avec de vraies raisons). Règles obligatoires :</div>
+        <ul class="rule-list" style="margin-top:0.5rem;">
+          <li>Le véhicule doit être à l'arrêt total</li>
+          <li>Durée très courte (quelques secondes) — quelques balles puis fuite</li>
+          <li>Uniquement sur un quartier ciblé précis (pas dans la rue, trottoir ou devant un magasin)</li>
+          <li>Tirs non à but mortel — toucher bâtiments/véhicules, pas tuer</li>
+          <li>Le groupe ciblé a le droit de riposter</li>
+          <li>Les motos sont interdites pour activités illégales sauf MC</li>
+          <li>Interdit de tirer d'un véhicule en mouvement</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-red">IL5</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Gunfights <span class="tag t-ban">BAN</span></div>
+        <div class="rule-desc">Nous sommes sur un serveur RP sérieux — le gunfight doit être l'ultime recours. Soyez créatifs.</div>
+        <div class="interdit-box">
+          <div class="interdit-title">⛔ Interdictions Gunfight</div>
+          <ul class="rule-list">
+            <li>Déclencher un gunfight sans avoir préalablement échangé verbalement avec le groupe adverse</li>
+            <li>Gunfight deux fois dans la même soirée (maximum 1 fois par groupe)</li>
+            <li>Se venger après un gunfight et après avoir été réanimé par les EMS</li>
+            <li>Prendre les hauteurs avant que le gunfight soit engagé</li>
+            <li>Ramasser des corps (coma) lorsqu'un service public est présent sur la scène</li>
+          </ul>
+        </div>
+        <div style="margin-top:0.7rem;font-size:0.83rem;color:var(--muted);">⚠️ Le staff se réserve le droit de sanctionner ou de mort RP des joueurs trop souvent affiliés à des scènes de gunfight.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-red">IL6</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Prises d'otages <span class="tag t-warn">AVERT.</span></div>
+        <div class="rule-desc">Autorisée uniquement dans un contexte de braquage ou de négociation RP avec la police. La prise d'otage d'un membre des services publics expose votre personnage à une prison à vie ou une Mort RP. C'est votre ultime solution.</div>
+        <div class="warn-box">
+          <div class="warn-title">⚠️ Conditions otages</div>
+          <ul class="rule-list">
+            <li>Interdiction de tirer lors de négociations ou scènes avec otages (sinon l'otage se soumet à une mort RP)</li>
+            <li>Interdiction d'utiliser de faux otages</li>
+            <li>Interdiction d'attendre devant un quartier pour prendre des joueurs en otage</li>
+            <li>Interdiction de braquer le groupe ennemi s'il possède un otage à vous (l'otage se soumet à une mort RP)</li>
+            <li>Interdiction de braquer et prendre des otages sans aucune raison</li>
+            <li>Rançon maximum : 5 000 $</li>
+            <li>Échange d'otage : max 1 arme et 1 boite par otage</li>
+            <li>Prise d'otage de médecin en service autorisée uniquement si plus de 5 médecins en service</li>
+            <li>Évitez de "rusher" les otages</li>
+          </ul>
+        </div>
+        <div class="info-box" style="margin-top:0.7rem;">
+          <div class="info-title">💀 L'otage s'expose à une Mort RP si</div>
+          <ul class="rule-list">
+            <li>Son groupe ne se présente pas pour le récupérer</li>
+            <li>L'otage ne respecte pas son fear</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-red">IL7</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Comportements & Scènes</div>
+        <ul class="rule-list" style="margin-top:0.4rem;">
+          <li>Interdiction de retourner dans votre quartier après une course-poursuite</li>
+          <li>Ne campez pas le quartier ou le QG d'un groupe</li>
+          <li>N'engagez aucune fusillade depuis votre quartier ni dans un quartier adverse</li>
+          <li>Interdiction de mentir sur vos blessures — si vous avez pris des balles, vous ne pouvez pas inventer une autre raison</li>
+          <li>Trash le corps de quelqu'un au sol est un motif de sanction (sauf trame de haine validée)</li>
+          <li>Prendre l'unité X alors que des EMS ou LSPD sont présents est interdit</li>
+          <li>Interdiction de posséder des habitants en tant que groupe de Petite Frappe</li>
+          <li>Mutilations permanentes (couper des membres, etc.) interdites sans autorisation préalable (ticket)</li>
+          <li>Interdiction de braquer des véhicules de transport sans certitude d'appartenance (plaque, joueur identifié)</li>
+          <li>Les plans pneus ne sont ni interdits ni autorisés — les conséquences RP suivront</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-red">IL8</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Blanchiment illégal limité</div>
+        <div class="rule-desc">Il vous est interdit de blanchir plus de 50 000 $ par jour (par vos moyens ou via des entreprises). Il est déconseillé de vendre des armes, circuits illégaux et objets en dehors du DarkChat — des répercussions RP peuvent suivre.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-red">IL9</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Loot & Pillage <span class="tag t-ban">BAN</span></div>
+        <div class="rule-desc">Règles strictes sur le loot :</div>
+        <div class="interdit-box">
+          <div class="interdit-title">⛔ Interdictions Loot</div>
+          <ul class="rule-list">
+            <li>Loot d'armes et/ou munitions sur un joueur (sauf contexte valable à 50% max)</li>
+            <li>Freeloot : racketter quelqu'un sans raison, juste pour argent ou items</li>
+            <li>Loot de plus d'un item / prendre plus de 50% d'un item</li>
+            <li>Loot du téléphone d'un joueur (saisie temporaire OK, mais restitution obligatoire)</li>
+            <li>Braquer quelqu'un et le forcer à retirer de l'argent</li>
+            <li>Pillage de clés, cartes d'identité ou documents d'un joueur</li>
+            <li>Armes lourdes : lootables à 20% seulement</li>
+            <li>Alliage en titane : item classique, lootable à 60%</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sub-title" style="color:var(--orange);">💊 Drogue — Vente & Récoltes</div>
+  <div class="rules">
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-orange">DR1</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Règles de vente de drogue</div>
+        <div class="rule-desc">La vente aux PNJ est autorisée pour les civils, petites frappes, habitants et gangs. Elle est interdite pour les organisations.</div>
+        <div class="interdit-box">
+          <div class="interdit-title">⛔ Interdictions Drogue</div>
+          <ul class="rule-list">
+            <li>Vendre de la drogue en Zone Safe</li>
+            <li>Vendre aux PNJ en étant membre d'une organisation</li>
+            <li>Vendre de la weed aux PNJ en étant membre d'un gang (privilegiez les scènes terrain)</li>
+            <li>Vendre de la drogue aux PNJ en voiture et s'enfuir</li>
+            <li>Réaliser des transactions dans des zones safe ou à moins de 2km de votre QG</li>
+            <li>Planter/Fabriquer dans son QG, intérieurs/instances, toits, montagnes, zones incohérentes ou Zone Safe</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-orange">DR2</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Récoltes — Véhicules obligatoires</div>
+        <div class="rule-desc">Obligation de se rendre sur les zones de récoltes avec des véhicules de transport (Speedo, Rumpo, Burrito, etc.). Liste imposée par les référents illégaux — vous serez informés des changements. Le non-respect entraîne des sanctions. Les convois sont interdits sauf MC.</div>
+        <div class="info-box">
+          <div class="info-title">🌳 Règles de récoltes</div>
+          <ul class="rule-list">
+            <li>Pas de copinage sur les points de récoltes autorisé</li>
+            <li>Véhicules de transport obligatoires (Speedo, Rumpo, Burrito...)</li>
+            <li>Les convois sont interdits sauf MC</li>
+            <li>Appeler des amis pour s'ajouter à une poursuite est interdit</li>
+            <li>MC : 4 motos max ou 1 voiture + 2 motos en scènes illégales</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-title" style="color:var(--red);">🔧 Armes — Quantités & Restrictions</div>
+  <div class="rules">
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-red">AR1</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Accès aux armes & munitions</div>
+        <div class="rule-desc">Les civils/petites frappes ont accès uniquement à la pétoire.</div>
+        <div class="info-box">
+          <div class="info-title">🔫 Munitions maximum par joueur</div>
+          <ul class="rule-list">
+            <li><strong>Armes de poing :</strong> 36 balles</li>
+            <li><strong>Fusil à pompe :</strong> 24 balles</li>
+            <li><strong>SMG :</strong> 80 balles</li>
+            <li><strong>Fusil d'assaut :</strong> 90 balles</li>
+          </ul>
+        </div>
+        <div class="interdit-box">
+          <div class="interdit-title">⛔ Interdictions armes</div>
+          <ul class="rule-list">
+            <li>Briser l'économie des armes en vendant à des prix incohérents</li>
+            <li>Avoir une arme lourde et une arme auto en même temps</li>
+            <li>Transférer ses armes de perso en perso</li>
+            <li>Utiliser des outils (pioches, etc.) à des fins criminelles</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-title" style="color:var(--gold);">🔬 Laboratoires</div>
+  <div class="rules">
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-green">LA1</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Règles laboratoires drogue</div>
+        <ul class="rule-list" style="margin-top:0.4rem;">
+          <li>Interdit de camper le laboratoire et ses alentours</li>
+          <li>Interdit de bâcher ses véhicules devant ou à l'intérieur du laboratoire</li>
+          <li>Obligation de se rendre aux laboratoires avec des véhicules de transport</li>
+          <li>Interdit de posséder une propriété à moins de 3km du laboratoire</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-green">LA2</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Laboratoire d'armes <span class="tag t-staff">ORGA & MC UNIQUEMENT</span></div>
+        <div class="rule-desc">Le laboratoire d'armes est obtenable uniquement par les organisations et les MC. Les armes ne sont lootables qu'à 20% (même si plusieurs sur une seule personne). L'alliage en titane est lootable à 60%. Un gang ne peut pas attaquer le labo d'une organisation et inversement — sauf alliance validée entre deux groupes.</div>
+        <div class="info-box">
+          <div class="info-title">📋 Attaque de business secondaire</div>
+          <ul class="rule-list">
+            <li>Dossier GSlide obligatoire avec : position du PNJ/labo, interception d'un véhicule rempli d'objets liés au business, photo d'un joueur devant le PNJ ou la porte</li>
+            <li>Toutes ces informations doivent être obtenues de manière totalement RP</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-title" style="color:var(--coral);">🔄 Wipe & Changement de groupe</div>
+  <div class="rules">
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-coral">WP1</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Obligations de wipe <span class="tag t-ban">BAN</span></div>
+        <div class="rule-desc">Avant de rejoindre un projet illégal, vous devez passer par un wipe de votre personnage. Vous êtes obligé de wipe si vous quittez un groupe illégal officiel, peu importe la raison. Il n'est plus nécessaire de wipe quand vous quittez un groupe de petites frappes — mais maintenez une logique de cohérence. Vous devez partir sans emporter aucun item.</div>
+        <div class="interdit-box">
+          <div class="interdit-title">⛔ Interdictions wipe</div>
+          <ul class="rule-list">
+            <li>Passer du légal à l'illégal sans wipe</li>
+            <li>Se rappeler de quoi que ce soit sur l'ancien personnage</li>
+            <li>Faire une demande de wipe avec une procédure judiciaire en cours</li>
+            <li>Faire une demande de wipe avec un compte bancaire négatif ou des factures impayées</li>
+            <li>Transférer des biens (armes, véhicules, items, argent) avant de wipe</li>
+            <li>Laisser un "cadeau/héritage" même sans intention de le récupérer</li>
+          </ul>
+        </div>
+        <div class="warn-box" style="margin-top:0.7rem;">
+          <div class="warn-title">⏱️ Délai après quitter un groupe officiel</div>
+          <div style="font-size:0.84rem;color:var(--muted);">Un joueur quittant un groupe officiel ne peut pas en rejoindre un autre avant <strong style="color:var(--text);">3 semaines</strong> à compter du moment où il a créé son précédent personnage de groupe officiel.<br/><em>Exemple : je rejoins le SOA le 23 Mars, je wipe le 5 Avril — je ne peux pas rejoindre un autre groupe officiel avant le 16 Avril.</em></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="sep"></div>
+
+<!-- ===== SECTION 09 — BRAQUAGES ===== -->
+<div class="cat reveal" id="braquages">
+  <div class="cat-hd">
+    <div class="cat-icon ci-orange">💰</div>
+    <div>
+      <div class="cat-num">Section 09</div>
+      <div class="cat-title ct-orange">Braquages</div>
+    </div>
+  </div>
+
+  <div class="sub-title" style="color:var(--gold);">🏦 Fleeca & 💎 Bijouterie</div>
+  <div class="rules">
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-green">BR1</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Conditions Fleeca & Bijouterie</div>
+        <div class="rule-desc">Obligation d'entamer une course-poursuite après le braquage. Vous devez attendre la police. Si aucune patrouille n'est présente au bout de 15 minutes, vous pouvez partir.</div>
+        <div class="info-box">
+          <div class="info-title">📋 Conditions obligatoires</div>
+          <ul class="rule-list">
+            <li>2 braqueurs minimum</li>
+            <li>2 otages minimum</li>
+            <li>1 arme à feu minimum</li>
+            <li>2 véhicules maximum</li>
+            <li>Plans mule autorisés avec 5 minutes de poursuite minimum avant</li>
+            <li>Interdit de loot plus de 50% des items sur un otage</li>
+            <li>MC autorisés à braquage moto avec au moins 1 voiture sur les lieux</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-title" style="color:var(--teal);">🏪 Supérettes / Conteneurs / Cambriolages</div>
+  <div class="rules">
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-teal">BR2</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Conditions supérettes & petits braquages</div>
+        <div class="rule-desc">Attendez la police pour partir en course-poursuite. Si aucune patrouille n'est présente au bout de 5 minutes, vous pouvez partir.</div>
+        <div class="interdit-box">
+          <div class="interdit-title">⛔ Interdictions</div>
+          <ul class="rule-list">
+            <li>Interdiction d'avoir des otages</li>
+            <li>Plans mules non autorisés pour ce type de braquage</li>
+            <li>Interdiction d'utiliser des deux-roues, skate, BMX ou véhicules de métiers</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="sep"></div>
+
+<!-- ===== SECTION 10 — SANCTIONS ===== -->
+<div class="cat reveal" id="sanctions">
+  <div class="cat-hd">
+    <div class="cat-icon ci-purple">🚨</div>
+    <div>
+      <div class="cat-num">Section 10</div>
+      <div class="cat-title ct-purple">Sanctions & Bans</div>
+    </div>
+  </div>
+
+  <div class="rules">
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-purple">S1</div><div class="dot d-m"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Système progressif</div>
+        <div class="rule-desc">Les sanctions suivent une échelle progressive sauf pour les infractions graves (cheat, toxicité extrême, mass KOS) qui entraînent un ban direct. Les avertissements sont consignés et restent actifs pendant 30 jours.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-wrap" style="margin:1.2rem 0;">
+    <table>
+      <thead>
+        <tr><th>Infraction</th><th>1ère fois</th><th>2ème fois</th><th>3ème fois</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>RDM / VDM mineur</td><td><span class="s-warn">Avertissement</span></td><td><span class="s-kick">Kick + Avert.</span></td><td><span class="s-tmp">Ban 3 jours</span></td></tr>
+        <tr><td>Metagaming</td><td><span class="s-warn">Avertissement</span></td><td><span class="s-tmp">Ban 7 jours</span></td><td><span class="s-ban">Ban définitif</span></td></tr>
+        <tr><td>Combat Logging</td><td><span class="s-kick">Kick</span></td><td><span class="s-tmp">Ban 24h</span></td><td><span class="s-tmp">Ban 7 jours</span></td></tr>
+        <tr><td>Toxicité / Insultes</td><td><span class="s-warn">Avertissement</span></td><td><span class="s-tmp">Ban 48h</span></td><td><span class="s-ban">Ban définitif</span></td></tr>
+        <tr><td>Cheat / Hack</td><td colspan="3" style="text-align:center;"><span class="s-ban">Ban DÉFINITIF immédiat — sans appel</span></td></tr>
+        <tr><td>Abus de bug / Exploit</td><td><span class="s-tmp">Ban 7 jours</span></td><td colspan="2"><span class="s-ban">Ban définitif</span></td></tr>
+        <tr><td>Mass KOS</td><td><span class="s-tmp">Ban 15 jours</span></td><td colspan="2"><span class="s-ban">Ban définitif</span></td></tr>
+        <tr><td>Non-respect zone neutre</td><td><span class="s-warn">Avertissement</span></td><td><span class="s-kick">Kick + Avert.</span></td><td><span class="s-tmp">Ban 3 jours</span></td></tr>
+        <tr><td>Powergaming</td><td><span class="s-warn">Avertissement</span></td><td><span class="s-kick">Kick</span></td><td><span class="s-tmp">Ban 48h</span></td></tr>
+        <tr><td>Streamhack</td><td><span class="s-tmp">Ban 7 jours</span></td><td><span class="s-tmp">Ban 30 jours</span></td><td><span class="s-ban">Ban définitif</span></td></tr>
+        <tr><td>Modification de jeu (cheat graphique)</td><td><span class="s-tmp">Ban 7 jours</span></td><td colspan="2"><span class="s-ban">Ban définitif</span></td></tr>
+        <tr><td>Wipe non respecté / transfert items</td><td colspan="3" style="text-align:center;"><span class="s-ban">Ban + lourdes sanctions</span></td></tr>
+        <tr><td>Contournement de ban</td><td colspan="3" style="text-align:center;"><span class="s-ban">Ban DÉFINITIF immédiat</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rules">
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-purple">S2</div><div class="dot d-l"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Appel de Ban</div>
+        <div class="rule-desc">Tout joueur banni peut faire appel via ticket Discord dans les 72h suivant le ban. L'appel est examiné par un administrateur différent de celui qui a prononcé la sanction. La décision finale est irrévocable. Les bans définitifs pour cheat sont sans appel possible.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-purple">S3</div><div class="dot d-h"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Contournement de Ban <span class="tag t-ban">BAN DÉFINITIF</span></div>
+        <div class="rule-desc">Toute tentative de contourner un ban (nouveau compte, VPN, partage de compte) entraîne un ban définitif du nouveau compte et une extension de la sanction initiale. Le partage de compte est strictement interdit — chaque joueur est responsable de son compte.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-l"><div class="rule-code rc-purple">S4</div><div class="dot d-l"></div></div>
+      <div class="rule-b">
+        <div class="rule-title">Signalements & Preuves</div>
+        <div class="rule-desc">Tout signalement doit être accompagné d'une preuve (vidéo, screenshot, log). Les signalements sans preuve ne seront pas traités. Ouvrez un ticket Discord pour rapporter une infraction. Les faux signalements sont eux-mêmes sanctionnables.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta">
+  <h3>Prêt à jouer ? 🌴</h3>
+  <p>Tu as lu et compris le règlement. Il est temps de rejoindre l'aventure MyStiC RP !</p>
+  <div class="cta-btns">
+    <a href="https://discord.gg/GBMj67FYdM" target="_blank" class="btn-primary">💬 Rejoindre le Discord</a>
+    <a href="index.html" class="btn-secondary">← Retour au site</a>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <div class="footer-logo">MyStiC RP 🌴</div>
+  <div class="footer-copy">© 2026 MyStiC RP — Tous droits réservés. Non affilié à Rockstar Games.</div>
+</footer>
+
+<script>
+// Scroll reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.04 });
+document.querySelectorAll('.reveal,.cat').forEach(el => obs.observe(el));
+
+// TOC smooth scroll
+document.querySelectorAll('.toc-pill').forEach(pill => {
+  pill.addEventListener('click', function(e) {
+    e.preventDefault();
+    const id = this.getAttribute('href').slice(1);
+    const el = document.getElementById(id);
+    if (!el) return;
+    const navH = document.querySelector('nav').offsetHeight;
+    const tocH = document.querySelector('.toc-wrap').offsetHeight;
+    const top = el.getBoundingClientRect().top + window.scrollY - navH - tocH - 20;
+    window.scrollTo({ top, behavior: 'smooth' });
+  });
+});
+
+// Rule hover
+document.querySelectorAll('.rule').forEach(r => {
+  r.addEventListener('mouseenter', function() { this.style.background = 'rgba(11,15,24,1)'; });
+  r.addEventListener('mouseleave', function() { this.style.background = ''; });
+});
+</script>
+
+</body>
+</html>
