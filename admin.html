@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin — MyStiC RP 🌴</title>
+<meta name="robots" content="noindex, nofollow"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --gold:#00e5a0;--gold-light:#4dffc4;--dark:#06090f;--dark2:#0b0f18;
+  --dark3:#111825;--dark4:#182030;--text:#e8f4ec;--muted:#5a7068;
+  --teal:#00c9e0;--coral:#ff6b35;--red:#ff6b6b;--orange:#ffcd3c;
+  --purple:#c084fc;--coin:#f5a623;--discord:#5865F2;--green:#00e5a0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--dark);color:var(--text);font-family:'Outfit',sans-serif;overflow-x:hidden;}
+
+/* LOGIN */
+#login-screen{
+  position:fixed;inset:0;background:var(--dark);
+  display:flex;align-items:center;justify-content:center;
+  z-index:9999;flex-direction:column;gap:2rem;
+}
+.login-box{
+  background:var(--dark2);border:1px solid rgba(0,229,160,0.2);
+  border-radius:16px;padding:3rem 2.5rem;width:100%;max-width:420px;
+  text-align:center;
+}
+.login-logo{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;
+  background:linear-gradient(135deg,var(--gold),var(--teal));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:0.5rem;}
+.login-sub{font-size:0.82rem;color:var(--muted);margin-bottom:2rem;}
+.login-input{
+  width:100%;background:var(--dark3);border:1px solid rgba(0,229,160,0.2);
+  border-radius:8px;padding:0.9rem 1.2rem;font-size:0.95rem;
+  color:var(--text);font-family:'Outfit',sans-serif;outline:none;
+  letter-spacing:0.1em;margin-bottom:1rem;transition:border-color 0.2s;
+  text-align:center;
+}
+.login-input:focus{border-color:var(--gold);}
+.login-btn{
+  width:100%;background:var(--gold);color:var(--dark);
+  font-weight:800;font-size:0.9rem;letter-spacing:0.1em;
+  text-transform:uppercase;padding:0.9rem;border:none;
+  border-radius:8px;cursor:pointer;transition:background 0.2s,transform 0.2s;
+}
+.login-btn:hover{background:var(--gold-light);transform:translateY(-1px);}
+.login-error{font-size:0.82rem;color:var(--red);margin-top:0.5rem;display:none;}
+.login-attempts{font-size:0.75rem;color:var(--muted);margin-top:0.5rem;}
+
+/* ADMIN PANEL */
+#admin-panel{display:none;}
+
+/* TOP BAR */
+.admin-topbar{
+  position:fixed;top:0;left:0;right:0;height:60px;
+  background:rgba(6,9,15,0.95);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(0,229,160,0.12);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2rem;z-index:1000;
+}
+.admin-logo{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;
+  background:linear-gradient(135deg,var(--gold),var(--teal));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.admin-topbar-right{display:flex;align-items:center;gap:1rem;}
+.admin-user-badge{
+  display:flex;align-items:center;gap:0.5rem;
+  background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);
+  border-radius:100px;padding:0.3rem 0.9rem;font-size:0.78rem;
+}
+.admin-status-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.topbar-btn{
+  background:none;border:1px solid rgba(255,255,255,0.08);
+  color:var(--muted);padding:0.4rem 0.9rem;border-radius:6px;
+  font-size:0.78rem;cursor:pointer;font-family:'Outfit',sans-serif;
+  transition:all 0.2s;
+}
+.topbar-btn:hover{border-color:var(--gold);color:var(--gold);}
+.topbar-btn.danger{border-color:rgba(255,107,107,0.2);color:var(--red);}
+.topbar-btn.danger:hover{background:rgba(255,107,107,0.1);}
+
+/* LAYOUT */
+.admin-layout{
+  display:grid;grid-template-columns:240px 1fr;
+  min-height:100vh;padding-top:60px;
+}
+
+/* SIDEBAR */
+.admin-sidebar{
+  background:var(--dark2);border-right:1px solid rgba(0,229,160,0.08);
+  padding:1.5rem 0;position:sticky;top:60px;height:calc(100vh - 60px);
+  overflow-y:auto;
+}
+.sidebar-section-label{
+  font-size:0.62rem;text-transform:uppercase;letter-spacing:0.2em;
+  color:var(--muted);padding:0 1.2rem;margin:1.2rem 0 0.5rem;
+}
+.sidebar-item{
+  display:flex;align-items:center;gap:0.7rem;
+  padding:0.7rem 1.2rem;cursor:pointer;
+  font-size:0.85rem;font-weight:500;color:var(--muted);
+  transition:all 0.2s;border-left:2px solid transparent;
+}
+.sidebar-item:hover{color:var(--text);background:rgba(0,229,160,0.04);}
+.sidebar-item.active{color:var(--gold);background:rgba(0,229,160,0.06);border-left-color:var(--gold);}
+.sidebar-item-icon{font-size:1rem;width:20px;text-align:center;}
+
+/* MAIN */
+.admin-main{padding:2rem;background:var(--dark);}
+
+/* TABS */
+.admin-tab{display:none;}
+.admin-tab.active{display:block;}
+
+/* PAGE HEADER */
+.page-hd{margin-bottom:2rem;}
+.page-hd h1{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;letter-spacing:0.04em;margin-bottom:0.3rem;}
+.page-hd p{font-size:0.85rem;color:var(--muted);}
+
+/* CARDS */
+.admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:2rem;}
+.stat-card{
+  background:var(--dark2);border:1px solid rgba(0,229,160,0.08);
+  border-radius:12px;padding:1.5rem;
+}
+.stat-card-label{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.16em;color:var(--muted);margin-bottom:0.6rem;}
+.stat-card-val{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;
+  background:linear-gradient(135deg,var(--gold),var(--teal));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.stat-card-sub{font-size:0.75rem;color:var(--muted);margin-top:0.3rem;}
+
+/* FORM */
+.form-section{
+  background:var(--dark2);border:1px solid rgba(0,229,160,0.08);
+  border-radius:14px;padding:1.8rem;margin-bottom:1.5rem;
+}
+.form-section-title{
+  font-weight:700;font-size:1rem;margin-bottom:1.3rem;
+  display:flex;align-items:center;gap:0.6rem;
+  padding-bottom:0.8rem;border-bottom:1px solid rgba(0,229,160,0.07);
+}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
+.form-row.full{grid-template-columns:1fr;}
+.form-group{display:flex;flex-direction:column;gap:0.4rem;}
+.form-label{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);font-weight:600;}
+.form-input,.form-textarea,.form-select{
+  background:var(--dark3);border:1px solid rgba(0,229,160,0.12);
+  border-radius:8px;padding:0.75rem 1rem;font-size:0.88rem;
+  color:var(--text);font-family:'Outfit',sans-serif;outline:none;
+  transition:border-color 0.2s;
+}
+.form-input:focus,.form-textarea:focus,.form-select:focus{border-color:var(--gold);}
+.form-textarea{min-height:100px;resize:vertical;}
+.form-select option{background:var(--dark3);}
+.form-hint{font-size:0.72rem;color:var(--muted);}
+
+/* BUTTONS */
+.btn-save{
+  background:var(--gold);color:var(--dark);font-weight:700;
+  font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;
+  padding:0.75rem 2rem;border:none;border-radius:8px;cursor:pointer;
+  transition:background 0.2s,transform 0.2s;font-family:'Outfit',sans-serif;
+}
+.btn-save:hover{background:var(--gold-light);transform:translateY(-1px);}
+.btn-danger{
+  background:rgba(255,107,107,0.1);color:var(--red);font-weight:600;
+  font-size:0.82rem;padding:0.65rem 1.3rem;border:1px solid rgba(255,107,107,0.25);
+  border-radius:8px;cursor:pointer;transition:all 0.2s;font-family:'Outfit',sans-serif;
+}
+.btn-danger:hover{background:rgba(255,107,107,0.2);}
+.btn-secondary-admin{
+  background:transparent;color:var(--muted);font-size:0.82rem;
+  padding:0.65rem 1.3rem;border:1px solid rgba(255,255,255,0.08);
+  border-radius:8px;cursor:pointer;transition:all 0.2s;font-family:'Outfit',sans-serif;
+}
+.btn-secondary-admin:hover{border-color:var(--muted);color:var(--text);}
+.btn-row{display:flex;gap:0.8rem;align-items:center;flex-wrap:wrap;margin-top:1rem;}
+
+/* ANNONCE EDITOR */
+.annonce-editor-list{display:flex;flex-direction:column;gap:0.8rem;margin-bottom:1rem;}
+.annonce-editor-item{
+  background:var(--dark3);border:1px solid rgba(0,229,160,0.08);
+  border-radius:10px;padding:1rem 1.2rem;
+  display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:0.7rem;align-items:end;
+}
+.annonce-del-btn{
+  background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.2);
+  color:var(--red);width:36px;height:36px;border-radius:8px;
+  cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;
+  transition:background 0.2s;flex-shrink:0;
+}
+.annonce-del-btn:hover{background:rgba(255,107,107,0.2);}
+.add-annonce-btn{
+  background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);
+  color:var(--gold);font-size:0.82rem;font-weight:600;padding:0.6rem 1.2rem;
+  border-radius:8px;cursor:pointer;font-family:'Outfit',sans-serif;
+  transition:background 0.2s;
+}
+.add-annonce-btn:hover{background:rgba(0,229,160,0.15);}
+
+/* STATUS BADGE */
+.status-badge{
+  display:inline-flex;align-items:center;gap:0.4rem;
+  font-size:0.72rem;font-weight:600;letter-spacing:0.1em;
+  text-transform:uppercase;padding:0.25rem 0.7rem;border-radius:100px;
+}
+.badge-online{background:rgba(0,229,160,0.12);color:var(--gold);border:1px solid rgba(0,229,160,0.25);}
+.badge-offline{background:rgba(255,107,107,0.12);color:var(--red);border:1px solid rgba(255,107,107,0.25);}
+.badge-maintenance{background:rgba(255,205,60,0.12);color:var(--orange);border:1px solid rgba(255,205,60,0.25);}
+
+/* SUCCESS BANNER */
+.save-banner{
+  display:none;align-items:center;gap:0.7rem;
+  background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.25);
+  border-radius:10px;padding:0.9rem 1.3rem;margin-bottom:1.5rem;
+  font-size:0.85rem;color:var(--gold);
+}
+.save-banner.show{display:flex;}
+
+/* PREVIEW MINI */
+.preview-card{
+  background:var(--dark3);border:1px solid rgba(0,229,160,0.1);
+  border-radius:12px;padding:1.2rem;margin-top:1rem;
+}
+.preview-label{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.16em;color:var(--muted);margin-bottom:0.7rem;}
+
+/* LOG */
+.log-list{display:flex;flex-direction:column;gap:0.5rem;max-height:400px;overflow-y:auto;}
+.log-item{
+  display:flex;align-items:flex-start;gap:0.8rem;
+  background:var(--dark3);border-radius:8px;padding:0.7rem 1rem;
+  font-size:0.8rem;
+}
+.log-time{color:var(--muted);font-size:0.72rem;white-space:nowrap;flex-shrink:0;}
+.log-msg{color:var(--text);}
+.log-type{font-size:0.65rem;font-weight:700;text-transform:uppercase;padding:0.1rem 0.4rem;border-radius:100px;flex-shrink:0;}
+.lt-edit{background:rgba(0,229,160,0.12);color:var(--gold);}
+.lt-login{background:rgba(88,101,242,0.12);color:#818cf8;}
+.lt-delete{background:rgba(255,107,107,0.12);color:var(--red);}
+
+/* TOGGLE */
+.toggle-wrap{display:flex;align-items:center;gap:0.8rem;}
+.toggle{position:relative;width:44px;height:24px;cursor:pointer;}
+.toggle input{display:none;}
+.toggle-slider{position:absolute;inset:0;background:rgba(255,255,255,0.1);border-radius:100px;transition:0.3s;}
+.toggle-slider::before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:0.3s;}
+.toggle input:checked + .toggle-slider{background:var(--gold);}
+.toggle input:checked + .toggle-slider::before{transform:translateX(20px);}
+
+/* NOTIF */
+.notif-stack{position:fixed;bottom:2rem;right:2rem;z-index:9990;display:flex;flex-direction:column;gap:0.5rem;}
+.notif{background:var(--dark3);border-radius:10px;padding:0.8rem 1.2rem;font-size:0.83rem;color:var(--text);box-shadow:0 8px 30px rgba(0,0,0,0.5);transform:translateX(120%);transition:transform 0.3s;min-width:250px;}
+.notif.show{transform:translateX(0);}
+.notif.success{border-left:3px solid var(--gold);}
+.notif.error{border-left:3px solid var(--red);}
+.notif.info{border-left:3px solid var(--teal);}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .admin-layout{grid-template-columns:1fr;}
+  .admin-sidebar{display:none;}
+  .form-row{grid-template-columns:1fr;}
+  .annonce-editor-item{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- NOTIFS -->
+<div class="notif-stack" id="notif-stack"></div>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">MyStiC RP 🌴</div>
+    <div class="login-sub">Panneau d'administration — Accès restreint</div>
+    <input type="password" class="login-input" id="login-input" placeholder="Entrez le code d'accès" autocomplete="off" onkeydown="if(event.key==='Enter')checkLogin()"/>
+    <button class="login-btn" onclick="checkLogin()">🔐 Accéder</button>
+    <div class="login-error" id="login-error">❌ Code incorrect. Réessayez.</div>
+    <div class="login-attempts" id="login-attempts"></div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="admin-panel">
+
+  <!-- TOPBAR -->
+  <div class="admin-topbar">
+    <div class="admin-logo">⚙️ MyStiC Admin</div>
+    <div class="admin-topbar-right">
+      <span class="admin-user-badge"><span class="admin-status-dot"></span>Admin connecté</span>
+      <button class="topbar-btn" onclick="window.open('index.html','_blank')">🌐 Voir le site</button>
+      <button class="topbar-btn" onclick="exportData()">📦 Exporter</button>
+      <button class="topbar-btn danger" onclick="logout()">🚪 Déconnexion</button>
+    </div>
+  </div>
+
+  <div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <div class="admin-sidebar">
+      <div class="sidebar-section-label">Tableau de bord</div>
+      <div class="sidebar-item active" onclick="showTab('dashboard')">
+        <span class="sidebar-item-icon">📊</span> Dashboard
+      </div>
+
+      <div class="sidebar-section-label">Contenu</div>
+      <div class="sidebar-item" onclick="showTab('hero')">
+        <span class="sidebar-item-icon">🏠</span> Page d'accueil
+      </div>
+      <div class="sidebar-item" onclick="showTab('annonces')">
+        <span class="sidebar-item-icon">📢</span> Annonces
+      </div>
+      <div class="sidebar-item" onclick="showTab('boutique')">
+        <span class="sidebar-item-icon">🪙</span> Boutique
+      </div>
+      <div class="sidebar-item" onclick="showTab('staff')">
+        <span class="sidebar-item-icon">👥</span> Staff
+      </div>
+      <div class="sidebar-item" onclick="showTab('faq')">
+        <span class="sidebar-item-icon">❓</span> FAQ
+      </div>
+
+      <div class="sidebar-section-label">Serveur</div>
+      <div class="sidebar-item" onclick="showTab('server')">
+        <span class="sidebar-item-icon">🎮</span> Statut Serveur
+      </div>
+      <div class="sidebar-item" onclick="showTab('countdown')">
+        <span class="sidebar-item-icon">⏳</span> Countdown
+      </div>
+      <div class="sidebar-item" onclick="showTab('marquee')">
+        <span class="sidebar-item-icon">📡</span> Bandeau défilant
+      </div>
+
+      <div class="sidebar-section-label">Système</div>
+      <div class="sidebar-item" onclick="showTab('logs')">
+        <span class="sidebar-item-icon">📋</span> Logs
+      </div>
+      <div class="sidebar-item" onclick="showTab('settings')">
+        <span class="sidebar-item-icon">⚙️</span> Paramètres
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="admin-main">
+      <div class="save-banner" id="save-banner">✅ Modifications sauvegardées et appliquées sur le site !</div>
+
+      <!-- DASHBOARD -->
+      <div class="admin-tab active" id="tab-dashboard">
+        <div class="page-hd">
+          <h1>Dashboard</h1>
+          <p>Vue d'ensemble de MyStiC RP</p>
+        </div>
+        <div class="admin-grid">
+          <div class="stat-card">
+            <div class="stat-card-label">Membres Discord</div>
+            <div class="stat-card-val" id="dash-discord">34</div>
+            <div class="stat-card-sub">💬 discord.gg/GBMj67FYdM</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">Statut Serveur</div>
+            <div style="margin-top:0.4rem;"><span class="status-badge badge-online" id="dash-status">🟢 En ligne</span></div>
+            <div class="stat-card-sub" id="dash-players">0 / 64 joueurs</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">Annonces</div>
+            <div class="stat-card-val" id="dash-annonces">3</div>
+            <div class="stat-card-sub">Annonces actives</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">Ouverture dans</div>
+            <div class="stat-card-val" id="dash-countdown">--</div>
+            <div class="stat-card-sub">jours restants</div>
+          </div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">🚀 Actions rapides</div>
+          <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+            <button class="btn-save" onclick="showTab('annonces')">📢 Gérer les annonces</button>
+            <button class="btn-save" onclick="showTab('server')">🎮 Modifier le statut</button>
+            <button class="btn-save" onclick="showTab('hero')">🏠 Modifier l'accueil</button>
+            <button class="btn-secondary-admin" onclick="window.open('index.html','_blank')">🌐 Voir le site</button>
+          </div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">📋 Derniers logs</div>
+          <div class="log-list" id="dash-logs"></div>
+        </div>
+      </div>
+
+      <!-- HERO / ACCUEIL -->
+      <div class="admin-tab" id="tab-hero">
+        <div class="page-hd">
+          <h1>Page d'accueil</h1>
+          <p>Modifiez les textes de la section principale</p>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">🌴 Titre Hero</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Ligne 1 (en couleur)</label>
+              <input type="text" class="form-input" id="f-title1" placeholder="MyStiC"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Ligne 2</label>
+              <input type="text" class="form-input" id="f-title2" placeholder="RP 🌴"/>
+            </div>
+          </div>
+          <div class="form-row full">
+            <div class="form-group">
+              <label class="form-label">Tagline (sous le titre)</label>
+              <textarea class="form-textarea" id="f-tagline" placeholder="Une expérience roleplay immersive..."></textarea>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Texte status (badge vert)</label>
+              <input type="text" class="form-input" id="f-statustext" placeholder="Serveur en ligne — FiveM FR"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Label bouton principal</label>
+              <input type="text" class="form-input" id="f-cslabel" placeholder="Ouverture bientôt"/>
+            </div>
+          </div>
+          <div class="form-row full">
+            <div class="form-group">
+              <label class="form-label">Sous-texte bouton</label>
+              <input type="text" class="form-input" id="f-cssub" placeholder="Rejoins le Discord pour être alerté"/>
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn-save" onclick="saveHero()">💾 Sauvegarder</button>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">📊 Statistiques hero</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Membres Discord</label>
+              <input type="text" class="form-input" id="f-discord-members" placeholder="34"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Description serveur</label>
+              <textarea class="form-textarea" id="f-pres-body" style="min-height:70px;"></textarea>
+            </div>
+          </div>
+          <div class="form-row full">
+            <div class="form-group">
+              <label class="form-label">Tagline footer</label>
+              <input type="text" class="form-input" id="f-footer-tagline"/>
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn-save" onclick="saveHero()">💾 Sauvegarder</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ANNONCES -->
+      <div class="admin-tab" id="tab-annonces">
+        <div class="page-hd">
+          <h1>Annonces</h1>
+          <p>Gérez les annonces affichées sur le site</p>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">📢 Liste des annonces</div>
+          <div class="annonce-editor-list" id="annonce-editor-list"></div>
+          <button class="add-annonce-btn" onclick="addAnnonce()">+ Ajouter une annonce</button>
+          <div class="btn-row">
+            <button class="btn-save" onclick="saveAnnonces()">💾 Sauvegarder les annonces</button>
+          </div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">👁️ Prévisualisation</div>
+          <div id="annonces-preview" style="display:flex;flex-direction:column;gap:0.7rem;"></div>
+        </div>
+      </div>
+
+      <!-- BOUTIQUE -->
+      <div class="admin-tab" id="tab-boutique">
+        <div class="page-hd">
+          <h1>Boutique</h1>
+          <p>Gérez les offres Mystcoin et les packs</p>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">🪙 Offres Mystcoin</div>
+          <div id="coin-offers-editor"></div>
+          <div class="btn-row">
+            <button class="btn-save" onclick="saveBoutique()">💾 Sauvegarder</button>
+          </div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">🎁 Packs</div>
+          <div id="pack-offers-editor"></div>
+          <div class="btn-row">
+            <button class="btn-save" onclick="saveBoutique()">💾 Sauvegarder</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STAFF -->
+      <div class="admin-tab" id="tab-staff">
+        <div class="page-hd">
+          <h1>Staff</h1>
+          <p>Gérez les membres du staff affichés</p>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">👥 Membres du staff</div>
+          <div id="staff-editor"></div>
+          <button class="add-annonce-btn" onclick="addStaffMember()" style="margin-top:1rem;">+ Ajouter un membre</button>
+          <div class="btn-row">
+            <button class="btn-save" onclick="saveStaff()">💾 Sauvegarder</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div class="admin-tab" id="tab-faq">
+        <div class="page-hd">
+          <h1>FAQ</h1>
+          <p>Gérez les questions fréquentes</p>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">❓ Questions & Réponses</div>
+          <div id="faq-editor"></div>
+          <button class="add-annonce-btn" onclick="addFaqItem()" style="margin-top:1rem;">+ Ajouter une question</button>
+          <div class="btn-row">
+            <button class="btn-save" onclick="saveFaq()">💾 Sauvegarder</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SERVEUR -->
+      <div class="admin-tab" id="tab-server">
+        <div class="page-hd">
+          <h1>Statut Serveur</h1>
+          <p>Configurez les informations du serveur FiveM</p>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">🎮 Informations serveur</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">IP du serveur</label>
+              <input type="text" class="form-input" id="f-server-ip" placeholder="connect.mystic-rp.fr ou Bientôt disponible"/>
+              <span class="form-hint">Mettre "Bientôt disponible" pour masquer</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Statut affiché</label>
+              <select class="form-select" id="f-server-status">
+                <option value="🟢 En ligne">🟢 En ligne</option>
+                <option value="🔴 Hors ligne">🔴 Hors ligne</option>
+                <option value="🟡 Maintenance">🟡 Maintenance</option>
+                <option value="🔵 Bientôt">🔵 Bientôt disponible</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Joueurs (ex: 24 / 64)</label>
+              <input type="text" class="form-input" id="f-server-players" placeholder="0 / 64"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Membres Discord</label>
+              <input type="text" class="form-input" id="f-server-discord" placeholder="34"/>
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn-save" onclick="saveServer()">💾 Sauvegarder</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- COUNTDOWN -->
+      <div class="admin-tab" id="tab-countdown">
+        <div class="page-hd">
+          <h1>Compte à rebours</h1>
+          <p>Définissez la date d'ouverture du serveur</p>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">⏳ Date d'ouverture</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Date et heure d'ouverture</label>
+              <input type="datetime-local" class="form-input" id="f-opening-date"/>
+              <span class="form-hint">Le countdown sur le site se mettra à jour automatiquement</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Aperçu du countdown</label>
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--gold);" id="countdown-preview">--j --h --m --s</div>
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn-save" onclick="saveCountdown()">💾 Sauvegarder</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- MARQUEE -->
+      <div class="admin-tab" id="tab-marquee">
+        <div class="page-hd">
+          <h1>Bandeau défilant</h1>
+          <p>Modifiez le texte du bandeau en haut du site</p>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">📡 Textes du bandeau</div>
+          <div id="marquee-editor"></div>
+          <button class="add-annonce-btn" onclick="addMarqueeItem()" style="margin-top:1rem;">+ Ajouter un élément</button>
+          <div class="btn-row">
+            <button class="btn-save" onclick="saveMarquee()">💾 Sauvegarder</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOGS -->
+      <div class="admin-tab" id="tab-logs">
+        <div class="page-hd">
+          <h1>Logs d'activité</h1>
+          <p>Historique des modifications effectuées</p>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">📋 Historique</div>
+          <div class="log-list" id="logs-list"></div>
+          <div class="btn-row" style="margin-top:1rem;">
+            <button class="btn-danger" onclick="clearLogs()">🗑️ Effacer les logs</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="admin-tab" id="tab-settings">
+        <div class="page-hd">
+          <h1>Paramètres</h1>
+          <p>Configuration avancée du site</p>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">🔐 Sécurité</div>
+          <div class="form-group" style="margin-bottom:1rem;">
+            <label class="form-label">Changer le code admin</label>
+            <input type="password" class="form-input" id="f-new-code" placeholder="Nouveau code..." autocomplete="off"/>
+            <span class="form-hint">Laissez vide pour garder le code actuel</span>
+          </div>
+          <div class="btn-row">
+            <button class="btn-save" onclick="changeCode()">🔐 Changer le code</button>
+          </div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">💾 Données</div>
+          <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+            <button class="btn-save" onclick="exportData()">📦 Exporter les données</button>
+            <button class="btn-secondary-admin" onclick="importData()">📥 Importer des données</button>
+            <button class="btn-danger" onclick="resetData()">⚠️ Réinitialiser tout</button>
+          </div>
+          <input type="file" id="import-file" accept=".json" style="display:none;" onchange="handleImport(event)"/>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">🌐 Liens</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Lien Discord</label>
+              <input type="text" class="form-input" id="f-discord-link" value="https://discord.gg/GBMj67FYdM"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Lien FiveM</label>
+              <input type="text" class="form-input" id="f-fivem-link" value="https://fivem.net"/>
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn-save" onclick="saveSettings()">💾 Sauvegarder</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /admin-main -->
+  </div><!-- /admin-layout -->
+</div><!-- /admin-panel -->
+
+<script>
+// ===== AUTH =====
+const ADMIN_CODE_KEY = 'mystic_admin_code';
+const DEFAULT_CODE = '_OPK<X_O,1o2mc0kcm12j9xz1,xim1';
+let attempts = 0;
+const MAX_ATTEMPTS = 5;
+let lockUntil = 0;
+
+function getCode() {
+  return localStorage.getItem(ADMIN_CODE_KEY) || DEFAULT_CODE;
+}
+
+function checkLogin() {
+  const now = Date.now();
+  if (lockUntil > now) {
+    const rem = Math.ceil((lockUntil - now) / 1000);
+    document.getElementById('login-error').textContent = `🔒 Trop de tentatives. Réessayez dans ${rem}s.`;
+    document.getElementById('login-error').style.display = 'block';
+    return;
+  }
+  const val = document.getElementById('login-input').value;
+  if (val === getCode()) {
+    attempts = 0;
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-panel').style.display = 'block';
+    addLog('login', '🔐 Connexion admin réussie');
+    initAdmin();
+  } else {
+    attempts++;
+    document.getElementById('login-input').value = '';
+    if (attempts >= MAX_ATTEMPTS) {
+      lockUntil = now + 60000;
+      document.getElementById('login-error').textContent = '🔒 Compte bloqué 60 secondes.';
+    } else {
+      document.getElementById('login-error').textContent = `❌ Code incorrect. (${attempts}/${MAX_ATTEMPTS})`;
+    }
+    document.getElementById('login-error').style.display = 'block';
+    document.getElementById('login-input').style.borderColor = 'var(--red)';
+    setTimeout(() => { document.getElementById('login-input').style.borderColor = ''; }, 1000);
+  }
+}
+document.getElementById('login-input').addEventListener('keydown', e => { if (e.key === 'Enter') checkLogin(); });
+
+function logout() {
+  if (confirm('Se déconnecter ?')) {
+    addLog('login', '🚪 Déconnexion admin');
+    document.getElementById('admin-panel').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('login-input').value = '';
+  }
+}
+
+// ===== DATA =====
+function getData() {
+  return JSON.parse(localStorage.getItem('mystic_data') || 'null') || {
+    serverIp: 'Bientôt disponible',
+    serverStatus: '🟢 En ligne',
+    serverPlayers: '0 / 64',
+    discordMembers: '34',
+    openingDate: '2026-05-01T18:00:00',
+    heroTitle1: 'MyStiC',
+    heroTitle2: 'RP 🌴',
+    heroTagline: 'Une expérience roleplay immersive et unique.\nRejoins notre communauté et écris ta propre histoire.',
+    heroStatusText: 'Serveur en ligne — FiveM FR',
+    heroLabel: 'Ouverture bientôt',
+    heroSub: 'Rejoins le Discord pour être alerté',
+    presHeading: 'Le Serveur',
+    presBody: 'MyStiC RP est un serveur FiveM francophone dédié au roleplay de qualité. Économie réaliste, scripts exclusifs, staff actif et communauté soudée.',
+    footerTagline: 'Le serveur FiveM francophone premium. Roleplay immersif, économie réaliste, communauté soudée.',
+    marqueeItems: [
+      '🌴 <MyStiC RP> — Ouverture bientôt !',
+      '🪙 <Boutique Mystcoin> — Disponible dès l\'ouverture',
+      '📋 <Règlement> — Lisez-le avant de rejoindre',
+      '💬 <Discord> — Rejoignez la communauté',
+      '🎮 <FiveM> — Serveur francophone premium',
+      '⚡ <Scripts exclusifs> — 100+ métiers RP'
+    ],
+    annonces: [
+      {author: '🌴 MyStiC RP', date: 'Aujourd\'hui', text: '🚀 Le serveur MyStiC RP ouvre bientôt ! Rejoins le Discord pour être alerté en premier.'},
+      {author: '⚡ GlitchTek', date: 'Il y a 2 jours', text: '🛠️ Les scripts sont en cours de finalisation. La boutique Mystcoin sera disponible dès l\'ouverture.'},
+      {author: '👑 Noctaris', date: 'Il y a 3 jours', text: '📋 Le règlement complet est désormais disponible sur le site. Prenez le temps de le lire !'}
+    ],
+    staff: [
+      {emoji: '👑', name: 'Noctaris', role: 'Fondateur', badge: 'badge-owner', bio: 'Fondateur de MyStiC RP. Visionnaire du projet.'},
+      {emoji: '⚡', name: 'GlitchTek', role: 'Créateur', badge: 'badge-creator', bio: 'Architecte technique de MyStiC RP.'}
+    ],
+    faq: [
+      {q: 'Le serveur est-il gratuit ?', a: 'Oui, MyStiC RP est entièrement gratuit. Tu as juste besoin de GTA V et du client FiveM.'},
+      {q: 'Comment acheter des Mystcoins ?', a: 'Tous les achats se font via ticket sur notre Discord dans le salon #🎁・boutique.'},
+      {q: 'J\'ai un problème, comment contacter le staff ?', a: 'Ouvre un ticket sur notre Discord. Le staff répond généralement en moins d\'une heure.'},
+      {q: 'Comment créer un gang ?', a: '5 membres actifs minimum + validation staff. Remplis le formulaire sur le Discord. Réponse sous 48h.'},
+      {q: 'La whitelist est-elle obligatoire ?', a: 'Non, mais tu dois avoir lu et accepté le règlement sur Discord.'},
+      {q: 'Le serveur supporte-t-il les streamers ?', a: 'Absolument ! Des rôles dédiés sont disponibles sur Discord.'}
+    ],
+    coinOffers: [
+      {price: '10€', amount: '1 500 Mystcoins', sub: 'Idéal pour débuter'},
+      {price: '20€', amount: '3 200 Mystcoins', sub: '+200 bonus inclus', featured: true},
+      {price: '30€', amount: '4 500 Mystcoins', sub: '+ VIP 1 semaine offert'},
+      {price: '50€', amount: '6 000 Mystcoins', sub: '+ VIP 1 mois offert'}
+    ],
+    packOffers: [
+      {price: '5€', name: 'Pack Moto 🏍️', items: ['1 moto exclusive en jeu', 'Livraison via ticket']},
+      {price: '10€', name: 'Pack VIP 1S ⭐', items: ['Statut VIP 1 semaine', 'Avantages exclusifs', 'Rôle Discord dédié']},
+      {price: '20€', name: 'Pack Voiture + VIP 2S 🚗', items: ['1 voiture exclusive', 'VIP 2 semaines', 'Rôle Discord dédié', 'Avantages exclusifs']}
+    ]
+  };
+}
+
+function saveData(data) {
+  localStorage.setItem('mystic_data', JSON.stringify(data));
+}
+
+// ===== INIT =====
+function initAdmin() {
+  const d = getData();
+  // Dashboard
+  document.getElementById('dash-discord').textContent = d.discordMembers;
+  document.getElementById('dash-status').textContent = d.serverStatus;
+  document.getElementById('dash-players').textContent = d.serverPlayers + ' joueurs';
+  document.getElementById('dash-annonces').textContent = d.annonces.length;
+  // Hero
+  document.getElementById('f-title1').value = d.heroTitle1;
+  document.getElementById('f-title2').value = d.heroTitle2;
+  document.getElementById('f-tagline').value = d.heroTagline;
+  document.getElementById('f-statustext').value = d.heroStatusText;
+  document.getElementById('f-cslabel').value = d.heroLabel;
+  document.getElementById('f-cssub').value = d.heroSub;
+  document.getElementById('f-discord-members').value = d.discordMembers;
+  document.getElementById('f-pres-body').value = d.presBody;
+  document.getElementById('f-footer-tagline').value = d.footerTagline;
+  // Server
+  document.getElementById('f-server-ip').value = d.serverIp;
+  document.getElementById('f-server-status').value = d.serverStatus;
+  document.getElementById('f-server-players').value = d.serverPlayers;
+  document.getElementById('f-server-discord').value = d.discordMembers;
+  // Countdown
+  document.getElementById('f-opening-date').value = d.openingDate;
+  // Render editors
+  renderAnnonces();
+  renderStaff();
+  renderFaq();
+  renderBoutique();
+  renderMarquee();
+  renderLogs();
+  updateCountdownPreview();
+  setInterval(updateCountdownPreview, 1000);
+}
+
+// ===== TABS =====
+function showTab(id) {
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  document.getElementById('save-banner').classList.remove('show');
+}
+
+// ===== SAVE HERO =====
+function saveHero() {
+  const d = getData();
+  d.heroTitle1 = document.getElementById('f-title1').value;
+  d.heroTitle2 = document.getElementById('f-title2').value;
+  d.heroTagline = document.getElementById('f-tagline').value;
+  d.heroStatusText = document.getElementById('f-statustext').value;
+  d.heroLabel = document.getElementById('f-cslabel').value;
+  d.heroSub = document.getElementById('f-cssub').value;
+  d.discordMembers = document.getElementById('f-discord-members').value;
+  d.presBody = document.getElementById('f-pres-body').value;
+  d.footerTagline = document.getElementById('f-footer-tagline').value;
+  saveData(d);
+  showSaveBanner();
+  addLog('edit', '✏️ Page d\'accueil modifiée');
+  showNotif('✅ Accueil sauvegardé !', 'success');
+}
+
+// ===== ANNONCES =====
+function renderAnnonces() {
+  const d = getData();
+  const el = document.getElementById('annonce-editor-list');
+  el.innerHTML = d.annonces.map((a, i) => `
+    <div class="annonce-editor-item">
+      <div class="form-group">
+        <label class="form-label">Auteur</label>
+        <input type="text" class="form-input" id="ann-author-${i}" value="${a.author}"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Date</label>
+        <input type="text" class="form-input" id="ann-date-${i}" value="${a.date}"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Message</label>
+        <input type="text" class="form-input" id="ann-text-${i}" value="${a.text}"/>
+      </div>
+      <button class="annonce-del-btn" onclick="deleteAnnonce(${i})">🗑️</button>
+    </div>`).join('');
+  renderAnnoncesPreview();
+}
+
+function renderAnnoncesPreview() {
+  const d = getData();
+  document.getElementById('annonces-preview').innerHTML = d.annonces.map(a => `
+    <div style="background:rgba(88,101,242,0.06);border:1px solid rgba(88,101,242,0.12);border-radius:9px;padding:0.9rem 1.1rem;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:0.4rem;">
+        <strong style="font-size:0.82rem;">${a.author}</strong>
+        <span style="font-size:0.7rem;color:var(--muted);">${a.date}</span>
+      </div>
+      <div style="font-size:0.82rem;color:var(--muted);">${a.text}</div>
+    </div>`).join('');
+}
+
+function addAnnonce() {
+  const d = getData();
+  d.annonces.unshift({author: '🌴 MyStiC RP', date: 'Aujourd\'hui', text: 'Nouvelle annonce...'});
+  saveData(d);
+  renderAnnonces();
+}
+
+function deleteAnnonce(i) {
+  if (!confirm('Supprimer cette annonce ?')) return;
+  const d = getData();
+  d.annonces.splice(i, 1);
+  saveData(d);
+  renderAnnonces();
+  addLog('delete', '🗑️ Annonce supprimée');
+}
+
+function saveAnnonces() {
+  const d = getData();
+  d.annonces = d.annonces.map((a, i) => ({
+    author: document.getElementById(`ann-author-${i}`)?.value || a.author,
+    date: document.getElementById(`ann-date-${i}`)?.value || a.date,
+    text: document.getElementById(`ann-text-${i}`)?.value || a.text,
+  }));
+  saveData(d);
+  renderAnnoncesPreview();
+  showSaveBanner();
+  addLog('edit', '📢 Annonces mises à jour');
+  showNotif('✅ Annonces sauvegardées !', 'success');
+}
+
+// ===== STAFF =====
+function renderStaff() {
+  const d = getData();
+  document.getElementById('staff-editor').innerHTML = d.staff.map((s, i) => `
+    <div class="annonce-editor-item" style="grid-template-columns:1fr 1fr 1fr 1fr auto;">
+      <div class="form-group">
+        <label class="form-label">Emoji</label>
+        <input type="text" class="form-input" id="st-emoji-${i}" value="${s.emoji}"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nom</label>
+        <input type="text" class="form-input" id="st-name-${i}" value="${s.name}"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Rôle</label>
+        <input type="text" class="form-input" id="st-role-${i}" value="${s.role}"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Bio</label>
+        <input type="text" class="form-input" id="st-bio-${i}" value="${s.bio}"/>
+      </div>
+      <button class="annonce-del-btn" onclick="deleteStaff(${i})">🗑️</button>
+    </div>`).join('');
+}
+
+function addStaffMember() {
+  const d = getData();
+  d.staff.push({emoji: '⭐', name: 'Nouveau Membre', role: 'Staff', badge: 'badge-owner', bio: 'Description...'});
+  saveData(d);
+  renderStaff();
+}
+
+function deleteStaff(i) {
+  if (!confirm('Retirer ce membre ?')) return;
+  const d = getData();
+  d.staff.splice(i, 1);
+  saveData(d);
+  renderStaff();
+}
+
+function saveStaff() {
+  const d = getData();
+  d.staff = d.staff.map((s, i) => ({
+    ...s,
+    emoji: document.getElementById(`st-emoji-${i}`)?.value || s.emoji,
+    name: document.getElementById(`st-name-${i}`)?.value || s.name,
+    role: document.getElementById(`st-role-${i}`)?.value || s.role,
+    bio: document.getElementById(`st-bio-${i}`)?.value || s.bio,
+  }));
+  saveData(d);
+  showSaveBanner();
+  addLog('edit', '👥 Staff mis à jour');
+  showNotif('✅ Staff sauvegardé !', 'success');
+}
+
+// ===== FAQ =====
+function renderFaq() {
+  const d = getData();
+  document.getElementById('faq-editor').innerHTML = d.faq.map((f, i) => `
+    <div class="annonce-editor-item" style="grid-template-columns:1fr 1fr auto;margin-bottom:0.5rem;">
+      <div class="form-group">
+        <label class="form-label">Question</label>
+        <input type="text" class="form-input" id="faq-q-${i}" value="${f.q}"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Réponse</label>
+        <input type="text" class="form-input" id="faq-a-${i}" value="${f.a}"/>
+      </div>
+      <button class="annonce-del-btn" onclick="deleteFaq(${i})">🗑️</button>
+    </div>`).join('');
+}
+
+function addFaqItem() {
+  const d = getData();
+  d.faq.push({q: 'Nouvelle question ?', a: 'Réponse...'});
+  saveData(d);
+  renderFaq();
+}
+
+function deleteFaq(i) {
+  if (!confirm('Supprimer cette question ?')) return;
+  const d = getData();
+  d.faq.splice(i, 1);
+  saveData(d);
+  renderFaq();
+}
+
+function saveFaq() {
+  const d = getData();
+  d.faq = d.faq.map((f, i) => ({
+    q: document.getElementById(`faq-q-${i}`)?.value || f.q,
+    a: document.getElementById(`faq-a-${i}`)?.value || f.a,
+  }));
+  saveData(d);
+  showSaveBanner();
+  addLog('edit', '❓ FAQ mise à jour');
+  showNotif('✅ FAQ sauvegardée !', 'success');
+}
+
+// ===== BOUTIQUE =====
+function renderBoutique() {
+  const d = getData();
+  document.getElementById('coin-offers-editor').innerHTML = d.coinOffers.map((c, i) => `
+    <div class="annonce-editor-item" style="grid-template-columns:1fr 1fr 1fr auto;margin-bottom:0.5rem;">
+      <div class="form-group">
+        <label class="form-label">Prix</label>
+        <input type="text" class="form-input" id="co-price-${i}" value="${c.price}"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Quantité</label>
+        <input type="text" class="form-input" id="co-amount-${i}" value="${c.amount}"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Sous-texte</label>
+        <input type="text" class="form-input" id="co-sub-${i}" value="${c.sub}"/>
+      </div>
+      <button class="annonce-del-btn" onclick="deleteCoinOffer(${i})">🗑️</button>
+    </div>`).join('');
+
+  document.getElementById('pack-offers-editor').innerHTML = d.packOffers.map((p, i) => `
+    <div class="annonce-editor-item" style="grid-template-columns:1fr 1fr 1fr auto;margin-bottom:0.5rem;">
+      <div class="form-group">
+        <label class="form-label">Prix</label>
+        <input type="text" class="form-input" id="po-price-${i}" value="${p.price}"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nom du pack</label>
+        <input type="text" class="form-input" id="po-name-${i}" value="${p.name}"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Items (séparés par |)</label>
+        <input type="text" class="form-input" id="po-items-${i}" value="${p.items.join(' | ')}"/>
+      </div>
+      <button class="annonce-del-btn" onclick="deletePackOffer(${i})">🗑️</button>
+    </div>`).join('');
+}
+
+function deleteCoinOffer(i) {
+  if (!confirm('Supprimer cette offre ?')) return;
+  const d = getData();
+  d.coinOffers.splice(i, 1);
+  saveData(d);
+  renderBoutique();
+}
+
+function deletePackOffer(i) {
+  if (!confirm('Supprimer ce pack ?')) return;
+  const d = getData();
+  d.packOffers.splice(i, 1);
+  saveData(d);
+  renderBoutique();
+}
+
+function saveBoutique() {
+  const d = getData();
+  d.coinOffers = d.coinOffers.map((c, i) => ({
+    ...c,
+    price: document.getElementById(`co-price-${i}`)?.value || c.price,
+    amount: document.getElementById(`co-amount-${i}`)?.value || c.amount,
+    sub: document.getElementById(`co-sub-${i}`)?.value || c.sub,
+  }));
+  d.packOffers = d.packOffers.map((p, i) => ({
+    ...p,
+    price: document.getElementById(`po-price-${i}`)?.value || p.price,
+    name: document.getElementById(`po-name-${i}`)?.value || p.name,
+    items: (document.getElementById(`po-items-${i}`)?.value || p.items.join(' | ')).split(' | '),
+  }));
+  saveData(d);
+  showSaveBanner();
+  addLog('edit', '🪙 Boutique mise à jour');
+  showNotif('✅ Boutique sauvegardée !', 'success');
+}
+
+// ===== SERVER =====
+function saveServer() {
+  const d = getData();
+  d.serverIp = document.getElementById('f-server-ip').value;
+  d.serverStatus = document.getElementById('f-server-status').value;
+  d.serverPlayers = document.getElementById('f-server-players').value;
+  d.discordMembers = document.getElementById('f-server-discord').value;
+  saveData(d);
+  document.getElementById('dash-status').textContent = d.serverStatus;
+  document.getElementById('dash-players').textContent = d.serverPlayers + ' joueurs';
+  document.getElementById('dash-discord').textContent = d.discordMembers;
+  showSaveBanner();
+  addLog('edit', '🎮 Statut serveur mis à jour : ' + d.serverStatus);
+  showNotif('✅ Statut serveur sauvegardé !', 'success');
+}
+
+// ===== COUNTDOWN =====
+function updateCountdownPreview() {
+  const val = document.getElementById('f-opening-date')?.value;
+  if (!val) return;
+  const target = new Date(val);
+  const now = new Date();
+  const diff = target - now;
+  if (diff <= 0) { document.getElementById('countdown-preview').textContent = 'Déjà ouvert !'; return; }
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  document.getElementById('countdown-preview').textContent = `${d}j ${h}h ${m}m ${s}s`;
+  document.getElementById('dash-countdown').textContent = d;
+}
+
+function saveCountdown() {
+  const d = getData();
+  d.openingDate = document.getElementById('f-opening-date').value;
+  saveData(d);
+  showSaveBanner();
+  addLog('edit', '⏳ Date d\'ouverture mise à jour : ' + d.openingDate);
+  showNotif('✅ Countdown sauvegardé !', 'success');
+}
+
+// ===== MARQUEE =====
+function renderMarquee() {
+  const d = getData();
+  document.getElementById('marquee-editor').innerHTML = d.marqueeItems.map((item, i) => `
+    <div style="display:grid;grid-template-columns:1fr auto;gap:0.7rem;margin-bottom:0.5rem;align-items:center;">
+      <input type="text" class="form-input" id="mq-${i}" value="${item}" placeholder="🌴 &lt;Texte en couleur&gt; — Texte normal"/>
+      <button class="annonce-del-btn" onclick="deleteMarqueeItem(${i})">🗑️</button>
+    </div>`).join('');
+}
+
+function addMarqueeItem() {
+  const d = getData();
+  d.marqueeItems.push('🌴 <MyStiC RP> — Nouveau message');
+  saveData(d);
+  renderMarquee();
+}
+
+function deleteMarqueeItem(i) {
+  const d = getData();
+  d.marqueeItems.splice(i, 1);
+  saveData(d);
+  renderMarquee();
+}
+
+function saveMarquee() {
+  const d = getData();
+  d.marqueeItems = d.marqueeItems.map((item, i) => document.getElementById(`mq-${i}`)?.value || item);
+  saveData(d);
+  showSaveBanner();
+  addLog('edit', '📡 Bandeau défilant mis à jour');
+  showNotif('✅ Bandeau sauvegardé !', 'success');
+}
+
+// ===== LOGS =====
+function addLog(type, msg) {
+  const logs = JSON.parse(localStorage.getItem('mystic_logs') || '[]');
+  logs.unshift({type, msg, time: new Date().toLocaleString('fr-FR')});
+  if (logs.length > 100) logs.pop();
+  localStorage.setItem('mystic_logs', JSON.stringify(logs));
+  renderLogs();
+}
+
+function renderLogs() {
+  const logs = JSON.parse(localStorage.getItem('mystic_logs') || '[]');
+  const typeClass = {login: 'lt-login', edit: 'lt-edit', delete: 'lt-delete'};
+  const html = logs.map(l => `
+    <div class="log-item">
+      <span class="log-type ${typeClass[l.type] || 'lt-edit'}">${l.type}</span>
+      <span class="log-msg">${l.msg}</span>
+      <span class="log-time">${l.time}</span>
+    </div>`).join('');
+  ['logs-list', 'dash-logs'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = html || '<div class="log-item"><span class="log-msg" style="color:var(--muted);">Aucun log</span></div>';
+  });
+}
+
+function clearLogs() {
+  if (!confirm('Effacer tous les logs ?')) return;
+  localStorage.removeItem('mystic_logs');
+  renderLogs();
+  showNotif('🗑️ Logs effacés', 'info');
+}
+
+// ===== SETTINGS =====
+function changeCode() {
+  const newCode = document.getElementById('f-new-code').value;
+  if (!newCode) { showNotif('⚠️ Code vide', 'error'); return; }
+  if (newCode.length < 8) { showNotif('⚠️ Code trop court (8 chars min)', 'error'); return; }
+  localStorage.setItem(ADMIN_CODE_KEY, newCode);
+  document.getElementById('f-new-code').value = '';
+  addLog('edit', '🔐 Code admin changé');
+  showNotif('✅ Code changé avec succès !', 'success');
+}
+
+function saveSettings() {
+  showSaveBanner();
+  showNotif('✅ Paramètres sauvegardés !', 'success');
+}
+
+function exportData() {
+  const data = {
+    mystic_data: getData(),
+    mystic_logs: JSON.parse(localStorage.getItem('mystic_logs') || '[]'),
+    exported_at: new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'mystic-rp-backup-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  addLog('edit', '📦 Données exportées');
+  showNotif('📦 Export téléchargé !', 'success');
+}
+
+function importData() {
+  document.getElementById('import-file').click();
+}
+
+function handleImport(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (data.mystic_data) {
+        saveData(data.mystic_data);
+        if (data.mystic_logs) localStorage.setItem('mystic_logs', JSON.stringify(data.mystic_logs));
+        initAdmin();
+        addLog('edit', '📥 Données importées');
+        showNotif('✅ Import réussi !', 'success');
+      } else {
+        showNotif('❌ Format invalide', 'error');
+      }
+    } catch {
+      showNotif('❌ Fichier corrompu', 'error');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function resetData() {
+  if (!confirm('⚠️ ATTENTION : Réinitialiser TOUTES les données du site ?\nCette action est irréversible !')) return;
+  if (!confirm('Êtes-vous absolument certain ?')) return;
+  localStorage.removeItem('mystic_data');
+  localStorage.removeItem('mystic_logs');
+  initAdmin();
+  addLog('delete', '⚠️ Données réinitialisées');
+  showNotif('⚠️ Données réinitialisées', 'info');
+}
+
+// ===== UTILS =====
+function showSaveBanner() {
+  const b = document.getElementById('save-banner');
+  b.classList.add('show');
+  setTimeout(() => b.classList.remove('show'), 4000);
+}
+
+function showNotif(msg, type = 'info') {
+  const stack = document.getElementById('notif-stack');
+  const n = document.createElement('div');
+  n.className = 'notif ' + type;
+  n.textContent = msg;
+  stack.appendChild(n);
+  setTimeout(() => n.classList.add('show'), 50);
+  setTimeout(() => { n.classList.remove('show'); setTimeout(() => n.remove(), 300); }, 3500);
+}
+</script>
+</body>
+</html>
