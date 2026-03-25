@@ -3,1285 +3,1902 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Admin — MyStiC RP 🌴</title>
-<meta name="robots" content="noindex, nofollow"/>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<title>MyStiC RP — Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
 <style>
-:root{
-  --gold:#00e5a0;--gold-light:#4dffc4;--dark:#06090f;--dark2:#0b0f18;
-  --dark3:#111825;--dark4:#182030;--text:#e8f4ec;--muted:#5a7068;
-  --teal:#00c9e0;--coral:#ff6b35;--red:#ff6b6b;--orange:#ffcd3c;
-  --purple:#c084fc;--coin:#f5a623;--discord:#5865F2;--green:#00e5a0;
+:root {
+  --gold: #00e5a0;
+  --gold-light: #4dffc4;
+  --dark: #06090f;
+  --dark2: #0b0f18;
+  --dark3: #111825;
+  --dark4: #182030;
+  --text: #e8f4ec;
+  --muted: #5a7068;
+  --red: #ff4757;
+  --orange: #ffa502;
+  --blue: #5865F2;
+  --teal: #00c9e0;
+  --coin: #f5a623;
+  --success: #2ed573;
+  --mono: 'JetBrains Mono', monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{background:var(--dark);color:var(--text);font-family:'Outfit',sans-serif;overflow-x:hidden;}
+html{font-size:16px;scroll-behavior:smooth;}
+body{background:var(--dark);color:var(--text);font-family:'Outfit',sans-serif;overflow-x:hidden;min-height:100vh;}
 
-/* LOGIN */
-#login-screen{
-  position:fixed;inset:0;background:var(--dark);
-  display:flex;align-items:center;justify-content:center;
-  z-index:9999;flex-direction:column;gap:2rem;
+/* ====== LOCK SCREEN ====== */
+#lock-screen {
+  position:fixed;inset:0;z-index:99999;
+  background:radial-gradient(ellipse 120% 80% at 50% 0%, rgba(0,229,160,0.08) 0%, var(--dark) 60%);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2rem;
 }
-.login-box{
-  background:var(--dark2);border:1px solid rgba(0,229,160,0.2);
-  border-radius:16px;padding:3rem 2.5rem;width:100%;max-width:420px;
-  text-align:center;
-}
-.login-logo{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;
+#lock-screen.hidden { display:none; }
+
+.lock-logo {
+  font-family:'Bebas Neue',sans-serif;font-size:3.5rem;letter-spacing:0.08em;
   background:linear-gradient(135deg,var(--gold),var(--teal));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  margin-bottom:0.5rem;}
-.login-sub{font-size:0.82rem;color:var(--muted);margin-bottom:2rem;}
-.login-input{
-  width:100%;background:var(--dark3);border:1px solid rgba(0,229,160,0.2);
-  border-radius:8px;padding:0.9rem 1.2rem;font-size:0.95rem;
-  color:var(--text);font-family:'Outfit',sans-serif;outline:none;
-  letter-spacing:0.1em;margin-bottom:1rem;transition:border-color 0.2s;
-  text-align:center;
+  filter:drop-shadow(0 0 30px rgba(0,229,160,0.4));
 }
-.login-input:focus{border-color:var(--gold);}
-.login-btn{
-  width:100%;background:var(--gold);color:var(--dark);
-  font-weight:800;font-size:0.9rem;letter-spacing:0.1em;
-  text-transform:uppercase;padding:0.9rem;border:none;
-  border-radius:8px;cursor:pointer;transition:background 0.2s,transform 0.2s;
+.lock-subtitle {
+  font-size:0.75rem;text-transform:uppercase;letter-spacing:0.3em;color:var(--muted);margin-top:-1.5rem;
 }
-.login-btn:hover{background:var(--gold-light);transform:translateY(-1px);}
-.login-error{font-size:0.82rem;color:var(--red);margin-top:0.5rem;display:none;}
-.login-attempts{font-size:0.75rem;color:var(--muted);margin-top:0.5rem;}
+.lock-box {
+  background:var(--dark2);border:1px solid rgba(0,229,160,0.15);border-radius:16px;
+  padding:2.5rem;width:100%;max-width:400px;display:flex;flex-direction:column;gap:1.2rem;
+  box-shadow:0 30px 80px rgba(0,0,0,0.6);
+}
+.lock-title {
+  font-weight:700;font-size:1rem;display:flex;align-items:center;gap:0.5rem;
+}
+.lock-hint { font-size:0.78rem;color:var(--muted); }
 
-/* ADMIN PANEL */
-#admin-panel{display:none;}
+.lock-input-wrap { position:relative; }
+.lock-input {
+  width:100%;background:var(--dark3);border:1px solid rgba(0,229,160,0.2);border-radius:8px;
+  padding:0.9rem 1rem 0.9rem 2.8rem;font-size:0.95rem;color:var(--text);
+  font-family:var(--mono);letter-spacing:0.1em;outline:none;
+  transition:border-color 0.2s,box-shadow 0.2s;
+}
+.lock-input:focus { border-color:var(--gold);box-shadow:0 0 20px rgba(0,229,160,0.15); }
+.lock-input.error { border-color:var(--red);box-shadow:0 0 20px rgba(255,71,87,0.15); animation:shake 0.4s; }
+.lock-input-icon { position:absolute;left:0.9rem;top:50%;transform:translateY(-50%);font-size:1rem;pointer-events:none; }
+@keyframes shake {
+  0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}
+  60%{transform:translateX(-5px)}80%{transform:translateX(5px)}
+}
 
-/* TOP BAR */
-.admin-topbar{
-  position:fixed;top:0;left:0;right:0;height:60px;
-  background:rgba(6,9,15,0.95);backdrop-filter:blur(20px);
-  border-bottom:1px solid rgba(0,229,160,0.12);
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 2rem;z-index:1000;
+.lock-toggle-eye {
+  position:absolute;right:0.9rem;top:50%;transform:translateY(-50%);
+  background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;
 }
-.admin-logo{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;
-  background:linear-gradient(135deg,var(--gold),var(--teal));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.admin-topbar-right{display:flex;align-items:center;gap:1rem;}
-.admin-user-badge{
-  display:flex;align-items:center;gap:0.5rem;
-  background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);
-  border-radius:100px;padding:0.3rem 0.9rem;font-size:0.78rem;
+.lock-btn {
+  width:100%;background:var(--gold);color:var(--dark);font-weight:800;font-size:0.9rem;
+  letter-spacing:0.1em;text-transform:uppercase;padding:0.9rem;border:none;border-radius:8px;
+  cursor:pointer;font-family:'Outfit',sans-serif;transition:background 0.2s,transform 0.15s,box-shadow 0.2s;
 }
-.admin-status-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
-.topbar-btn{
-  background:none;border:1px solid rgba(255,255,255,0.08);
-  color:var(--muted);padding:0.4rem 0.9rem;border-radius:6px;
-  font-size:0.78rem;cursor:pointer;font-family:'Outfit',sans-serif;
-  transition:all 0.2s;
-}
-.topbar-btn:hover{border-color:var(--gold);color:var(--gold);}
-.topbar-btn.danger{border-color:rgba(255,107,107,0.2);color:var(--red);}
-.topbar-btn.danger:hover{background:rgba(255,107,107,0.1);}
+.lock-btn:hover { background:var(--gold-light);transform:translateY(-1px);box-shadow:0 8px 25px rgba(0,229,160,0.35); }
+.lock-error-msg { font-size:0.8rem;color:var(--red);display:none;text-align:center; }
+.lock-error-msg.show { display:block; }
+.lock-attempts { font-size:0.72rem;color:var(--muted);text-align:center; }
 
-/* LAYOUT */
-.admin-layout{
-  display:grid;grid-template-columns:240px 1fr;
-  min-height:100vh;padding-top:60px;
-}
+/* ====== ADMIN LAYOUT ====== */
+#admin-app { display:none; min-height:100vh; flex-direction:row; }
+#admin-app.visible { display:flex; }
 
 /* SIDEBAR */
-.admin-sidebar{
-  background:var(--dark2);border-right:1px solid rgba(0,229,160,0.08);
-  padding:1.5rem 0;position:sticky;top:60px;height:calc(100vh - 60px);
-  overflow-y:auto;
+.sidebar {
+  width:260px;flex-shrink:0;background:var(--dark2);border-right:1px solid rgba(0,229,160,0.1);
+  display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;
+  z-index:100;transition:transform 0.3s;
 }
-.sidebar-section-label{
-  font-size:0.62rem;text-transform:uppercase;letter-spacing:0.2em;
-  color:var(--muted);padding:0 1.2rem;margin:1.2rem 0 0.5rem;
+.sidebar-header {
+  padding:1.5rem 1.5rem 1rem;border-bottom:1px solid rgba(0,229,160,0.08);
 }
-.sidebar-item{
-  display:flex;align-items:center;gap:0.7rem;
-  padding:0.7rem 1.2rem;cursor:pointer;
-  font-size:0.85rem;font-weight:500;color:var(--muted);
-  transition:all 0.2s;border-left:2px solid transparent;
+.sidebar-logo {
+  font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:0.06em;
+  background:linear-gradient(135deg,var(--gold),var(--teal));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
 }
-.sidebar-item:hover{color:var(--text);background:rgba(0,229,160,0.04);}
-.sidebar-item.active{color:var(--gold);background:rgba(0,229,160,0.06);border-left-color:var(--gold);}
-.sidebar-item-icon{font-size:1rem;width:20px;text-align:center;}
+.sidebar-role {
+  font-size:0.65rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--muted);margin-top:0.2rem;
+  display:flex;align-items:center;gap:0.4rem;
+}
+.sidebar-role::before {
+  content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);
+  box-shadow:0 0 6px var(--gold);animation:pulse 2s infinite;flex-shrink:0;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+.sidebar-nav { flex:1;padding:1rem 0.8rem;display:flex;flex-direction:column;gap:0.2rem; }
+.nav-group-title {
+  font-size:0.6rem;text-transform:uppercase;letter-spacing:0.22em;color:var(--muted);
+  padding:0.8rem 0.7rem 0.4rem;
+}
+.nav-item {
+  display:flex;align-items:center;gap:0.7rem;padding:0.65rem 0.9rem;
+  border-radius:8px;cursor:pointer;transition:all 0.2s;
+  font-size:0.85rem;font-weight:500;color:var(--muted);border:none;background:none;
+  font-family:'Outfit',sans-serif;width:100%;text-align:left;
+}
+.nav-item:hover { background:rgba(0,229,160,0.06);color:var(--text); }
+.nav-item.active { background:rgba(0,229,160,0.1);color:var(--gold);font-weight:600; }
+.nav-item .nav-icon { font-size:1rem;width:1.2rem;text-align:center;flex-shrink:0; }
+.nav-badge {
+  margin-left:auto;background:var(--gold);color:var(--dark);font-size:0.6rem;
+  font-weight:800;padding:0.15rem 0.5rem;border-radius:100px;
+}
+
+.sidebar-footer {
+  padding:1rem;border-top:1px solid rgba(0,229,160,0.08);
+  display:flex;flex-direction:column;gap:0.5rem;
+}
+.logout-btn {
+  display:flex;align-items:center;gap:0.6rem;padding:0.6rem 0.9rem;
+  background:rgba(255,71,87,0.08);border:1px solid rgba(255,71,87,0.15);
+  border-radius:8px;color:var(--red);font-size:0.82rem;font-weight:600;
+  cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;
+}
+.logout-btn:hover { background:rgba(255,71,87,0.15);border-color:rgba(255,71,87,0.3); }
+.save-status { font-size:0.72rem;text-align:center;padding:0.4rem;border-radius:6px;transition:all 0.3s; }
+.save-status.saved { color:var(--success);background:rgba(46,213,115,0.08); }
+.save-status.unsaved { color:var(--orange);background:rgba(255,165,2,0.08); }
+.save-status.syncing { color:var(--teal);background:rgba(0,201,224,0.08); }
+
 
 /* MAIN */
-.admin-main{padding:2rem;background:var(--dark);}
+.main-content { margin-left:260px;flex:1;min-height:100vh;display:flex;flex-direction:column; }
 
-/* TABS */
-.admin-tab{display:none;}
-.admin-tab.active{display:block;}
+/* TOP BAR */
+.topbar {
+  background:rgba(11,15,24,0.9);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(0,229,160,0.08);
+  padding:0.9rem 2rem;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:50;
+}
+.topbar-left { display:flex;align-items:center;gap:1rem; }
+.topbar-title { font-weight:700;font-size:1rem; }
+.topbar-breadcrumb { font-size:0.75rem;color:var(--muted); }
+.topbar-right { display:flex;align-items:center;gap:0.8rem; }
 
-/* PAGE HEADER */
-.page-hd{margin-bottom:2rem;}
-.page-hd h1{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;letter-spacing:0.04em;margin-bottom:0.3rem;}
-.page-hd p{font-size:0.85rem;color:var(--muted);}
+.btn-save-all {
+  display:flex;align-items:center;gap:0.5rem;
+  background:var(--gold);color:var(--dark);font-weight:700;font-size:0.78rem;
+  letter-spacing:0.08em;text-transform:uppercase;padding:0.55rem 1.2rem;
+  border:none;border-radius:6px;cursor:pointer;font-family:'Outfit',sans-serif;
+  transition:all 0.2s;
+}
+.btn-save-all:hover { background:var(--gold-light);transform:translateY(-1px); }
+
+.btn-preview {
+  display:flex;align-items:center;gap:0.5rem;
+  background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);
+  color:var(--gold);font-size:0.78rem;font-weight:600;
+  letter-spacing:0.08em;text-transform:uppercase;padding:0.55rem 1.2rem;
+  border-radius:6px;cursor:pointer;font-family:'Outfit',sans-serif;
+  text-decoration:none;transition:all 0.2s;
+}
+.btn-preview:hover { background:rgba(0,229,160,0.15); }
+
+/* PANELS */
+.panel { display:none;padding:2rem; }
+.panel.active { display:block; }
+
+.panel-grid { display:grid;gap:1.5rem; }
+.panel-grid-2 { grid-template-columns:1fr 1fr; }
+.panel-grid-3 { grid-template-columns:1fr 1fr 1fr; }
 
 /* CARDS */
-.admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:2rem;}
-.stat-card{
+.card {
   background:var(--dark2);border:1px solid rgba(0,229,160,0.08);
-  border-radius:12px;padding:1.5rem;
+  border-radius:12px;overflow:hidden;
 }
-.stat-card-label{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.16em;color:var(--muted);margin-bottom:0.6rem;}
-.stat-card-val{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;
-  background:linear-gradient(135deg,var(--gold),var(--teal));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.stat-card-sub{font-size:0.75rem;color:var(--muted);margin-top:0.3rem;}
+.card-header {
+  padding:1.2rem 1.5rem;border-bottom:1px solid rgba(0,229,160,0.06);
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+}
+.card-title {
+  font-weight:700;font-size:0.9rem;display:flex;align-items:center;gap:0.5rem;
+}
+.card-body { padding:1.5rem; }
 
-/* FORM */
-.form-section{
+/* STATS CARDS */
+.stat-card {
   background:var(--dark2);border:1px solid rgba(0,229,160,0.08);
-  border-radius:14px;padding:1.8rem;margin-bottom:1.5rem;
+  border-radius:12px;padding:1.5rem;position:relative;overflow:hidden;
+  transition:border-color 0.3s,transform 0.2s;
 }
-.form-section-title{
-  font-weight:700;font-size:1rem;margin-bottom:1.3rem;
-  display:flex;align-items:center;gap:0.6rem;
-  padding-bottom:0.8rem;border-bottom:1px solid rgba(0,229,160,0.07);
+.stat-card:hover { border-color:rgba(0,229,160,0.2);transform:translateY(-2px); }
+.stat-card::before {
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
 }
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
-.form-row.full{grid-template-columns:1fr;}
-.form-group{display:flex;flex-direction:column;gap:0.4rem;}
-.form-label{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);font-weight:600;}
-.form-input,.form-textarea,.form-select{
-  background:var(--dark3);border:1px solid rgba(0,229,160,0.12);
-  border-radius:8px;padding:0.75rem 1rem;font-size:0.88rem;
-  color:var(--text);font-family:'Outfit',sans-serif;outline:none;
-  transition:border-color 0.2s;
-}
-.form-input:focus,.form-textarea:focus,.form-select:focus{border-color:var(--gold);}
-.form-textarea{min-height:100px;resize:vertical;}
-.form-select option{background:var(--dark3);}
-.form-hint{font-size:0.72rem;color:var(--muted);}
+.stat-card-label { font-size:0.7rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--muted);margin-bottom:0.5rem; }
+.stat-card-val { font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--gold);line-height:1; }
+.stat-card-sub { font-size:0.75rem;color:var(--muted);margin-top:0.3rem; }
+.stat-card-icon { position:absolute;top:1.2rem;right:1.5rem;font-size:2rem;opacity:0.15; }
 
-/* BUTTONS */
-.btn-save{
-  background:var(--gold);color:var(--dark);font-weight:700;
-  font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;
-  padding:0.75rem 2rem;border:none;border-radius:8px;cursor:pointer;
-  transition:background 0.2s,transform 0.2s;font-family:'Outfit',sans-serif;
+/* FORM ELEMENTS */
+.form-group { display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1rem; }
+.form-label {
+  font-size:0.72rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--muted);font-weight:600;
 }
-.btn-save:hover{background:var(--gold-light);transform:translateY(-1px);}
-.btn-danger{
-  background:rgba(255,107,107,0.1);color:var(--red);font-weight:600;
-  font-size:0.82rem;padding:0.65rem 1.3rem;border:1px solid rgba(255,107,107,0.25);
-  border-radius:8px;cursor:pointer;transition:all 0.2s;font-family:'Outfit',sans-serif;
+.form-input, .form-textarea, .form-select {
+  background:var(--dark3);border:1px solid rgba(0,229,160,0.12);border-radius:7px;
+  padding:0.7rem 0.9rem;font-size:0.9rem;color:var(--text);
+  font-family:'Outfit',sans-serif;outline:none;transition:border-color 0.2s,box-shadow 0.2s;
+  width:100%;
 }
-.btn-danger:hover{background:rgba(255,107,107,0.2);}
-.btn-secondary-admin{
-  background:transparent;color:var(--muted);font-size:0.82rem;
-  padding:0.65rem 1.3rem;border:1px solid rgba(255,255,255,0.08);
-  border-radius:8px;cursor:pointer;transition:all 0.2s;font-family:'Outfit',sans-serif;
+.form-input:focus, .form-textarea:focus, .form-select:focus {
+  border-color:var(--gold);box-shadow:0 0 12px rgba(0,229,160,0.1);
 }
-.btn-secondary-admin:hover{border-color:var(--muted);color:var(--text);}
-.btn-row{display:flex;gap:0.8rem;align-items:center;flex-wrap:wrap;margin-top:1rem;}
-
-/* ANNONCE EDITOR */
-.annonce-editor-list{display:flex;flex-direction:column;gap:0.8rem;margin-bottom:1rem;}
-.annonce-editor-item{
-  background:var(--dark3);border:1px solid rgba(0,229,160,0.08);
-  border-radius:10px;padding:1rem 1.2rem;
-  display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:0.7rem;align-items:end;
-}
-.annonce-del-btn{
-  background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.2);
-  color:var(--red);width:36px;height:36px;border-radius:8px;
-  cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;
-  transition:background 0.2s;flex-shrink:0;
-}
-.annonce-del-btn:hover{background:rgba(255,107,107,0.2);}
-.add-annonce-btn{
-  background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);
-  color:var(--gold);font-size:0.82rem;font-weight:600;padding:0.6rem 1.2rem;
-  border-radius:8px;cursor:pointer;font-family:'Outfit',sans-serif;
-  transition:background 0.2s;
-}
-.add-annonce-btn:hover{background:rgba(0,229,160,0.15);}
-
-/* STATUS BADGE */
-.status-badge{
-  display:inline-flex;align-items:center;gap:0.4rem;
-  font-size:0.72rem;font-weight:600;letter-spacing:0.1em;
-  text-transform:uppercase;padding:0.25rem 0.7rem;border-radius:100px;
-}
-.badge-online{background:rgba(0,229,160,0.12);color:var(--gold);border:1px solid rgba(0,229,160,0.25);}
-.badge-offline{background:rgba(255,107,107,0.12);color:var(--red);border:1px solid rgba(255,107,107,0.25);}
-.badge-maintenance{background:rgba(255,205,60,0.12);color:var(--orange);border:1px solid rgba(255,205,60,0.25);}
-
-/* SUCCESS BANNER */
-.save-banner{
-  display:none;align-items:center;gap:0.7rem;
-  background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.25);
-  border-radius:10px;padding:0.9rem 1.3rem;margin-bottom:1.5rem;
-  font-size:0.85rem;color:var(--gold);
-}
-.save-banner.show{display:flex;}
-
-/* PREVIEW MINI */
-.preview-card{
-  background:var(--dark3);border:1px solid rgba(0,229,160,0.1);
-  border-radius:12px;padding:1.2rem;margin-top:1rem;
-}
-.preview-label{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.16em;color:var(--muted);margin-bottom:0.7rem;}
-
-/* LOG */
-.log-list{display:flex;flex-direction:column;gap:0.5rem;max-height:400px;overflow-y:auto;}
-.log-item{
-  display:flex;align-items:flex-start;gap:0.8rem;
-  background:var(--dark3);border-radius:8px;padding:0.7rem 1rem;
-  font-size:0.8rem;
-}
-.log-time{color:var(--muted);font-size:0.72rem;white-space:nowrap;flex-shrink:0;}
-.log-msg{color:var(--text);}
-.log-type{font-size:0.65rem;font-weight:700;text-transform:uppercase;padding:0.1rem 0.4rem;border-radius:100px;flex-shrink:0;}
-.lt-edit{background:rgba(0,229,160,0.12);color:var(--gold);}
-.lt-login{background:rgba(88,101,242,0.12);color:#818cf8;}
-.lt-delete{background:rgba(255,107,107,0.12);color:var(--red);}
+.form-textarea { resize:vertical;min-height:100px;line-height:1.6; }
+.form-select { appearance:none;cursor:pointer; }
+.form-hint { font-size:0.72rem;color:var(--muted);margin-top:0.2rem; }
 
 /* TOGGLE */
-.toggle-wrap{display:flex;align-items:center;gap:0.8rem;}
-.toggle{position:relative;width:44px;height:24px;cursor:pointer;}
-.toggle input{display:none;}
-.toggle-slider{position:absolute;inset:0;background:rgba(255,255,255,0.1);border-radius:100px;transition:0.3s;}
-.toggle-slider::before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:0.3s;}
-.toggle input:checked + .toggle-slider{background:var(--gold);}
-.toggle input:checked + .toggle-slider::before{transform:translateX(20px);}
+.toggle-wrap { display:flex;align-items:center;gap:0.8rem; }
+.toggle {
+  position:relative;width:44px;height:24px;flex-shrink:0;cursor:pointer;
+}
+.toggle input { display:none; }
+.toggle-track {
+  position:absolute;inset:0;background:var(--dark4);border:1px solid rgba(0,229,160,0.2);
+  border-radius:100px;transition:all 0.25s;
+}
+.toggle input:checked ~ .toggle-track { background:rgba(0,229,160,0.2);border-color:var(--gold); }
+.toggle-thumb {
+  position:absolute;width:18px;height:18px;background:var(--muted);
+  border-radius:50%;top:2px;left:2px;transition:all 0.25s;
+}
+.toggle input:checked ~ .toggle-thumb { left:22px;background:var(--gold); }
+.toggle-label { font-size:0.87rem;font-weight:500;cursor:pointer; }
 
-/* NOTIF */
-.notif-stack{position:fixed;bottom:2rem;right:2rem;z-index:9990;display:flex;flex-direction:column;gap:0.5rem;}
-.notif{background:var(--dark3);border-radius:10px;padding:0.8rem 1.2rem;font-size:0.83rem;color:var(--text);box-shadow:0 8px 30px rgba(0,0,0,0.5);transform:translateX(120%);transition:transform 0.3s;min-width:250px;}
-.notif.show{transform:translateX(0);}
-.notif.success{border-left:3px solid var(--gold);}
-.notif.error{border-left:3px solid var(--red);}
-.notif.info{border-left:3px solid var(--teal);}
+/* COLOR PICKER */
+.color-wrap { display:flex;align-items:center;gap:0.8rem; }
+.color-preview {
+  width:36px;height:36px;border-radius:8px;border:2px solid rgba(0,229,160,0.2);
+  cursor:pointer;flex-shrink:0;transition:transform 0.2s;
+}
+.color-preview:hover { transform:scale(1.1); }
+
+/* RANGE */
+.form-range { -webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:100px;background:var(--dark4);outline:none; }
+.form-range::-webkit-slider-thumb { -webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--gold);cursor:pointer;box-shadow:0 0 8px rgba(0,229,160,0.4); }
+
+/* ITEM LISTS */
+.item-list { display:flex;flex-direction:column;gap:0.6rem; }
+.item-row {
+  display:flex;align-items:center;gap:0.8rem;
+  background:var(--dark3);border:1px solid rgba(0,229,160,0.06);
+  border-radius:8px;padding:0.8rem 1rem;
+  transition:border-color 0.2s;
+}
+.item-row:hover { border-color:rgba(0,229,160,0.18); }
+.item-row-drag { cursor:grab;color:var(--muted);font-size:1.1rem;flex-shrink:0; }
+.item-row-content { flex:1;display:flex;flex-direction:column;gap:0.2rem; }
+.item-row-title { font-weight:600;font-size:0.88rem; }
+.item-row-sub { font-size:0.75rem;color:var(--muted); }
+.item-row-actions { display:flex;gap:0.4rem;flex-shrink:0; }
+.btn-icon {
+  background:none;border:none;color:var(--muted);cursor:pointer;
+  font-size:0.9rem;padding:0.35rem;border-radius:5px;transition:all 0.2s;
+}
+.btn-icon:hover { color:var(--text);background:rgba(255,255,255,0.06); }
+.btn-icon.delete:hover { color:var(--red);background:rgba(255,71,87,0.1); }
+.btn-icon.edit:hover { color:var(--gold);background:rgba(0,229,160,0.1); }
+
+/* INLINE EDIT */
+.inline-edit {
+  display:flex;align-items:center;gap:0.5rem;
+}
+.inline-edit-input {
+  flex:1;background:var(--dark4);border:1px solid rgba(0,229,160,0.15);border-radius:5px;
+  padding:0.4rem 0.7rem;font-size:0.85rem;color:var(--text);font-family:'Outfit',sans-serif;outline:none;
+}
+.inline-edit-input:focus { border-color:var(--gold); }
+
+/* ADD BUTTON */
+.btn-add {
+  display:flex;align-items:center;gap:0.5rem;
+  background:rgba(0,229,160,0.06);border:1px dashed rgba(0,229,160,0.25);
+  color:var(--gold);font-size:0.82rem;font-weight:600;letter-spacing:0.08em;
+  text-transform:uppercase;padding:0.7rem 1.2rem;border-radius:8px;
+  cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;width:100%;justify-content:center;margin-top:0.5rem;
+}
+.btn-add:hover { background:rgba(0,229,160,0.12);border-style:solid; }
+
+/* BOUTIQUE ITEMS */
+.price-tag { display:inline-flex;align-items:center;gap:0.4rem; }
+.price-tag-currency {
+  background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.25);
+  color:var(--coin);font-size:0.68rem;font-weight:700;letter-spacing:0.1em;
+  padding:0.15rem 0.5rem;border-radius:4px;
+}
+
+/* PREVIEW LIVE */
+.preview-frame {
+  background:var(--dark3);border:1px solid rgba(0,229,160,0.1);
+  border-radius:10px;overflow:hidden;aspect-ratio:16/9;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.8rem;color:var(--muted);position:relative;
+}
+.preview-inner {
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;
+}
+
+/* ANNONCES */
+.annonce-admin-item {
+  background:var(--dark3);border:1px solid rgba(88,101,242,0.1);
+  border-radius:9px;padding:1rem 1.2rem;
+  display:flex;flex-direction:column;gap:0.6rem;
+  transition:border-color 0.2s;
+}
+.annonce-admin-item:hover { border-color:rgba(88,101,242,0.25); }
+.annonce-admin-header { display:flex;align-items:center;gap:0.6rem; }
+.annonce-admin-author { font-weight:700;font-size:0.85rem; }
+.annonce-admin-date { font-size:0.72rem;color:var(--muted);margin-left:auto; }
+
+/* TOAST */
+.toast-container { position:fixed;bottom:1.5rem;right:1.5rem;z-index:99998;display:flex;flex-direction:column;gap:0.5rem; }
+.toast-item {
+  background:var(--dark2);border-radius:10px;padding:0.8rem 1.2rem;
+  font-size:0.83rem;color:var(--text);box-shadow:0 8px 30px rgba(0,0,0,0.5);
+  display:flex;align-items:center;gap:0.7rem;min-width:240px;max-width:320px;
+  transform:translateX(120%);transition:transform 0.3s ease;
+  border-left:3px solid var(--gold);
+}
+.toast-item.show { transform:translateX(0); }
+.toast-item.success { border-left-color:var(--success); }
+.toast-item.error { border-left-color:var(--red); }
+.toast-item.warn { border-left-color:var(--orange); }
+
+/* MODAL */
+.modal-overlay {
+  position:fixed;inset:0;background:rgba(6,9,15,0.85);backdrop-filter:blur(8px);
+  z-index:9999;display:none;align-items:center;justify-content:center;
+}
+.modal-overlay.open { display:flex; }
+.modal {
+  background:var(--dark2);border:1px solid rgba(0,229,160,0.18);border-radius:14px;
+  padding:2rem;width:100%;max-width:520px;max-height:85vh;overflow-y:auto;
+  box-shadow:0 30px 80px rgba(0,0,0,0.6);
+}
+.modal-title { font-weight:800;font-size:1.1rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.5rem; }
+.modal-actions { display:flex;gap:0.7rem;justify-content:flex-end;margin-top:1.5rem; }
+.btn-cancel {
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
+  color:var(--muted);font-size:0.82rem;font-weight:600;padding:0.6rem 1.2rem;
+  border-radius:6px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;
+}
+.btn-cancel:hover { color:var(--text);border-color:rgba(255,255,255,0.2); }
+.btn-confirm {
+  background:var(--gold);color:var(--dark);font-size:0.82rem;font-weight:800;
+  padding:0.6rem 1.4rem;border:none;border-radius:6px;cursor:pointer;
+  font-family:'Outfit',sans-serif;transition:all 0.2s;letter-spacing:0.06em;
+}
+.btn-confirm:hover { background:var(--gold-light); }
+.btn-danger-confirm {
+  background:rgba(255,71,87,0.15);border:1px solid rgba(255,71,87,0.3);
+  color:var(--red);font-size:0.82rem;font-weight:800;
+  padding:0.6rem 1.4rem;border-radius:6px;cursor:pointer;
+  font-family:'Outfit',sans-serif;transition:all 0.2s;
+}
+.btn-danger-confirm:hover { background:rgba(255,71,87,0.25); }
+
+/* COUNTDOWN EDITOR */
+.date-preview {
+  background:var(--dark3);border:1px solid rgba(0,229,160,0.12);
+  border-radius:8px;padding:1rem;display:flex;gap:0.8rem;flex-wrap:wrap;
+}
+.date-unit { text-align:center;flex:1;min-width:60px; }
+.date-unit-num { font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--gold);line-height:1; }
+.date-unit-label { font-size:0.65rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted); }
+
+/* SECTION TAGS */
+.section-tag {
+  display:inline-flex;align-items:center;gap:0.3rem;
+  font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;
+  padding:0.2rem 0.6rem;border-radius:4px;
+}
+.tag-hero { background:rgba(0,229,160,0.12);color:var(--gold); }
+.tag-boutique { background:rgba(245,166,35,0.12);color:var(--coin); }
+.tag-staff { background:rgba(0,201,224,0.12);color:var(--teal); }
+.tag-reglement { background:rgba(255,71,87,0.12);color:var(--red); }
+.tag-faq { background:rgba(88,101,242,0.12);color:#8b9cf0; }
+
+/* CHANGELOG */
+.changelog-item {
+  display:flex;gap:0.8rem;padding:0.7rem 0;border-bottom:1px solid rgba(0,229,160,0.05);
+}
+.changelog-dot { width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:0.3rem; }
+.changelog-dot.success { background:var(--success); }
+.changelog-dot.warn { background:var(--orange); }
+.changelog-dot.info { background:var(--teal); }
+.changelog-text { font-size:0.82rem;color:var(--muted); }
+.changelog-text strong { color:var(--text); }
+.changelog-time { font-size:0.7rem;color:var(--muted);opacity:0.6;margin-top:0.2rem; }
+
+/* MARQUE toggle */
+.marquee-item-admin {
+  display:flex;align-items:center;gap:0.7rem;
+  background:var(--dark3);border:1px solid rgba(0,229,160,0.06);
+  border-radius:7px;padding:0.6rem 0.9rem;
+}
+.marquee-item-admin .form-input { margin:0;padding:0.45rem 0.7rem;font-size:0.83rem; }
 
 /* RESPONSIVE */
-@media(max-width:768px){
-  .admin-layout{grid-template-columns:1fr;}
-  .admin-sidebar{display:none;}
-  .form-row{grid-template-columns:1fr;}
-  .annonce-editor-item{grid-template-columns:1fr;}
+@media(max-width:900px) {
+  .sidebar { transform:translateX(-100%); }
+  .sidebar.open { transform:translateX(0); }
+  .main-content { margin-left:0; }
+  .panel-grid-2,.panel-grid-3 { grid-template-columns:1fr; }
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width:5px; }
+::-webkit-scrollbar-track { background:rgba(0,0,0,0.1); }
+::-webkit-scrollbar-thumb { background:rgba(0,229,160,0.2);border-radius:100px; }
+::-webkit-scrollbar-thumb:hover { background:rgba(0,229,160,0.35); }
+
+/* FOCUS */
+:focus-visible { outline:2px solid var(--gold);outline-offset:3px;border-radius:4px; }
+
+/* Code badge */
+.code-badge {
+  background:rgba(0,0,0,0.4);border:1px solid rgba(0,229,160,0.15);
+  border-radius:6px;padding:0.25rem 0.6rem;font-family:var(--mono);
+  font-size:0.72rem;color:var(--gold);
+}
+
+/* Pill status */
+.status-pill {
+  display:inline-flex;align-items:center;gap:0.35rem;
+  padding:0.2rem 0.7rem;border-radius:100px;font-size:0.7rem;font-weight:700;letter-spacing:0.1em;
+}
+.status-pill.online { background:rgba(46,213,115,0.12);color:var(--success); }
+.status-pill.online::before { content:'';width:5px;height:5px;border-radius:50%;background:var(--success);animation:pulse 2s infinite; }
+.status-pill.offline { background:rgba(255,71,87,0.12);color:var(--red); }
+.status-pill.soon { background:rgba(255,165,2,0.12);color:var(--orange); }
+
+.tab-bar { display:flex;gap:0.3rem;margin-bottom:1.5rem;background:var(--dark2);border:1px solid rgba(0,229,160,0.08);border-radius:10px;padding:0.3rem; }
+.tab-btn {
+  flex:1;padding:0.55rem 0.8rem;border:none;background:none;color:var(--muted);
+  font-family:'Outfit',sans-serif;font-size:0.82rem;font-weight:600;cursor:pointer;
+  border-radius:7px;transition:all 0.2s;
+}
+.tab-btn.active { background:rgba(0,229,160,0.12);color:var(--gold); }
+.tab-btn:hover:not(.active) { color:var(--text);background:rgba(255,255,255,0.04); }
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
+
+.divider { height:1px;background:rgba(0,229,160,0.06);margin:1.5rem 0; }
+
+.export-bar {
+  background:rgba(0,0,0,0.25);border:1px solid rgba(0,229,160,0.08);
+  border-radius:8px;padding:1rem 1.2rem;font-size:0.8rem;color:var(--muted);
+  font-family:var(--mono);line-height:1.8;white-space:pre-wrap;word-break:break-all;
+  max-height:200px;overflow-y:auto;
 }
 </style>
 </head>
 <body>
 
-<!-- NOTIFS -->
-<div class="notif-stack" id="notif-stack"></div>
-
-<!-- LOGIN -->
-<div id="login-screen">
-  <div class="login-box">
-    <div class="login-logo">MyStiC RP 🌴</div>
-    <div class="login-sub">Panneau d'administration — Accès restreint</div>
-    <input type="password" class="login-input" id="login-input" placeholder="Entrez le code d'accès" autocomplete="off" onkeydown="if(event.key==='Enter')checkLogin()"/>
-    <button class="login-btn" onclick="checkLogin()">🔐 Accéder</button>
-    <div class="login-error" id="login-error">❌ Code incorrect. Réessayez.</div>
-    <div class="login-attempts" id="login-attempts"></div>
+<!-- ====== LOCK SCREEN ====== -->
+<div id="lock-screen">
+  <div class="lock-logo">MyStiC RP</div>
+  <div class="lock-subtitle" style="margin-top:-2rem;">Interface Administrateur</div>
+  <div class="lock-box">
+    <div class="lock-title">🔐 Accès Restreint</div>
+    <div class="lock-hint">Entrez votre code d'accès administrateur pour continuer.</div>
+    <div class="lock-input-wrap">
+      <span class="lock-input-icon">🗝️</span>
+      <input type="password" class="lock-input" id="code-input" placeholder="Code d'accès…" autocomplete="off"/>
+      <button class="lock-toggle-eye" onclick="toggleEye()" id="eye-btn" title="Afficher/Masquer">👁️</button>
+    </div>
+    <div class="lock-error-msg" id="lock-error">❌ Code incorrect. Veuillez réessayer.</div>
+    <button class="lock-btn" onclick="checkCode()">Accéder au panel →</button>
+    <div class="lock-attempts" id="attempt-info">5 tentatives restantes</div>
   </div>
 </div>
 
-<!-- ADMIN PANEL -->
-<div id="admin-panel">
+<!-- ====== ADMIN APP ====== -->
+<div id="admin-app">
 
-  <!-- TOPBAR -->
-  <div class="admin-topbar">
-    <div class="admin-logo">⚙️ MyStiC Admin</div>
-    <div class="admin-topbar-right">
-      <span class="admin-user-badge"><span class="admin-status-dot"></span>Admin connecté</span>
-      <button class="topbar-btn" onclick="window.open('index.html','_blank')">🌐 Voir le site</button>
-      <button class="topbar-btn" onclick="exportData()">📦 Exporter</button>
-      <button class="topbar-btn danger" onclick="logout()">🚪 Déconnexion</button>
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">MyStiC RP 🌴</div>
+      <div class="sidebar-role">Admin Panel v2.0</div>
     </div>
-  </div>
+    <nav class="sidebar-nav">
+      <div class="nav-group-title">Tableau de bord</div>
+      <button class="nav-item active" onclick="showPanel('dashboard',this)"><span class="nav-icon">📊</span>Dashboard</button>
 
-  <div class="admin-layout">
+      <div class="nav-group-title">Contenu</div>
+      <button class="nav-item" onclick="showPanel('hero',this)"><span class="nav-icon">🏠</span>Hero & Statuts</button>
+      <button class="nav-item" onclick="showPanel('annonces',this)"><span class="nav-icon">📢</span>Annonces <span class="nav-badge" id="badge-annonces">3</span></button>
+      <button class="nav-item" onclick="showPanel('features',this)"><span class="nav-icon">⚡</span>Fonctionnalités</button>
+      <button class="nav-item" onclick="showPanel('reglement',this)"><span class="nav-icon">📋</span>Règlement</button>
+      <button class="nav-item" onclick="showPanel('faq',this)"><span class="nav-icon">❓</span>FAQ</button>
+      <button class="nav-item" onclick="showPanel('staff',this)"><span class="nav-icon">👥</span>Staff</button>
+      <button class="nav-item" onclick="showPanel('marquee',this)"><span class="nav-icon">📣</span>Bandeau défilant</button>
 
-    <!-- SIDEBAR -->
-    <div class="admin-sidebar">
-      <div class="sidebar-section-label">Tableau de bord</div>
-      <div class="sidebar-item active" onclick="showTab('dashboard')">
-        <span class="sidebar-item-icon">📊</span> Dashboard
-      </div>
+      <div class="nav-group-title">Boutique</div>
+      <button class="nav-item" onclick="showPanel('boutique',this)"><span class="nav-icon">🪙</span>Mystcoins & Packs</button>
 
-      <div class="sidebar-section-label">Contenu</div>
-      <div class="sidebar-item" onclick="showTab('hero')">
-        <span class="sidebar-item-icon">🏠</span> Page d'accueil
-      </div>
-      <div class="sidebar-item" onclick="showTab('annonces')">
-        <span class="sidebar-item-icon">📢</span> Annonces
-      </div>
-      <div class="sidebar-item" onclick="showTab('boutique')">
-        <span class="sidebar-item-icon">🪙</span> Boutique
-      </div>
-      <div class="sidebar-item" onclick="showTab('staff')">
-        <span class="sidebar-item-icon">👥</span> Staff
-      </div>
-      <div class="sidebar-item" onclick="showTab('faq')">
-        <span class="sidebar-item-icon">❓</span> FAQ
-      </div>
+      <div class="nav-group-title">Configuration</div>
+      <button class="nav-item" onclick="showPanel('serveur',this)"><span class="nav-icon">🎮</span>Infos Serveur</button>
+      <button class="nav-item" onclick="showPanel('countdown',this)"><span class="nav-icon">⏳</span>Compte à rebours</button>
+      <button class="nav-item" onclick="showPanel('discord',this)"><span class="nav-icon">💬</span>Discord & Liens</button>
+      <button class="nav-item" onclick="showPanel('export',this)"><span class="nav-icon">💾</span>Export / Import</button>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="save-status syncing" id="save-status">⏳ Chargement depuis le cloud…</div>
+      <button class="logout-btn" onclick="logout()">🚪 Déconnexion</button>
+    </div>
+  </aside>
 
-      <div class="sidebar-section-label">Serveur</div>
-      <div class="sidebar-item" onclick="showTab('server')">
-        <span class="sidebar-item-icon">🎮</span> Statut Serveur
+  <!-- MAIN -->
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button style="display:none;background:none;border:none;color:var(--text);cursor:pointer;font-size:1.2rem;" id="mobile-sidebar-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+        <div>
+          <div class="topbar-title" id="topbar-title">📊 Dashboard</div>
+          <div class="topbar-breadcrumb">MyStiC RP › Admin › <span id="topbar-section">Accueil</span></div>
+        </div>
       </div>
-      <div class="sidebar-item" onclick="showTab('countdown')">
-        <span class="sidebar-item-icon">⏳</span> Countdown
-      </div>
-      <div class="sidebar-item" onclick="showTab('marquee')">
-        <span class="sidebar-item-icon">📡</span> Bandeau défilant
-      </div>
-
-      <div class="sidebar-section-label">Système</div>
-      <div class="sidebar-item" onclick="showTab('logs')">
-        <span class="sidebar-item-icon">📋</span> Logs
-      </div>
-      <div class="sidebar-item" onclick="showTab('settings')">
-        <span class="sidebar-item-icon">⚙️</span> Paramètres
+      <div class="topbar-right">
+        <a href="index.html" target="_blank" class="btn-preview">👁️ Voir le site</a>
+        <button class="btn-save-all" onclick="saveAll()">☁️ Publier les changements</button>
       </div>
     </div>
 
-    <!-- MAIN CONTENT -->
-    <div class="admin-main">
-      <div class="save-banner" id="save-banner">✅ Modifications sauvegardées et appliquées sur le site !</div>
-
-      <!-- DASHBOARD -->
-      <div class="admin-tab active" id="tab-dashboard">
-        <div class="page-hd">
-          <h1>Dashboard</h1>
-          <p>Vue d'ensemble de MyStiC RP</p>
+    <!-- ===== DASHBOARD ===== -->
+    <div class="panel active" id="panel-dashboard">
+      <div class="panel-grid panel-grid-3" style="margin-bottom:1.5rem;">
+        <div class="stat-card">
+          <div class="stat-card-icon">👥</div>
+          <div class="stat-card-label">Membres Discord</div>
+          <div class="stat-card-val" id="dash-members">34</div>
+          <div class="stat-card-sub">Affiché sur le site</div>
         </div>
-        <div class="admin-grid">
-          <div class="stat-card">
-            <div class="stat-card-label">Membres Discord</div>
-            <div class="stat-card-val" id="dash-discord">34</div>
-            <div class="stat-card-sub">💬 discord.gg/GBMj67FYdM</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card-label">Statut Serveur</div>
-            <div style="margin-top:0.4rem;"><span class="status-badge badge-online" id="dash-status">🟢 En ligne</span></div>
-            <div class="stat-card-sub" id="dash-players">0 / 64 joueurs</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card-label">Annonces</div>
-            <div class="stat-card-val" id="dash-annonces">3</div>
-            <div class="stat-card-sub">Annonces actives</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card-label">Ouverture dans</div>
-            <div class="stat-card-val" id="dash-countdown">--</div>
-            <div class="stat-card-sub">jours restants</div>
-          </div>
+        <div class="stat-card">
+          <div class="stat-card-icon">📢</div>
+          <div class="stat-card-label">Annonces actives</div>
+          <div class="stat-card-val" id="dash-annonces">3</div>
+          <div class="stat-card-sub">Visibles sur le site</div>
         </div>
-        <div class="form-section">
-          <div class="form-section-title">🚀 Actions rapides</div>
-          <div style="display:flex;gap:1rem;flex-wrap:wrap;">
-            <button class="btn-save" onclick="showTab('annonces')">📢 Gérer les annonces</button>
-            <button class="btn-save" onclick="showTab('server')">🎮 Modifier le statut</button>
-            <button class="btn-save" onclick="showTab('hero')">🏠 Modifier l'accueil</button>
-            <button class="btn-secondary-admin" onclick="window.open('index.html','_blank')">🌐 Voir le site</button>
-          </div>
+        <div class="stat-card">
+          <div class="stat-card-icon">📋</div>
+          <div class="stat-card-label">Règles affichées</div>
+          <div class="stat-card-val" id="dash-rules">6</div>
+          <div class="stat-card-sub">Section règlement</div>
         </div>
-        <div class="form-section">
-          <div class="form-section-title">📋 Derniers logs</div>
-          <div class="log-list" id="dash-logs"></div>
+        <div class="stat-card">
+          <div class="stat-card-icon">❓</div>
+          <div class="stat-card-label">FAQ entrées</div>
+          <div class="stat-card-val" id="dash-faq">6</div>
+          <div class="stat-card-sub">Questions / réponses</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon">🪙</div>
+          <div class="stat-card-label">Offres boutique</div>
+          <div class="stat-card-val" id="dash-boutique">7</div>
+          <div class="stat-card-sub">Coins + packs</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon">⏳</div>
+          <div class="stat-card-label">Ouverture</div>
+          <div class="stat-card-val" id="dash-countdown">--</div>
+          <div class="stat-card-sub">Jours restants</div>
         </div>
       </div>
 
-      <!-- HERO / ACCUEIL -->
-      <div class="admin-tab" id="tab-hero">
-        <div class="page-hd">
-          <h1>Page d'accueil</h1>
-          <p>Modifiez les textes de la section principale</p>
+      <div class="panel-grid panel-grid-2">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">📝 Journal des modifications</div>
+          </div>
+          <div class="card-body">
+            <div id="changelog-list">
+              <div class="changelog-item">
+                <div class="changelog-dot info"></div>
+                <div>
+                  <div class="changelog-text">Panel admin créé et initialisé</div>
+                  <div class="changelog-time">Maintenant</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="form-section">
-          <div class="form-section-title">🌴 Titre Hero</div>
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Ligne 1 (en couleur)</label>
-              <input type="text" class="form-input" id="f-title1" placeholder="MyStiC"/>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">⚡ Actions rapides</div>
+          </div>
+          <div class="card-body" style="display:flex;flex-direction:column;gap:0.7rem;">
+            <button class="btn-add" onclick="showPanel('annonces',document.querySelector('.nav-item:nth-child(5)'));openNewAnnonce()">+ Nouvelle annonce</button>
+            <button class="btn-add" onclick="showPanel('faq',document.querySelector('[onclick*=faq]'));openNewFaq()">+ Nouvelle question FAQ</button>
+            <button class="btn-add" onclick="showPanel('reglement',document.querySelector('[onclick*=reglement]'));openNewRule()">+ Nouvelle règle</button>
+            <button class="btn-add" onclick="showPanel('boutique',document.querySelector('[onclick*=boutique]'));openNewPack()">+ Nouveau pack boutique</button>
+            <div class="divider"></div>
+            <div style="font-size:0.8rem;color:var(--muted);">
+              <strong style="color:var(--text);">Statut du site:</strong>
+              <span class="status-pill soon" style="margin-left:0.5rem;" id="site-status-pill">BIENTÔT</span>
             </div>
-            <div class="form-group">
-              <label class="form-label">Ligne 2</label>
-              <input type="text" class="form-input" id="f-title2" placeholder="RP 🌴"/>
+            <div style="font-size:0.8rem;color:var(--muted);">
+              <strong style="color:var(--text);">Dernière sauvegarde:</strong>
+              <span id="last-save-time" style="color:var(--gold);margin-left:0.5rem;">Jamais</span>
             </div>
           </div>
-          <div class="form-row full">
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== HERO ===== -->
+    <div class="panel" id="panel-hero">
+      <div class="panel-grid panel-grid-2">
+        <div class="card">
+          <div class="card-header"><div class="card-title">🏠 Section Hero</div><span class="section-tag tag-hero">HERO</span></div>
+          <div class="card-body">
             <div class="form-group">
-              <label class="form-label">Tagline (sous le titre)</label>
-              <textarea class="form-textarea" id="f-tagline" placeholder="Une expérience roleplay immersive..."></textarea>
+              <label class="form-label">Titre ligne 1 (grand)</label>
+              <input type="text" class="form-input" id="hero-title1" value="MyStiC" oninput="markUnsaved()"/>
             </div>
-          </div>
-          <div class="form-row">
             <div class="form-group">
-              <label class="form-label">Texte status (badge vert)</label>
-              <input type="text" class="form-input" id="f-statustext" placeholder="Serveur en ligne — FiveM FR"/>
+              <label class="form-label">Titre ligne 2</label>
+              <input type="text" class="form-input" id="hero-title2" value="RP 🌴" oninput="markUnsaved()"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tagline / Description</label>
+              <textarea class="form-textarea" id="hero-tagline" oninput="markUnsaved()">Une expérience roleplay immersive et unique.
+Rejoins notre communauté et écris ta propre histoire.</textarea>
             </div>
             <div class="form-group">
               <label class="form-label">Label bouton principal</label>
-              <input type="text" class="form-input" id="f-cslabel" placeholder="Ouverture bientôt"/>
-            </div>
-          </div>
-          <div class="form-row full">
-            <div class="form-group">
-              <label class="form-label">Sous-texte bouton</label>
-              <input type="text" class="form-input" id="f-cssub" placeholder="Rejoins le Discord pour être alerté"/>
-            </div>
-          </div>
-          <div class="btn-row">
-            <button class="btn-save" onclick="saveHero()">💾 Sauvegarder</button>
-          </div>
-        </div>
-
-        <div class="form-section">
-          <div class="form-section-title">📊 Statistiques hero</div>
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Membres Discord</label>
-              <input type="text" class="form-input" id="f-discord-members" placeholder="34"/>
+              <input type="text" class="form-input" id="hero-btn1" value="Ouverture bientôt" oninput="markUnsaved()"/>
             </div>
             <div class="form-group">
-              <label class="form-label">Description serveur</label>
-              <textarea class="form-textarea" id="f-pres-body" style="min-height:70px;"></textarea>
+              <label class="form-label">Sous-texte bouton principal</label>
+              <input type="text" class="form-input" id="hero-btn1-sub" value="Rejoins le Discord pour être alerté" oninput="markUnsaved()"/>
             </div>
           </div>
-          <div class="form-row full">
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">📊 Statistiques Hero</div></div>
+          <div class="card-body">
             <div class="form-group">
-              <label class="form-label">Tagline footer</label>
-              <input type="text" class="form-input" id="f-footer-tagline"/>
+              <label class="form-label">Stat 1 — Valeur</label>
+              <input type="text" class="form-input" id="stat1-val" value="34" oninput="markUnsaved()"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Stat 1 — Label</label>
+              <input type="text" class="form-input" id="stat1-label" value="Membres Discord" oninput="markUnsaved()"/>
+            </div>
+            <div class="divider"></div>
+            <div class="form-group">
+              <label class="form-label">Stat 2 — Valeur</label>
+              <input type="text" class="form-input" id="stat2-val" value="24/7" oninput="markUnsaved()"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Stat 2 — Label</label>
+              <input type="text" class="form-input" id="stat2-label" value="En ligne" oninput="markUnsaved()"/>
+            </div>
+            <div class="divider"></div>
+            <div class="form-group">
+              <label class="form-label">Stat 3 — Valeur</label>
+              <input type="text" class="form-input" id="stat3-val" value="100+" oninput="markUnsaved()"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Stat 3 — Label</label>
+              <input type="text" class="form-input" id="stat3-label" value="Métiers RP" oninput="markUnsaved()"/>
             </div>
           </div>
-          <div class="btn-row">
-            <button class="btn-save" onclick="saveHero()">💾 Sauvegarder</button>
+        </div>
+        <div class="card" style="grid-column:1/-1;">
+          <div class="card-header"><div class="card-title">🟢 Statut serveur affiché</div></div>
+          <div class="card-body">
+            <div class="panel-grid panel-grid-3">
+              <div class="form-group">
+                <label class="form-label">Statut</label>
+                <select class="form-select" id="server-status-select" onchange="markUnsaved()">
+                  <option value="online">🟢 En ligne</option>
+                  <option value="offline">🔴 Hors ligne</option>
+                  <option value="maintenance">🟡 Maintenance</option>
+                  <option value="soon" selected>🔵 Bientôt</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Joueurs (affiché)</label>
+                <input type="text" class="form-input" id="server-players" value="0 / 64" oninput="markUnsaved()"/>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Ping (affiché)</label>
+                <input type="text" class="form-input" id="server-ping" value="~12ms" oninput="markUnsaved()"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Badge hero (texte)</label>
+              <input type="text" class="form-input" id="hero-badge" value="Serveur en ligne — FiveM FR" oninput="markUnsaved()"/>
+            </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- ANNONCES -->
-      <div class="admin-tab" id="tab-annonces">
-        <div class="page-hd">
-          <h1>Annonces</h1>
-          <p>Gérez les annonces affichées sur le site</p>
+    <!-- ===== ANNONCES ===== -->
+    <div class="panel" id="panel-annonces">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">📢 Annonces du Discord</div>
+          <span class="section-tag tag-hero">PRÉSENTATION</span>
         </div>
-        <div class="form-section">
-          <div class="form-section-title">📢 Liste des annonces</div>
-          <div class="annonce-editor-list" id="annonce-editor-list"></div>
-          <button class="add-annonce-btn" onclick="addAnnonce()">+ Ajouter une annonce</button>
-          <div class="btn-row">
-            <button class="btn-save" onclick="saveAnnonces()">💾 Sauvegarder les annonces</button>
-          </div>
-        </div>
-        <div class="form-section">
-          <div class="form-section-title">👁️ Prévisualisation</div>
-          <div id="annonces-preview" style="display:flex;flex-direction:column;gap:0.7rem;"></div>
+        <div class="card-body">
+          <div class="item-list" id="annonces-admin-list"></div>
+          <button class="btn-add" onclick="openNewAnnonce()">+ Ajouter une annonce</button>
         </div>
       </div>
+    </div>
 
-      <!-- BOUTIQUE -->
-      <div class="admin-tab" id="tab-boutique">
-        <div class="page-hd">
-          <h1>Boutique</h1>
-          <p>Gérez les offres Mystcoin et les packs</p>
+    <!-- ===== FONCTIONNALITÉS ===== -->
+    <div class="panel" id="panel-features">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">⚡ Fonctionnalités du serveur</div>
+          <span class="section-tag tag-hero">PRÉSENTATION</span>
         </div>
-        <div class="form-section">
-          <div class="form-section-title">🪙 Offres Mystcoin</div>
-          <div id="coin-offers-editor"></div>
-          <div class="btn-row">
-            <button class="btn-save" onclick="saveBoutique()">💾 Sauvegarder</button>
-          </div>
+        <div class="card-body">
+          <div class="item-list" id="features-admin-list"></div>
+          <button class="btn-add" onclick="openNewFeature()">+ Ajouter une fonctionnalité</button>
         </div>
-        <div class="form-section">
-          <div class="form-section-title">🎁 Packs</div>
-          <div id="pack-offers-editor"></div>
-          <div class="btn-row">
-            <button class="btn-save" onclick="saveBoutique()">💾 Sauvegarder</button>
+      </div>
+    </div>
+
+    <!-- ===== RÈGLEMENT ===== -->
+    <div class="panel" id="panel-reglement">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">📋 Règles du serveur</div>
+          <span class="section-tag tag-reglement">RÈGLEMENT</span>
+        </div>
+        <div class="card-body">
+          <div class="item-list" id="rules-admin-list"></div>
+          <button class="btn-add" onclick="openNewRule()">+ Ajouter une règle</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== FAQ ===== -->
+    <div class="panel" id="panel-faq">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">❓ Questions fréquentes</div>
+          <span class="section-tag tag-faq">FAQ</span>
+        </div>
+        <div class="card-body">
+          <div class="item-list" id="faq-admin-list"></div>
+          <button class="btn-add" onclick="openNewFaq()">+ Ajouter une question</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== STAFF ===== -->
+    <div class="panel" id="panel-staff">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">👥 Membres du staff</div>
+          <span class="section-tag tag-staff">STAFF</span>
+        </div>
+        <div class="card-body">
+          <div class="item-list" id="staff-admin-list"></div>
+          <button class="btn-add" onclick="openNewStaff()">+ Ajouter un membre</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== MARQUEE ===== -->
+    <div class="panel" id="panel-marquee">
+      <div class="card">
+        <div class="card-header"><div class="card-title">📣 Bandeau défilant</div></div>
+        <div class="card-body">
+          <div class="item-list" id="marquee-admin-list"></div>
+          <button class="btn-add" onclick="addMarqueeItem()">+ Ajouter un message</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== BOUTIQUE ===== -->
+    <div class="panel" id="panel-boutique">
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchBoTab('coins',this)">🪙 Mystcoins</button>
+        <button class="tab-btn" onclick="switchBoTab('packs',this)">🎁 Packs</button>
+      </div>
+      <div class="tab-panel active" id="bo-tab-coins">
+        <div class="card">
+          <div class="card-header"><div class="card-title">🪙 Offres Mystcoins</div><span class="section-tag tag-boutique">BOUTIQUE</span></div>
+          <div class="card-body">
+            <div class="item-list" id="coins-admin-list"></div>
+            <button class="btn-add" onclick="openNewCoin()">+ Ajouter une offre Mystcoin</button>
           </div>
         </div>
       </div>
-
-      <!-- STAFF -->
-      <div class="admin-tab" id="tab-staff">
-        <div class="page-hd">
-          <h1>Staff</h1>
-          <p>Gérez les membres du staff affichés</p>
-        </div>
-        <div class="form-section">
-          <div class="form-section-title">👥 Membres du staff</div>
-          <div id="staff-editor"></div>
-          <button class="add-annonce-btn" onclick="addStaffMember()" style="margin-top:1rem;">+ Ajouter un membre</button>
-          <div class="btn-row">
-            <button class="btn-save" onclick="saveStaff()">💾 Sauvegarder</button>
+      <div class="tab-panel" id="bo-tab-packs">
+        <div class="card">
+          <div class="card-header"><div class="card-title">🎁 Packs exclusifs</div><span class="section-tag tag-boutique">BOUTIQUE</span></div>
+          <div class="card-body">
+            <div class="item-list" id="packs-admin-list"></div>
+            <button class="btn-add" onclick="openNewPack()">+ Ajouter un pack</button>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- FAQ -->
-      <div class="admin-tab" id="tab-faq">
-        <div class="page-hd">
-          <h1>FAQ</h1>
-          <p>Gérez les questions fréquentes</p>
-        </div>
-        <div class="form-section">
-          <div class="form-section-title">❓ Questions & Réponses</div>
-          <div id="faq-editor"></div>
-          <button class="add-annonce-btn" onclick="addFaqItem()" style="margin-top:1rem;">+ Ajouter une question</button>
-          <div class="btn-row">
-            <button class="btn-save" onclick="saveFaq()">💾 Sauvegarder</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- SERVEUR -->
-      <div class="admin-tab" id="tab-server">
-        <div class="page-hd">
-          <h1>Statut Serveur</h1>
-          <p>Configurez les informations du serveur FiveM</p>
-        </div>
-        <div class="form-section">
-          <div class="form-section-title">🎮 Informations serveur</div>
-          <div class="form-row">
+    <!-- ===== SERVEUR ===== -->
+    <div class="panel" id="panel-serveur">
+      <div class="panel-grid panel-grid-2">
+        <div class="card">
+          <div class="card-header"><div class="card-title">🎮 Informations serveur</div></div>
+          <div class="card-body">
             <div class="form-group">
               <label class="form-label">IP du serveur</label>
-              <input type="text" class="form-input" id="f-server-ip" placeholder="connect.mystic-rp.fr ou Bientôt disponible"/>
-              <span class="form-hint">Mettre "Bientôt disponible" pour masquer</span>
+              <input type="text" class="form-input" id="server-ip" value="Bientôt disponible" oninput="markUnsaved()"/>
+              <div class="form-hint">Affiché dans la section "Rejoindre"</div>
             </div>
             <div class="form-group">
-              <label class="form-label">Statut affiché</label>
-              <select class="form-select" id="f-server-status">
-                <option value="🟢 En ligne">🟢 En ligne</option>
-                <option value="🔴 Hors ligne">🔴 Hors ligne</option>
-                <option value="🟡 Maintenance">🟡 Maintenance</option>
-                <option value="🔵 Bientôt">🔵 Bientôt disponible</option>
-              </select>
+              <label class="form-label">Capacité max joueurs</label>
+              <input type="number" class="form-input" id="server-maxplayers" value="64" oninput="markUnsaved()"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nom du serveur (SEO)</label>
+              <input type="text" class="form-input" id="server-name-seo" value="MyStiC RP — Serveur FiveM Francophone" oninput="markUnsaved()"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Description (meta SEO)</label>
+              <textarea class="form-textarea" id="server-meta-desc" oninput="markUnsaved()">MyStiC RP — Le serveur FiveM francophone premium. Roleplay immersif, économie réaliste, communauté soudée.</textarea>
             </div>
           </div>
-          <div class="form-row">
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">📱 Status bar</div></div>
+          <div class="card-body">
             <div class="form-group">
-              <label class="form-label">Joueurs (ex: 24 / 64)</label>
-              <input type="text" class="form-input" id="f-server-players" placeholder="0 / 64"/>
+              <label class="form-label">Nombre de membres Discord</label>
+              <input type="text" class="form-input" id="discord-members-count" value="34" oninput="markUnsaved()"/>
             </div>
             <div class="form-group">
-              <label class="form-label">Membres Discord</label>
-              <input type="text" class="form-input" id="f-server-discord" placeholder="34"/>
+              <label class="form-label">Texte statut serveur</label>
+              <input type="text" class="form-input" id="server-status-text" value="🟢 En ligne" oninput="markUnsaved()"/>
             </div>
-          </div>
-          <div class="btn-row">
-            <button class="btn-save" onclick="saveServer()">💾 Sauvegarder</button>
+            <div class="divider"></div>
+            <div class="form-group">
+              <label class="form-label">Section "Rejoindre" — Sous-titre</label>
+              <input type="text" class="form-input" id="rejoin-eyebrow" value="C'est parti" oninput="markUnsaved()"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Section "Rejoindre" — Description</label>
+              <textarea class="form-textarea" id="rejoin-desc" style="min-height:70px;" oninput="markUnsaved()">Suis ces 3 étapes simples pour démarrer ton aventure. C'est gratuit et ça prend moins de 5 minutes.</textarea>
+            </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- COUNTDOWN -->
-      <div class="admin-tab" id="tab-countdown">
-        <div class="page-hd">
-          <h1>Compte à rebours</h1>
-          <p>Définissez la date d'ouverture du serveur</p>
-        </div>
-        <div class="form-section">
-          <div class="form-section-title">⏳ Date d'ouverture</div>
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Date et heure d'ouverture</label>
-              <input type="datetime-local" class="form-input" id="f-opening-date"/>
-              <span class="form-hint">Le countdown sur le site se mettra à jour automatiquement</span>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Aperçu du countdown</label>
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--gold);" id="countdown-preview">--j --h --m --s</div>
-            </div>
+    <!-- ===== COUNTDOWN ===== -->
+    <div class="panel" id="panel-countdown">
+      <div class="card">
+        <div class="card-header"><div class="card-title">⏳ Compte à rebours d'ouverture</div></div>
+        <div class="card-body">
+          <div class="form-group">
+            <label class="form-label">Date et heure d'ouverture</label>
+            <input type="datetime-local" class="form-input" id="opening-date" value="2026-05-01T18:00" oninput="updateCountdownPreview();markUnsaved()"/>
           </div>
-          <div class="btn-row">
-            <button class="btn-save" onclick="saveCountdown()">💾 Sauvegarder</button>
+          <div class="form-group">
+            <label class="form-label">Titre affiché</label>
+            <input type="text" class="form-input" id="countdown-title-text" value="⏳ Ouverture du serveur dans" oninput="markUnsaved()"/>
+          </div>
+          <div style="margin-top:1rem;">
+            <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--muted);margin-bottom:0.8rem;">Aperçu en direct</div>
+            <div class="date-preview">
+              <div class="date-unit"><div class="date-unit-num" id="cdp-days">--</div><div class="date-unit-label">Jours</div></div>
+              <div class="date-unit"><div class="date-unit-num" id="cdp-hours">--</div><div class="date-unit-label">Heures</div></div>
+              <div class="date-unit"><div class="date-unit-num" id="cdp-mins">--</div><div class="date-unit-label">Minutes</div></div>
+              <div class="date-unit"><div class="date-unit-num" id="cdp-secs">--</div><div class="date-unit-label">Secondes</div></div>
+            </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- MARQUEE -->
-      <div class="admin-tab" id="tab-marquee">
-        <div class="page-hd">
-          <h1>Bandeau défilant</h1>
-          <p>Modifiez le texte du bandeau en haut du site</p>
-        </div>
-        <div class="form-section">
-          <div class="form-section-title">📡 Textes du bandeau</div>
-          <div id="marquee-editor"></div>
-          <button class="add-annonce-btn" onclick="addMarqueeItem()" style="margin-top:1rem;">+ Ajouter un élément</button>
-          <div class="btn-row">
-            <button class="btn-save" onclick="saveMarquee()">💾 Sauvegarder</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- LOGS -->
-      <div class="admin-tab" id="tab-logs">
-        <div class="page-hd">
-          <h1>Logs d'activité</h1>
-          <p>Historique des modifications effectuées</p>
-        </div>
-        <div class="form-section">
-          <div class="form-section-title">📋 Historique</div>
-          <div class="log-list" id="logs-list"></div>
-          <div class="btn-row" style="margin-top:1rem;">
-            <button class="btn-danger" onclick="clearLogs()">🗑️ Effacer les logs</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- SETTINGS -->
-      <div class="admin-tab" id="tab-settings">
-        <div class="page-hd">
-          <h1>Paramètres</h1>
-          <p>Configuration avancée du site</p>
-        </div>
-        <div class="form-section">
-          <div class="form-section-title">🔐 Sécurité</div>
-          <div class="form-group" style="margin-bottom:1rem;">
-            <label class="form-label">Changer le code admin</label>
-            <input type="password" class="form-input" id="f-new-code" placeholder="Nouveau code..." autocomplete="off"/>
-            <span class="form-hint">Laissez vide pour garder le code actuel</span>
-          </div>
-          <div class="btn-row">
-            <button class="btn-save" onclick="changeCode()">🔐 Changer le code</button>
-          </div>
-        </div>
-        <div class="form-section">
-          <div class="form-section-title">💾 Données</div>
-          <div style="display:flex;gap:1rem;flex-wrap:wrap;">
-            <button class="btn-save" onclick="exportData()">📦 Exporter les données</button>
-            <button class="btn-secondary-admin" onclick="importData()">📥 Importer des données</button>
-            <button class="btn-danger" onclick="resetData()">⚠️ Réinitialiser tout</button>
-          </div>
-          <input type="file" id="import-file" accept=".json" style="display:none;" onchange="handleImport(event)"/>
-        </div>
-        <div class="form-section">
-          <div class="form-section-title">🌐 Liens</div>
-          <div class="form-row">
+    <!-- ===== DISCORD & LIENS ===== -->
+    <div class="panel" id="panel-discord">
+      <div class="panel-grid panel-grid-2">
+        <div class="card">
+          <div class="card-header"><div class="card-title">💬 Discord</div></div>
+          <div class="card-body">
             <div class="form-group">
-              <label class="form-label">Lien Discord</label>
-              <input type="text" class="form-input" id="f-discord-link" value="https://discord.gg/GBMj67FYdM"/>
+              <label class="form-label">Lien invite Discord</label>
+              <input type="url" class="form-input" id="discord-url" value="https://discord.gg/GBMj67FYdM" oninput="markUnsaved()"/>
             </div>
+            <div class="form-group">
+              <label class="form-label">Nom du salon boutique</label>
+              <input type="text" class="form-input" id="discord-boutique-channel" value="#🎁・boutique" oninput="markUnsaved()"/>
+            </div>
+            <div class="divider"></div>
             <div class="form-group">
               <label class="form-label">Lien FiveM</label>
-              <input type="text" class="form-input" id="f-fivem-link" value="https://fivem.net"/>
+              <input type="url" class="form-input" id="fivem-url" value="https://fivem.net" oninput="markUnsaved()"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Lien Règlement complet</label>
+              <input type="url" class="form-input" id="reglement-url" value="https://nockmoon.github.io/MyStiC_RP/reglement.html" oninput="markUnsaved()"/>
             </div>
           </div>
-          <div class="btn-row">
-            <button class="btn-save" onclick="saveSettings()">💾 Sauvegarder</button>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">📧 Footer</div></div>
+          <div class="card-body">
+            <div class="form-group">
+              <label class="form-label">Tagline footer</label>
+              <textarea class="form-textarea" id="footer-tagline" style="min-height:80px;" oninput="markUnsaved()">Le serveur FiveM francophone premium. Roleplay immersif, économie réaliste, communauté soudée.</textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Mention copyright</label>
+              <input type="text" class="form-input" id="footer-copy" value="© 2026 MyStiC RP — Tous droits réservés. Non affilié à Rockstar Games." oninput="markUnsaved()"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Mention fondateurs</label>
+              <input type="text" class="form-input" id="footer-founders" value="Fondé par Noctaris &amp; GlitchTek 🌴" oninput="markUnsaved()"/>
+            </div>
           </div>
         </div>
       </div>
+    </div>
 
-    </div><!-- /admin-main -->
-  </div><!-- /admin-layout -->
-</div><!-- /admin-panel -->
+    <!-- ===== EXPORT ===== -->
+    <div class="panel" id="panel-export">
+      <div class="panel-grid panel-grid-2">
+        <div class="card">
+          <div class="card-header"><div class="card-title">💾 Export configuration</div></div>
+          <div class="card-body">
+            <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1rem;line-height:1.6;">
+              Exportez toute la configuration du panel en JSON. Vous pouvez l'importer ultérieurement pour restaurer vos paramètres.
+            </p>
+            <button class="btn-confirm" style="width:100%;margin-bottom:0.7rem;" onclick="exportConfig()">📤 Exporter en JSON</button>
+            <button class="btn-confirm" style="width:100%;background:var(--teal);color:var(--dark);" onclick="generateHTML()">🔧 Générer le HTML du site</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">📥 Import configuration</div></div>
+          <div class="card-body">
+            <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1rem;line-height:1.6;">
+              Importez un fichier JSON de configuration précédemment exporté.
+            </p>
+            <input type="file" id="import-file" accept=".json" style="display:none" onchange="importConfig(event)"/>
+            <button class="btn-cancel" style="width:100%;margin-bottom:0.7rem;" onclick="document.getElementById('import-file').click()">📂 Importer un fichier JSON</button>
+            <div class="divider"></div>
+            <button class="btn-danger-confirm" style="width:100%;" onclick="confirmReset()">🗑️ Réinitialiser toutes les données</button>
+          </div>
+        </div>
+        <div class="card" style="grid-column:1/-1;">
+          <div class="card-header"><div class="card-title">📋 Aperçu de la configuration JSON</div></div>
+          <div class="card-body">
+            <div class="export-bar" id="json-preview">Cliquez sur "Exporter" pour voir la configuration...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main-content -->
+</div><!-- /admin-app -->
+
+<!-- ===== MODALS ===== -->
+<div class="modal-overlay" id="modal-annonce">
+  <div class="modal">
+    <div class="modal-title">📢 <span id="modal-annonce-title">Nouvelle annonce</span></div>
+    <input type="hidden" id="annonce-edit-idx" value="-1"/>
+    <div class="form-group"><label class="form-label">Auteur</label><input type="text" class="form-input" id="an-author" value="🌴 MyStiC RP"/></div>
+    <div class="form-group"><label class="form-label">Date</label><input type="text" class="form-input" id="an-date" value="Aujourd'hui"/></div>
+    <div class="form-group"><label class="form-label">Message</label><textarea class="form-textarea" id="an-text" placeholder="Contenu de l'annonce…"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modal-annonce')">Annuler</button>
+      <button class="btn-confirm" onclick="saveAnnonce()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-feature">
+  <div class="modal">
+    <div class="modal-title">⚡ <span id="modal-feature-title">Nouvelle fonctionnalité</span></div>
+    <input type="hidden" id="feature-edit-idx" value="-1"/>
+    <div class="form-group"><label class="form-label">Emoji / Icône</label><input type="text" class="form-input" id="ft-icon" value="🎮"/></div>
+    <div class="form-group"><label class="form-label">Titre</label><input type="text" class="form-input" id="ft-title"/></div>
+    <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="ft-desc" style="min-height:80px;"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modal-feature')">Annuler</button>
+      <button class="btn-confirm" onclick="saveFeature()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-rule">
+  <div class="modal">
+    <div class="modal-title">📋 <span id="modal-rule-title">Nouvelle règle</span></div>
+    <input type="hidden" id="rule-edit-idx" value="-1"/>
+    <div class="form-group"><label class="form-label">Titre de la règle</label><input type="text" class="form-input" id="rl-title"/></div>
+    <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="rl-desc" style="min-height:80px;"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modal-rule')">Annuler</button>
+      <button class="btn-confirm" onclick="saveRule()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-faq">
+  <div class="modal">
+    <div class="modal-title">❓ <span id="modal-faq-title">Nouvelle question</span></div>
+    <input type="hidden" id="faq-edit-idx" value="-1"/>
+    <div class="form-group"><label class="form-label">Question</label><input type="text" class="form-input" id="fq-q"/></div>
+    <div class="form-group"><label class="form-label">Réponse</label><textarea class="form-textarea" id="fq-a" style="min-height:120px;"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modal-faq')">Annuler</button>
+      <button class="btn-confirm" onclick="saveFaq()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-staff">
+  <div class="modal">
+    <div class="modal-title">👥 <span id="modal-staff-title">Nouveau membre</span></div>
+    <input type="hidden" id="staff-edit-idx" value="-1"/>
+    <div class="form-group"><label class="form-label">Emoji avatar</label><input type="text" class="form-input" id="sf-avatar" value="👤"/></div>
+    <div class="form-group"><label class="form-label">Pseudo</label><input type="text" class="form-input" id="sf-name"/></div>
+    <div class="form-group">
+      <label class="form-label">Rôle / Badge</label>
+      <select class="form-select" id="sf-role">
+        <option value="owner">Fondateur</option>
+        <option value="creator">Créateur</option>
+        <option value="admin">Administrateur</option>
+        <option value="mod">Modérateur</option>
+        <option value="dev">Développeur</option>
+        <option value="helper">Helper</option>
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Bio</label><textarea class="form-textarea" id="sf-bio" style="min-height:80px;"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modal-staff')">Annuler</button>
+      <button class="btn-confirm" onclick="saveStaff()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-coin">
+  <div class="modal">
+    <div class="modal-title">🪙 <span id="modal-coin-title">Nouvelle offre Mystcoin</span></div>
+    <input type="hidden" id="coin-edit-idx" value="-1"/>
+    <div class="form-group"><label class="form-label">Emoji</label><input type="text" class="form-input" id="cn-emoji" value="🪙"/></div>
+    <div class="form-group"><label class="form-label">Prix (€)</label><input type="text" class="form-input" id="cn-price" placeholder="ex: 20€"/></div>
+    <div class="form-group"><label class="form-label">Quantité Mystcoins</label><input type="text" class="form-input" id="cn-amount" placeholder="ex: 3 200 Mystcoins"/></div>
+    <div class="form-group"><label class="form-label">Bonus / Sous-texte</label><input type="text" class="form-input" id="cn-sub" placeholder="ex: +200 bonus inclus"/></div>
+    <div class="form-group">
+      <div class="toggle-wrap">
+        <label class="toggle"><input type="checkbox" id="cn-featured"/><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+        <span class="toggle-label">Mettre en avant (badge POPULAIRE)</span>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modal-coin')">Annuler</button>
+      <button class="btn-confirm" onclick="saveCoin()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-pack">
+  <div class="modal">
+    <div class="modal-title">🎁 <span id="modal-pack-title">Nouveau pack</span></div>
+    <input type="hidden" id="pack-edit-idx" value="-1"/>
+    <div class="form-group"><label class="form-label">Nom du pack</label><input type="text" class="form-input" id="pk-name"/></div>
+    <div class="form-group"><label class="form-label">Prix (ex: 20€)</label><input type="text" class="form-input" id="pk-price"/></div>
+    <div class="form-group">
+      <label class="form-label">Contenu (un élément par ligne)</label>
+      <textarea class="form-textarea" id="pk-items" style="min-height:120px;" placeholder="1 voiture exclusive en jeu&#10;Statut VIP 2 semaines&#10;Rôle Discord dédié"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modal-pack')">Annuler</button>
+      <button class="btn-confirm" onclick="savePack()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-confirm-reset">
+  <div class="modal">
+    <div class="modal-title">⚠️ Confirmer la réinitialisation</div>
+    <p style="font-size:0.88rem;color:var(--muted);line-height:1.6;">Cette action va supprimer <strong style="color:var(--red)">TOUTES</strong> vos modifications et restaurer les données par défaut. Cette action est irréversible.</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modal-confirm-reset')">Annuler</button>
+      <button class="btn-danger-confirm" onclick="resetAll()">Oui, tout réinitialiser</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div class="toast-container" id="toast-container"></div>
 
 <script>
-// ===== AUTH =====
-const ADMIN_CODE_KEY = 'mystic_admin_code';
-const DEFAULT_CODE = '_OPK<X_O,1o2mc0kcm12j9xz1,xim1';
-let attempts = 0;
-const MAX_ATTEMPTS = 5;
-let lockUntil = 0;
+// ==================== SECURITY ====================
+const ACCESS_CODE = '_OPK<X_O,1o2mc0kcm12j9xz1,xim1';
+let attempts = 5;
+let eyeVisible = false;
 
-function getCode() {
-  return localStorage.getItem(ADMIN_CODE_KEY) || DEFAULT_CODE;
-}
-
-function checkLogin() {
-  const now = Date.now();
-  if (lockUntil > now) {
-    const rem = Math.ceil((lockUntil - now) / 1000);
-    document.getElementById('login-error').textContent = `🔒 Trop de tentatives. Réessayez dans ${rem}s.`;
-    document.getElementById('login-error').style.display = 'block';
-    return;
-  }
-  const val = document.getElementById('login-input').value;
-  if (val === getCode()) {
-    attempts = 0;
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('admin-panel').style.display = 'block';
-    addLog('login', '🔐 Connexion admin réussie');
+function checkCode() {
+  const input = document.getElementById('code-input').value;
+  if (input === ACCESS_CODE) {
+    document.getElementById('lock-screen').classList.add('hidden');
+    document.getElementById('admin-app').classList.add('visible');
     initAdmin();
+    toast('🔓 Accès accordé. Bienvenue, Admin !', 'success');
   } else {
-    attempts++;
-    document.getElementById('login-input').value = '';
-    if (attempts >= MAX_ATTEMPTS) {
-      lockUntil = now + 60000;
-      document.getElementById('login-error').textContent = '🔒 Compte bloqué 60 secondes.';
-    } else {
-      document.getElementById('login-error').textContent = `❌ Code incorrect. (${attempts}/${MAX_ATTEMPTS})`;
+    attempts--;
+    document.getElementById('attempt-info').textContent = attempts + ' tentative' + (attempts > 1 ? 's' : '') + ' restante' + (attempts > 1 ? 's' : '');
+    const inp = document.getElementById('code-input');
+    inp.classList.add('error');
+    document.getElementById('lock-error').classList.add('show');
+    setTimeout(() => inp.classList.remove('error'), 500);
+    if (attempts <= 0) {
+      inp.disabled = true;
+      document.querySelector('.lock-btn').disabled = true;
+      document.getElementById('lock-error').textContent = '🚫 Trop de tentatives. Rechargez la page.';
+      document.getElementById('attempt-info').textContent = '';
     }
-    document.getElementById('login-error').style.display = 'block';
-    document.getElementById('login-input').style.borderColor = 'var(--red)';
-    setTimeout(() => { document.getElementById('login-input').style.borderColor = ''; }, 1000);
   }
 }
-document.getElementById('login-input').addEventListener('keydown', e => { if (e.key === 'Enter') checkLogin(); });
+
+document.getElementById('code-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') checkCode();
+});
+
+function toggleEye() {
+  eyeVisible = !eyeVisible;
+  const inp = document.getElementById('code-input');
+  inp.type = eyeVisible ? 'text' : 'password';
+  document.getElementById('eye-btn').textContent = eyeVisible ? '🙈' : '👁️';
+}
 
 function logout() {
-  if (confirm('Se déconnecter ?')) {
-    addLog('login', '🚪 Déconnexion admin');
-    document.getElementById('admin-panel').style.display = 'none';
-    document.getElementById('login-screen').style.display = 'flex';
-    document.getElementById('login-input').value = '';
+  document.getElementById('admin-app').classList.remove('visible');
+  document.getElementById('lock-screen').classList.remove('hidden');
+  document.getElementById('code-input').value = '';
+  document.getElementById('lock-error').classList.remove('show');
+  attempts = 5;
+  document.getElementById('attempt-info').textContent = '5 tentatives restantes';
+}
+
+// ==================== DATA ====================
+let data = {
+  hero: {
+    title1: 'MyStiC', title2: 'RP 🌴',
+    tagline: 'Une expérience roleplay immersive et unique.\nRejoins notre communauté et écris ta propre histoire.',
+    btn1: 'Ouverture bientôt', btn1sub: 'Rejoins le Discord pour être alerté',
+    badge: 'Serveur en ligne — FiveM FR',
+    stat1val: '34', stat1label: 'Membres Discord',
+    stat2val: '24/7', stat2label: 'En ligne',
+    stat3val: '100+', stat3label: 'Métiers RP',
+    serverStatus: 'soon', serverPlayers: '0 / 64', serverPing: '~12ms'
+  },
+  annonces: [
+    { author: '🌴 MyStiC RP', date: "Aujourd'hui", text: "🚀 Le serveur MyStiC RP ouvre bientôt ! Rejoins le Discord pour être alerté en premier et ne rien rater de l'ouverture." },
+    { author: '⚡ GlitchTek', date: 'Il y a 2 jours', text: "🛠️ Les scripts sont en cours de finalisation. La boutique Mystcoin sera disponible dès l'ouverture. Stay tuned !" },
+    { author: '👑 Noctaris', date: 'Il y a 3 jours', text: "📋 Le règlement complet est désormais disponible sur le site. Prenez le temps de le lire avant l'ouverture !" },
+  ],
+  features: [
+    { icon: '🏙️', title: 'Ville vivante', desc: 'Une ville dynamique avec des PNJs et événements RP aléatoires chaque jour.' },
+    { icon: '💼', title: '100+ Métiers', desc: 'Métiers légaux et illégaux entièrement scriptés et uniques au serveur.' },
+    { icon: '🏠', title: 'Immobilier', desc: 'Achète, personnalise et vends des biens immobiliers partout dans la ville.' },
+    { icon: '🚗', title: 'Véhicules customs', desc: 'Des centaines de véhicules exclusifs et entièrement personnalisables.' },
+    { icon: '⚖️', title: 'Justice & Police', desc: 'Système judiciaire complet : avocat, tribunal, prison et code pénal.' },
+    { icon: '🌟', title: 'Events réguliers', desc: 'Événements RP organisés chaque semaine par le staff passionné.' },
+  ],
+  rules: [
+    { title: 'Respect & Bienveillance', desc: 'Respect obligatoire envers tous, en jeu comme hors jeu. Aucune insulte ni discrimination tolérée.' },
+    { title: 'No Metagaming', desc: "Interdit d'utiliser des informations hors jeu (Discord, stream…) pour en bénéficier en jeu." },
+    { title: 'No RDM / VDM', desc: 'Tuer ou percuter un joueur sans raison RP valable est strictement interdit.' },
+    { title: 'Fear RP', desc: 'Ton personnage doit craindre pour sa vie en situation de danger réaliste.' },
+    { title: 'Zoning RP', desc: 'Hôpital, mairie et tribunal sont des zones neutres. Aucun acte hostile sans accord staff.' },
+    { title: 'Anti-Cheat Tolérance Zéro', desc: 'Tout hack ou exploit entraîne un bannissement immédiat et définitif sans appel.' },
+  ],
+  faq: [
+    { q: 'Le serveur est-il gratuit ?', a: 'Oui, MyStiC RP est entièrement gratuit. Tu as juste besoin de GTA V et du client FiveM (aussi gratuit). Les Mystcoins sont optionnels et permettent d\'obtenir des avantages cosmétiques.' },
+    { q: 'Comment acheter des Mystcoins ?', a: 'Tous les achats se font via ticket sur notre Discord dans le salon #🎁・boutique. Ouvre un ticket, indique ce que tu souhaites acheter et un membre du staff s\'occupera de ta commande rapidement.' },
+    { q: "J'ai un problème en jeu, comment contacter le staff ?", a: 'Ouvre un ticket directement sur notre Discord via le salon dédié. Le staff répond dans les plus brefs délais, généralement en moins d\'une heure pendant les heures de pointe.' },
+    { q: 'Comment créer un gang ou une organisation ?', a: 'Il faut 5 membres actifs minimum et une validation du staff. Remplis le formulaire de création de gang disponible sur le Discord.' },
+    { q: 'Est-ce que la whitelist est obligatoire ?', a: "Actuellement le serveur est accessible sans whitelist stricte, mais tu dois avoir lu et accepté le règlement sur le Discord." },
+    { q: 'Le serveur supporte-t-il les streamers ?', a: "Absolument ! Nous adorons les streamers et créateurs de contenu. Des rôles dédiés sont disponibles sur le Discord." },
+  ],
+  staff: [
+    { avatar: '👑', name: 'Noctaris', role: 'owner', bio: 'Fondateur de MyStiC RP. Visionnaire du projet, il assure la direction globale et le développement du serveur depuis le premier jour.' },
+    { avatar: '⚡', name: 'GlitchTek', role: 'creator', bio: "Créateur du serveur. Architecte technique de MyStiC RP, il a construit les systèmes et scripts qui font l'identité unique du serveur." },
+  ],
+  marquee: [
+    { text: '🌴 MyStiC RP — Ouverture bientôt !' },
+    { text: '🪙 Boutique Mystcoin — Disponible dès l\'ouverture' },
+    { text: '📋 Règlement — Lisez-le avant de rejoindre' },
+    { text: '💬 Discord — Rejoignez la communauté maintenant' },
+    { text: '🎮 FiveM — Serveur francophone premium' },
+    { text: '⚡ Scripts exclusifs — 100+ métiers RP uniques' },
+  ],
+  coins: [
+    { emoji: '🪙', price: '10€', amount: '1 500 Mystcoins', sub: '0,67€ / 100 Mcoins', featured: false },
+    { emoji: '💰', price: '20€', amount: '3 200 Mystcoins', sub: '+200 bonus inclus', featured: true },
+    { emoji: '💎', price: '30€', amount: '4 500 Mystcoins', sub: '+ VIP 1 semaine offert', featured: false },
+    { emoji: '👑', price: '50€', amount: '6 000 Mystcoins', sub: '+ VIP 1 mois offert', featured: false },
+  ],
+  packs: [
+    { name: 'Pack Moto 🏍️', price: '5€', items: ['1 moto exclusive en jeu', 'Livraison immédiate via ticket'] },
+    { name: 'Pack VIP 1S ⭐', price: '10€', items: ['Statut VIP pendant 1 semaine', 'Avantages exclusifs en jeu', 'Rôle Discord dédié'] },
+    { name: 'Pack Voiture + VIP 2S 🚗', price: '20€', items: ['1 voiture exclusive en jeu', 'Statut VIP pendant 2 semaines', 'Rôle Discord dédié', 'Avantages exclusifs en jeu'] },
+  ],
+  serveur: {
+    ip: 'Bientôt disponible', maxPlayers: '64',
+    nameSeo: 'MyStiC RP — Serveur FiveM Francophone',
+    metaDesc: 'MyStiC RP — Le serveur FiveM francophone premium. Roleplay immersif, économie réaliste, communauté soudée.',
+    discordMembers: '34', statusText: '🟢 En ligne',
+    rejoinEyebrow: "C'est parti",
+    rejoinDesc: "Suis ces 3 étapes simples pour démarrer ton aventure. C'est gratuit et ça prend moins de 5 minutes.",
+  },
+  discord: {
+    url: 'https://discord.gg/GBMj67FYdM',
+    boutiqueChannel: '#🎁・boutique',
+    fivemUrl: 'https://fivem.net',
+    reglementUrl: 'https://nockmoon.github.io/MyStiC_RP/reglement.html',
+    footerTagline: 'Le serveur FiveM francophone premium. Roleplay immersif, économie réaliste, communauté soudée.',
+    footerCopy: '© 2026 MyStiC RP — Tous droits réservés. Non affilié à Rockstar Games.',
+    footerFounders: 'Fondé par Noctaris & GlitchTek 🌴',
+  },
+  countdown: {
+    date: '2026-05-01T18:00',
+    title: '⏳ Ouverture du serveur dans',
+  },
+  changelog: [],
+};
+
+const roleLabels = { owner:'Fondateur', creator:'Créateur', admin:'Administrateur', mod:'Modérateur', dev:'Développeur', helper:'Helper' };
+
+// ==================== INIT ====================
+function initAdmin() {
+  loadFromCloud();
+  updateCountdownPreview();
+  setInterval(updateCountdownPreview, 1000);
+  setInterval(savePing, 60000);
+}
+
+function renderAll() {
+  renderAnnonces(); renderFeatures(); renderRules(); renderFaq();
+  renderStaff(); renderMarquee(); renderCoins(); renderPacks();
+}
+
+function deepMerge(target, source) {
+  const out = Object.assign({}, target);
+  for (const key in source) {
+    if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+      out[key] = deepMerge(target[key] || {}, source[key]);
+    } else {
+      out[key] = source[key];
+    }
+  }
+  return out;
+}
+
+function populateForms() {
+  const h = data.hero;
+  setVal('hero-title1', h.title1); setVal('hero-title2', h.title2);
+  setVal('hero-tagline', h.tagline); setVal('hero-btn1', h.btn1);
+  setVal('hero-btn1-sub', h.btn1sub); setVal('hero-badge', h.badge);
+  setVal('stat1-val', h.stat1val); setVal('stat1-label', h.stat1label);
+  setVal('stat2-val', h.stat2val); setVal('stat2-label', h.stat2label);
+  setVal('stat3-val', h.stat3val); setVal('stat3-label', h.stat3label);
+  setVal('server-status-select', h.serverStatus);
+  setVal('server-players', h.serverPlayers); setVal('server-ping', h.serverPing);
+
+  const s = data.serveur;
+  setVal('server-ip', s.ip); setVal('server-maxplayers', s.maxPlayers);
+  setVal('server-name-seo', s.nameSeo); setVal('server-meta-desc', s.metaDesc);
+  setVal('discord-members-count', s.discordMembers);
+  setVal('server-status-text', s.statusText);
+  setVal('rejoin-eyebrow', s.rejoinEyebrow); setVal('rejoin-desc', s.rejoinDesc);
+
+  const d = data.discord;
+  setVal('discord-url', d.url); setVal('discord-boutique-channel', d.boutiqueChannel);
+  setVal('fivem-url', d.fivemUrl); setVal('reglement-url', d.reglementUrl);
+  setVal('footer-tagline', d.footerTagline);
+  setVal('footer-copy', d.footerCopy); setVal('footer-founders', d.footerFounders);
+
+  setVal('opening-date', data.countdown.date);
+  setVal('countdown-title-text', data.countdown.title);
+}
+
+function setVal(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.value = val || '';
+}
+
+function getVal(id) {
+  const el = document.getElementById(id);
+  return el ? el.value : '';
+}
+
+// ==================== PANELS ====================
+function showPanel(name, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  if (btn) btn.classList.add('active');
+
+  const titles = {
+    dashboard:'📊 Dashboard', hero:'🏠 Hero & Statuts', annonces:'📢 Annonces',
+    features:'⚡ Fonctionnalités', reglement:'📋 Règlement', faq:'❓ FAQ',
+    staff:'👥 Staff', marquee:'📣 Bandeau défilant', boutique:'🪙 Boutique',
+    serveur:'🎮 Infos Serveur', countdown:'⏳ Compte à rebours',
+    discord:'💬 Discord & Liens', export:'💾 Export / Import'
+  };
+  document.getElementById('topbar-title').textContent = titles[name] || name;
+  document.getElementById('topbar-section').textContent = (titles[name] || name).replace(/^[^\s]+\s/, '');
+}
+
+function switchBoTab(tab, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('bo-tab-' + tab).classList.add('active');
+}
+
+// ==================== RENDER ====================
+function renderAnnonces() {
+  const list = document.getElementById('annonces-admin-list');
+  list.innerHTML = data.annonces.map((a, i) => `
+    <div class="item-row">
+      <div class="item-row-content">
+        <div class="item-row-title">${a.author} <span style="color:var(--muted);font-weight:400;font-size:0.78rem;">— ${a.date}</span></div>
+        <div class="item-row-sub">${a.text.substring(0,80)}${a.text.length > 80 ? '…' : ''}</div>
+      </div>
+      <div class="item-row-actions">
+        <button class="btn-icon edit" onclick="editAnnonce(${i})" title="Modifier">✏️</button>
+        <button class="btn-icon delete" onclick="deleteItem('annonces',${i})" title="Supprimer">🗑️</button>
+      </div>
+    </div>`).join('');
+  document.getElementById('badge-annonces').textContent = data.annonces.length;
+  updateDashboard();
+}
+
+function renderFeatures() {
+  const list = document.getElementById('features-admin-list');
+  list.innerHTML = data.features.map((f, i) => `
+    <div class="item-row">
+      <div class="item-row-drag">⠿</div>
+      <div style="font-size:1.5rem;width:2rem;text-align:center;flex-shrink:0;">${f.icon}</div>
+      <div class="item-row-content">
+        <div class="item-row-title">${f.title}</div>
+        <div class="item-row-sub">${f.desc.substring(0,70)}…</div>
+      </div>
+      <div class="item-row-actions">
+        <button class="btn-icon edit" onclick="editFeature(${i})">✏️</button>
+        <button class="btn-icon delete" onclick="deleteItem('features',${i})">🗑️</button>
+      </div>
+    </div>`).join('');
+}
+
+function renderRules() {
+  const list = document.getElementById('rules-admin-list');
+  list.innerHTML = data.rules.map((r, i) => `
+    <div class="item-row">
+      <div class="item-row-drag">⠿</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--gold);opacity:0.5;width:2.5rem;flex-shrink:0;">${String(i+1).padStart(2,'0')}</div>
+      <div class="item-row-content">
+        <div class="item-row-title">${r.title}</div>
+        <div class="item-row-sub">${r.desc.substring(0,70)}…</div>
+      </div>
+      <div class="item-row-actions">
+        <button class="btn-icon edit" onclick="editRule(${i})">✏️</button>
+        <button class="btn-icon delete" onclick="deleteItem('rules',${i})">🗑️</button>
+      </div>
+    </div>`).join('');
+  updateDashboard();
+}
+
+function renderFaq() {
+  const list = document.getElementById('faq-admin-list');
+  list.innerHTML = data.faq.map((f, i) => `
+    <div class="item-row">
+      <div class="item-row-content">
+        <div class="item-row-title">❓ ${f.q}</div>
+        <div class="item-row-sub">${f.a.substring(0,80)}…</div>
+      </div>
+      <div class="item-row-actions">
+        <button class="btn-icon edit" onclick="editFaq(${i})">✏️</button>
+        <button class="btn-icon delete" onclick="deleteItem('faq',${i})">🗑️</button>
+      </div>
+    </div>`).join('');
+  updateDashboard();
+}
+
+function renderStaff() {
+  const list = document.getElementById('staff-admin-list');
+  list.innerHTML = data.staff.map((s, i) => `
+    <div class="item-row">
+      <div style="font-size:2rem;width:2.5rem;text-align:center;flex-shrink:0;">${s.avatar}</div>
+      <div class="item-row-content">
+        <div class="item-row-title">${s.name} <span class="section-tag tag-${s.role === 'owner' ? 'hero' : s.role === 'creator' ? 'boutique' : 'staff'}" style="font-size:0.6rem;">${roleLabels[s.role] || s.role}</span></div>
+        <div class="item-row-sub">${s.bio.substring(0,70)}…</div>
+      </div>
+      <div class="item-row-actions">
+        <button class="btn-icon edit" onclick="editStaff(${i})">✏️</button>
+        <button class="btn-icon delete" onclick="deleteItem('staff',${i})">🗑️</button>
+      </div>
+    </div>`).join('');
+}
+
+function renderMarquee() {
+  const list = document.getElementById('marquee-admin-list');
+  list.innerHTML = data.marquee.map((m, i) => `
+    <div class="marquee-item-admin">
+      <div class="item-row-drag" style="color:var(--muted);">⠿</div>
+      <input type="text" class="form-input" value="${escHtml(m.text)}" onchange="data.marquee[${i}].text=this.value;markUnsaved()"/>
+      <button class="btn-icon delete" onclick="deleteItem('marquee',${i})">🗑️</button>
+    </div>`).join('');
+}
+
+function renderCoins() {
+  const list = document.getElementById('coins-admin-list');
+  list.innerHTML = data.coins.map((c, i) => `
+    <div class="item-row">
+      <div style="font-size:1.8rem;width:2.2rem;text-align:center;flex-shrink:0;">${c.emoji}</div>
+      <div class="item-row-content">
+        <div class="item-row-title">${c.price} — ${c.amount} ${c.featured ? '<span class="section-tag tag-boutique">POPULAIRE</span>' : ''}</div>
+        <div class="item-row-sub">${c.sub}</div>
+      </div>
+      <div class="item-row-actions">
+        <button class="btn-icon edit" onclick="editCoin(${i})">✏️</button>
+        <button class="btn-icon delete" onclick="deleteItem('coins',${i})">🗑️</button>
+      </div>
+    </div>`).join('');
+  updateDashboard();
+}
+
+function renderPacks() {
+  const list = document.getElementById('packs-admin-list');
+  list.innerHTML = data.packs.map((p, i) => `
+    <div class="item-row">
+      <div class="item-row-content">
+        <div class="item-row-title"><span class="price-tag"><span class="price-tag-currency">${p.price}</span></span> ${p.name}</div>
+        <div class="item-row-sub">${p.items.join(' · ')}</div>
+      </div>
+      <div class="item-row-actions">
+        <button class="btn-icon edit" onclick="editPack(${i})">✏️</button>
+        <button class="btn-icon delete" onclick="deleteItem('packs',${i})">🗑️</button>
+      </div>
+    </div>`).join('');
+  updateDashboard();
+}
+
+// ==================== MODALS ====================
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
+});
+
+// ANNONCES
+function openNewAnnonce() {
+  document.getElementById('annonce-edit-idx').value = -1;
+  document.getElementById('modal-annonce-title').textContent = 'Nouvelle annonce';
+  document.getElementById('an-author').value = '🌴 MyStiC RP';
+  document.getElementById('an-date').value = "Aujourd'hui";
+  document.getElementById('an-text').value = '';
+  openModal('modal-annonce');
+}
+function editAnnonce(i) {
+  const a = data.annonces[i];
+  document.getElementById('annonce-edit-idx').value = i;
+  document.getElementById('modal-annonce-title').textContent = 'Modifier l\'annonce';
+  document.getElementById('an-author').value = a.author;
+  document.getElementById('an-date').value = a.date;
+  document.getElementById('an-text').value = a.text;
+  openModal('modal-annonce');
+}
+function saveAnnonce() {
+  const idx = parseInt(document.getElementById('annonce-edit-idx').value);
+  const obj = { author: getVal('an-author'), date: getVal('an-date'), text: getVal('an-text') };
+  if (!obj.text.trim()) { toast('Le texte ne peut pas être vide', 'error'); return; }
+  if (idx >= 0) { data.annonces[idx] = obj; addChangelog('Annonce modifiée', 'info'); }
+  else { data.annonces.unshift(obj); addChangelog('Nouvelle annonce ajoutée', 'success'); }
+  renderAnnonces(); closeModal('modal-annonce'); markUnsaved();
+  toast('✅ Annonce enregistrée', 'success');
+}
+
+// FEATURES
+function openNewFeature() {
+  document.getElementById('feature-edit-idx').value = -1;
+  document.getElementById('modal-feature-title').textContent = 'Nouvelle fonctionnalité';
+  document.getElementById('ft-icon').value = '🎮'; document.getElementById('ft-title').value = ''; document.getElementById('ft-desc').value = '';
+  openModal('modal-feature');
+}
+function editFeature(i) {
+  const f = data.features[i];
+  document.getElementById('feature-edit-idx').value = i;
+  document.getElementById('modal-feature-title').textContent = 'Modifier';
+  document.getElementById('ft-icon').value = f.icon; document.getElementById('ft-title').value = f.title; document.getElementById('ft-desc').value = f.desc;
+  openModal('modal-feature');
+}
+function saveFeature() {
+  const idx = parseInt(document.getElementById('feature-edit-idx').value);
+  const obj = { icon: getVal('ft-icon'), title: getVal('ft-title'), desc: getVal('ft-desc') };
+  if (!obj.title.trim()) { toast('Le titre est requis', 'error'); return; }
+  if (idx >= 0) { data.features[idx] = obj; } else { data.features.push(obj); }
+  renderFeatures(); closeModal('modal-feature'); markUnsaved(); addChangelog('Fonctionnalité ' + (idx >= 0 ? 'modifiée' : 'ajoutée'), 'success');
+  toast('✅ Fonctionnalité enregistrée', 'success');
+}
+
+// RULES
+function openNewRule() {
+  document.getElementById('rule-edit-idx').value = -1;
+  document.getElementById('modal-rule-title').textContent = 'Nouvelle règle';
+  document.getElementById('rl-title').value = ''; document.getElementById('rl-desc').value = '';
+  openModal('modal-rule');
+}
+function editRule(i) {
+  const r = data.rules[i];
+  document.getElementById('rule-edit-idx').value = i;
+  document.getElementById('modal-rule-title').textContent = 'Modifier la règle';
+  document.getElementById('rl-title').value = r.title; document.getElementById('rl-desc').value = r.desc;
+  openModal('modal-rule');
+}
+function saveRule() {
+  const idx = parseInt(document.getElementById('rule-edit-idx').value);
+  const obj = { title: getVal('rl-title'), desc: getVal('rl-desc') };
+  if (!obj.title.trim()) { toast('Le titre est requis', 'error'); return; }
+  if (idx >= 0) { data.rules[idx] = obj; } else { data.rules.push(obj); }
+  renderRules(); closeModal('modal-rule'); markUnsaved(); addChangelog('Règle ' + (idx >= 0 ? 'modifiée' : 'ajoutée'), 'success');
+  toast('✅ Règle enregistrée', 'success');
+}
+
+// FAQ
+function openNewFaq() {
+  document.getElementById('faq-edit-idx').value = -1;
+  document.getElementById('modal-faq-title').textContent = 'Nouvelle question';
+  document.getElementById('fq-q').value = ''; document.getElementById('fq-a').value = '';
+  openModal('modal-faq');
+}
+function editFaq(i) {
+  const f = data.faq[i];
+  document.getElementById('faq-edit-idx').value = i;
+  document.getElementById('modal-faq-title').textContent = 'Modifier la question';
+  document.getElementById('fq-q').value = f.q; document.getElementById('fq-a').value = f.a;
+  openModal('modal-faq');
+}
+function saveFaq() {
+  const idx = parseInt(document.getElementById('faq-edit-idx').value);
+  const obj = { q: getVal('fq-q'), a: getVal('fq-a') };
+  if (!obj.q.trim()) { toast('La question est requise', 'error'); return; }
+  if (idx >= 0) { data.faq[idx] = obj; } else { data.faq.push(obj); }
+  renderFaq(); closeModal('modal-faq'); markUnsaved(); addChangelog('FAQ ' + (idx >= 0 ? 'modifiée' : 'ajoutée'), 'success');
+  toast('✅ Question FAQ enregistrée', 'success');
+}
+
+// STAFF
+function openNewStaff() {
+  document.getElementById('staff-edit-idx').value = -1;
+  document.getElementById('modal-staff-title').textContent = 'Nouveau membre';
+  document.getElementById('sf-avatar').value = '👤'; document.getElementById('sf-name').value = '';
+  document.getElementById('sf-role').value = 'admin'; document.getElementById('sf-bio').value = '';
+  openModal('modal-staff');
+}
+function editStaff(i) {
+  const s = data.staff[i];
+  document.getElementById('staff-edit-idx').value = i;
+  document.getElementById('modal-staff-title').textContent = 'Modifier le membre';
+  document.getElementById('sf-avatar').value = s.avatar; document.getElementById('sf-name').value = s.name;
+  document.getElementById('sf-role').value = s.role; document.getElementById('sf-bio').value = s.bio;
+  openModal('modal-staff');
+}
+function saveStaff() {
+  const idx = parseInt(document.getElementById('staff-edit-idx').value);
+  const obj = { avatar: getVal('sf-avatar'), name: getVal('sf-name'), role: getVal('sf-role'), bio: getVal('sf-bio') };
+  if (!obj.name.trim()) { toast('Le nom est requis', 'error'); return; }
+  if (idx >= 0) { data.staff[idx] = obj; } else { data.staff.push(obj); }
+  renderStaff(); closeModal('modal-staff'); markUnsaved(); addChangelog('Membre staff ' + (idx >= 0 ? 'modifié' : 'ajouté'), 'success');
+  toast('✅ Membre staff enregistré', 'success');
+}
+
+// MARQUEE
+function addMarqueeItem() {
+  data.marquee.push({ text: '🌴 Nouveau message défilant' });
+  renderMarquee(); markUnsaved(); toast('✅ Message ajouté', 'success');
+}
+
+// COINS
+function openNewCoin() {
+  document.getElementById('coin-edit-idx').value = -1;
+  document.getElementById('modal-coin-title').textContent = 'Nouvelle offre';
+  document.getElementById('cn-emoji').value = '🪙'; document.getElementById('cn-price').value = '';
+  document.getElementById('cn-amount').value = ''; document.getElementById('cn-sub').value = '';
+  document.getElementById('cn-featured').checked = false;
+  openModal('modal-coin');
+}
+function editCoin(i) {
+  const c = data.coins[i];
+  document.getElementById('coin-edit-idx').value = i;
+  document.getElementById('modal-coin-title').textContent = 'Modifier l\'offre';
+  document.getElementById('cn-emoji').value = c.emoji; document.getElementById('cn-price').value = c.price;
+  document.getElementById('cn-amount').value = c.amount; document.getElementById('cn-sub').value = c.sub;
+  document.getElementById('cn-featured').checked = c.featured;
+  openModal('modal-coin');
+}
+function saveCoin() {
+  const idx = parseInt(document.getElementById('coin-edit-idx').value);
+  const obj = { emoji: getVal('cn-emoji'), price: getVal('cn-price'), amount: getVal('cn-amount'), sub: getVal('cn-sub'), featured: document.getElementById('cn-featured').checked };
+  if (!obj.price.trim()) { toast('Le prix est requis', 'error'); return; }
+  if (idx >= 0) { data.coins[idx] = obj; } else { data.coins.push(obj); }
+  renderCoins(); closeModal('modal-coin'); markUnsaved(); toast('✅ Offre enregistrée', 'success');
+}
+
+// PACKS
+function openNewPack() {
+  document.getElementById('pack-edit-idx').value = -1;
+  document.getElementById('modal-pack-title').textContent = 'Nouveau pack';
+  document.getElementById('pk-name').value = ''; document.getElementById('pk-price').value = ''; document.getElementById('pk-items').value = '';
+  openModal('modal-pack');
+}
+function editPack(i) {
+  const p = data.packs[i];
+  document.getElementById('pack-edit-idx').value = i;
+  document.getElementById('modal-pack-title').textContent = 'Modifier le pack';
+  document.getElementById('pk-name').value = p.name; document.getElementById('pk-price').value = p.price;
+  document.getElementById('pk-items').value = p.items.join('\n');
+  openModal('modal-pack');
+}
+function savePack() {
+  const idx = parseInt(document.getElementById('pack-edit-idx').value);
+  const obj = { name: getVal('pk-name'), price: getVal('pk-price'), items: getVal('pk-items').split('\n').filter(l => l.trim()) };
+  if (!obj.name.trim()) { toast('Le nom est requis', 'error'); return; }
+  if (idx >= 0) { data.packs[idx] = obj; } else { data.packs.push(obj); }
+  renderPacks(); closeModal('modal-pack'); markUnsaved(); toast('✅ Pack enregistré', 'success');
+}
+
+// DELETE
+function deleteItem(key, idx) {
+  const names = { annonces:'annonce', features:'fonctionnalité', rules:'règle', faq:'question', staff:'membre', marquee:'message', coins:'offre', packs:'pack' };
+  if (!confirm('Supprimer cet(te) ' + (names[key] || 'élément') + ' ?')) return;
+  data[key].splice(idx, 1);
+  const renders = { annonces:renderAnnonces, features:renderFeatures, rules:renderRules, faq:renderFaq, staff:renderStaff, marquee:renderMarquee, coins:renderCoins, packs:renderPacks };
+  if (renders[key]) renders[key]();
+  markUnsaved(); addChangelog((names[key] || 'élément') + ' supprimé(e)', 'warn');
+  toast('🗑️ Supprimé', 'warn');
+}
+
+// ==================== JSONBIN ====================
+const BIN_ID = '69c4310bb7ec241ddca225fd';
+const API_KEY = '$2a$10$fdqVfN/2J/Y3YJk6LKQG0uWf9Q1bHOLY7NvJZKJquB3Gi4e1.G3Ym';
+const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+
+function setSyncUI(state) {
+  const ss = document.getElementById('save-status');
+  if (!ss) return;
+  if (state === 'saving') { ss.className='save-status syncing'; ss.textContent='⏳ Publication…'; }
+  else if (state === 'saved') { ss.className='save-status saved'; ss.textContent='✅ Publié — visible par tous'; }
+  else if (state === 'error') { ss.className='save-status unsaved'; ss.textContent='❌ Erreur réseau'; }
+  else { ss.className='save-status unsaved'; ss.textContent='⚠️ Modifications non publiées'; }
+}
+
+async function loadFromCloud() {
+  try {
+    const res = await fetch(BIN_URL + '/latest', { headers: { 'X-Master-Key': API_KEY } });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const json = await res.json();
+    const record = json.record;
+    if (record && Object.keys(record).length > 1) {
+      data = deepMerge(JSON.parse(JSON.stringify(DEFAULT_DATA)), record);
+    }
+    populateForms(); renderAll(); updateDashboard();
+    toast('☁️ Données chargées depuis le cloud', 'success');
+  } catch(e) {
+    toast('⚠️ Chargement hors-ligne : données par défaut', 'warn');
+    populateForms(); renderAll(); updateDashboard();
   }
 }
 
-// ===== DATA =====
-function getData() {
-  return JSON.parse(localStorage.getItem('mystic_data') || 'null') || {
-    serverIp: 'Bientôt disponible',
-    serverStatus: '🟢 En ligne',
-    serverPlayers: '0 / 64',
-    discordMembers: '34',
-    openingDate: '2026-05-01T18:00:00',
-    heroTitle1: 'MyStiC',
-    heroTitle2: 'RP 🌴',
-    heroTagline: 'Une expérience roleplay immersive et unique.\nRejoins notre communauté et écris ta propre histoire.',
-    heroStatusText: 'Serveur en ligne — FiveM FR',
-    heroLabel: 'Ouverture bientôt',
-    heroSub: 'Rejoins le Discord pour être alerté',
-    presHeading: 'Le Serveur',
-    presBody: 'MyStiC RP est un serveur FiveM francophone dédié au roleplay de qualité. Économie réaliste, scripts exclusifs, staff actif et communauté soudée.',
-    footerTagline: 'Le serveur FiveM francophone premium. Roleplay immersif, économie réaliste, communauté soudée.',
-    marqueeItems: [
-      '🌴 <MyStiC RP> — Ouverture bientôt !',
-      '🪙 <Boutique Mystcoin> — Disponible dès l\'ouverture',
-      '📋 <Règlement> — Lisez-le avant de rejoindre',
-      '💬 <Discord> — Rejoignez la communauté',
-      '🎮 <FiveM> — Serveur francophone premium',
-      '⚡ <Scripts exclusifs> — 100+ métiers RP'
-    ],
-    annonces: [
-      {author: '🌴 MyStiC RP', date: 'Aujourd\'hui', text: '🚀 Le serveur MyStiC RP ouvre bientôt ! Rejoins le Discord pour être alerté en premier.'},
-      {author: '⚡ GlitchTek', date: 'Il y a 2 jours', text: '🛠️ Les scripts sont en cours de finalisation. La boutique Mystcoin sera disponible dès l\'ouverture.'},
-      {author: '👑 Noctaris', date: 'Il y a 3 jours', text: '📋 Le règlement complet est désormais disponible sur le site. Prenez le temps de le lire !'}
-    ],
-    staff: [
-      {emoji: '👑', name: 'Noctaris', role: 'Fondateur', badge: 'badge-owner', bio: 'Fondateur de MyStiC RP. Visionnaire du projet.'},
-      {emoji: '⚡', name: 'GlitchTek', role: 'Créateur', badge: 'badge-creator', bio: 'Architecte technique de MyStiC RP.'}
-    ],
-    faq: [
-      {q: 'Le serveur est-il gratuit ?', a: 'Oui, MyStiC RP est entièrement gratuit. Tu as juste besoin de GTA V et du client FiveM.'},
-      {q: 'Comment acheter des Mystcoins ?', a: 'Tous les achats se font via ticket sur notre Discord dans le salon #🎁・boutique.'},
-      {q: 'J\'ai un problème, comment contacter le staff ?', a: 'Ouvre un ticket sur notre Discord. Le staff répond généralement en moins d\'une heure.'},
-      {q: 'Comment créer un gang ?', a: '5 membres actifs minimum + validation staff. Remplis le formulaire sur le Discord. Réponse sous 48h.'},
-      {q: 'La whitelist est-elle obligatoire ?', a: 'Non, mais tu dois avoir lu et accepté le règlement sur Discord.'},
-      {q: 'Le serveur supporte-t-il les streamers ?', a: 'Absolument ! Des rôles dédiés sont disponibles sur Discord.'}
-    ],
-    coinOffers: [
-      {price: '10€', amount: '1 500 Mystcoins', sub: 'Idéal pour débuter'},
-      {price: '20€', amount: '3 200 Mystcoins', sub: '+200 bonus inclus', featured: true},
-      {price: '30€', amount: '4 500 Mystcoins', sub: '+ VIP 1 semaine offert'},
-      {price: '50€', amount: '6 000 Mystcoins', sub: '+ VIP 1 mois offert'}
-    ],
-    packOffers: [
-      {price: '5€', name: 'Pack Moto 🏍️', items: ['1 moto exclusive en jeu', 'Livraison via ticket']},
-      {price: '10€', name: 'Pack VIP 1S ⭐', items: ['Statut VIP 1 semaine', 'Avantages exclusifs', 'Rôle Discord dédié']},
-      {price: '20€', name: 'Pack Voiture + VIP 2S 🚗', items: ['1 voiture exclusive', 'VIP 2 semaines', 'Rôle Discord dédié', 'Avantages exclusifs']}
-    ]
-  };
-}
-
-function saveData(data) {
-  localStorage.setItem('mystic_data', JSON.stringify(data));
-}
-
-// ===== INIT =====
-function initAdmin() {
-  const d = getData();
-  // Dashboard
-  document.getElementById('dash-discord').textContent = d.discordMembers;
-  document.getElementById('dash-status').textContent = d.serverStatus;
-  document.getElementById('dash-players').textContent = d.serverPlayers + ' joueurs';
-  document.getElementById('dash-annonces').textContent = d.annonces.length;
-  // Hero
-  document.getElementById('f-title1').value = d.heroTitle1;
-  document.getElementById('f-title2').value = d.heroTitle2;
-  document.getElementById('f-tagline').value = d.heroTagline;
-  document.getElementById('f-statustext').value = d.heroStatusText;
-  document.getElementById('f-cslabel').value = d.heroLabel;
-  document.getElementById('f-cssub').value = d.heroSub;
-  document.getElementById('f-discord-members').value = d.discordMembers;
-  document.getElementById('f-pres-body').value = d.presBody;
-  document.getElementById('f-footer-tagline').value = d.footerTagline;
-  // Server
-  document.getElementById('f-server-ip').value = d.serverIp;
-  document.getElementById('f-server-status').value = d.serverStatus;
-  document.getElementById('f-server-players').value = d.serverPlayers;
-  document.getElementById('f-server-discord').value = d.discordMembers;
-  // Countdown
-  document.getElementById('f-opening-date').value = d.openingDate;
-  // Render editors
-  renderAnnonces();
-  renderStaff();
-  renderFaq();
-  renderBoutique();
-  renderMarquee();
-  renderLogs();
-  updateCountdownPreview();
-  setInterval(updateCountdownPreview, 1000);
-}
-
-// ===== TABS =====
-function showTab(id) {
-  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
-  document.getElementById('tab-' + id).classList.add('active');
-  event.currentTarget.classList.add('active');
-  document.getElementById('save-banner').classList.remove('show');
-}
-
-// ===== SAVE HERO =====
-function saveHero() {
-  const d = getData();
-  d.heroTitle1 = document.getElementById('f-title1').value;
-  d.heroTitle2 = document.getElementById('f-title2').value;
-  d.heroTagline = document.getElementById('f-tagline').value;
-  d.heroStatusText = document.getElementById('f-statustext').value;
-  d.heroLabel = document.getElementById('f-cslabel').value;
-  d.heroSub = document.getElementById('f-cssub').value;
-  d.discordMembers = document.getElementById('f-discord-members').value;
-  d.presBody = document.getElementById('f-pres-body').value;
-  d.footerTagline = document.getElementById('f-footer-tagline').value;
-  saveData(d);
-  showSaveBanner();
-  addLog('edit', '✏️ Page d\'accueil modifiée');
-  showNotif('✅ Accueil sauvegardé !', 'success');
-}
-
-// ===== ANNONCES =====
-function renderAnnonces() {
-  const d = getData();
-  const el = document.getElementById('annonce-editor-list');
-  el.innerHTML = d.annonces.map((a, i) => `
-    <div class="annonce-editor-item">
-      <div class="form-group">
-        <label class="form-label">Auteur</label>
-        <input type="text" class="form-input" id="ann-author-${i}" value="${a.author}"/>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Date</label>
-        <input type="text" class="form-input" id="ann-date-${i}" value="${a.date}"/>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Message</label>
-        <input type="text" class="form-input" id="ann-text-${i}" value="${a.text}"/>
-      </div>
-      <button class="annonce-del-btn" onclick="deleteAnnonce(${i})">🗑️</button>
-    </div>`).join('');
-  renderAnnoncesPreview();
-}
-
-function renderAnnoncesPreview() {
-  const d = getData();
-  document.getElementById('annonces-preview').innerHTML = d.annonces.map(a => `
-    <div style="background:rgba(88,101,242,0.06);border:1px solid rgba(88,101,242,0.12);border-radius:9px;padding:0.9rem 1.1rem;">
-      <div style="display:flex;justify-content:space-between;margin-bottom:0.4rem;">
-        <strong style="font-size:0.82rem;">${a.author}</strong>
-        <span style="font-size:0.7rem;color:var(--muted);">${a.date}</span>
-      </div>
-      <div style="font-size:0.82rem;color:var(--muted);">${a.text}</div>
-    </div>`).join('');
-}
-
-function addAnnonce() {
-  const d = getData();
-  d.annonces.unshift({author: '🌴 MyStiC RP', date: 'Aujourd\'hui', text: 'Nouvelle annonce...'});
-  saveData(d);
-  renderAnnonces();
-}
-
-function deleteAnnonce(i) {
-  if (!confirm('Supprimer cette annonce ?')) return;
-  const d = getData();
-  d.annonces.splice(i, 1);
-  saveData(d);
-  renderAnnonces();
-  addLog('delete', '🗑️ Annonce supprimée');
-}
-
-function saveAnnonces() {
-  const d = getData();
-  d.annonces = d.annonces.map((a, i) => ({
-    author: document.getElementById(`ann-author-${i}`)?.value || a.author,
-    date: document.getElementById(`ann-date-${i}`)?.value || a.date,
-    text: document.getElementById(`ann-text-${i}`)?.value || a.text,
-  }));
-  saveData(d);
-  renderAnnoncesPreview();
-  showSaveBanner();
-  addLog('edit', '📢 Annonces mises à jour');
-  showNotif('✅ Annonces sauvegardées !', 'success');
-}
-
-// ===== STAFF =====
-function renderStaff() {
-  const d = getData();
-  document.getElementById('staff-editor').innerHTML = d.staff.map((s, i) => `
-    <div class="annonce-editor-item" style="grid-template-columns:1fr 1fr 1fr 1fr auto;">
-      <div class="form-group">
-        <label class="form-label">Emoji</label>
-        <input type="text" class="form-input" id="st-emoji-${i}" value="${s.emoji}"/>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Nom</label>
-        <input type="text" class="form-input" id="st-name-${i}" value="${s.name}"/>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Rôle</label>
-        <input type="text" class="form-input" id="st-role-${i}" value="${s.role}"/>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Bio</label>
-        <input type="text" class="form-input" id="st-bio-${i}" value="${s.bio}"/>
-      </div>
-      <button class="annonce-del-btn" onclick="deleteStaff(${i})">🗑️</button>
-    </div>`).join('');
-}
-
-function addStaffMember() {
-  const d = getData();
-  d.staff.push({emoji: '⭐', name: 'Nouveau Membre', role: 'Staff', badge: 'badge-owner', bio: 'Description...'});
-  saveData(d);
-  renderStaff();
-}
-
-function deleteStaff(i) {
-  if (!confirm('Retirer ce membre ?')) return;
-  const d = getData();
-  d.staff.splice(i, 1);
-  saveData(d);
-  renderStaff();
-}
-
-function saveStaff() {
-  const d = getData();
-  d.staff = d.staff.map((s, i) => ({
-    ...s,
-    emoji: document.getElementById(`st-emoji-${i}`)?.value || s.emoji,
-    name: document.getElementById(`st-name-${i}`)?.value || s.name,
-    role: document.getElementById(`st-role-${i}`)?.value || s.role,
-    bio: document.getElementById(`st-bio-${i}`)?.value || s.bio,
-  }));
-  saveData(d);
-  showSaveBanner();
-  addLog('edit', '👥 Staff mis à jour');
-  showNotif('✅ Staff sauvegardé !', 'success');
-}
-
-// ===== FAQ =====
-function renderFaq() {
-  const d = getData();
-  document.getElementById('faq-editor').innerHTML = d.faq.map((f, i) => `
-    <div class="annonce-editor-item" style="grid-template-columns:1fr 1fr auto;margin-bottom:0.5rem;">
-      <div class="form-group">
-        <label class="form-label">Question</label>
-        <input type="text" class="form-input" id="faq-q-${i}" value="${f.q}"/>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Réponse</label>
-        <input type="text" class="form-input" id="faq-a-${i}" value="${f.a}"/>
-      </div>
-      <button class="annonce-del-btn" onclick="deleteFaq(${i})">🗑️</button>
-    </div>`).join('');
-}
-
-function addFaqItem() {
-  const d = getData();
-  d.faq.push({q: 'Nouvelle question ?', a: 'Réponse...'});
-  saveData(d);
-  renderFaq();
-}
-
-function deleteFaq(i) {
-  if (!confirm('Supprimer cette question ?')) return;
-  const d = getData();
-  d.faq.splice(i, 1);
-  saveData(d);
-  renderFaq();
-}
-
-function saveFaq() {
-  const d = getData();
-  d.faq = d.faq.map((f, i) => ({
-    q: document.getElementById(`faq-q-${i}`)?.value || f.q,
-    a: document.getElementById(`faq-a-${i}`)?.value || f.a,
-  }));
-  saveData(d);
-  showSaveBanner();
-  addLog('edit', '❓ FAQ mise à jour');
-  showNotif('✅ FAQ sauvegardée !', 'success');
-}
-
-// ===== BOUTIQUE =====
-function renderBoutique() {
-  const d = getData();
-  document.getElementById('coin-offers-editor').innerHTML = d.coinOffers.map((c, i) => `
-    <div class="annonce-editor-item" style="grid-template-columns:1fr 1fr 1fr auto;margin-bottom:0.5rem;">
-      <div class="form-group">
-        <label class="form-label">Prix</label>
-        <input type="text" class="form-input" id="co-price-${i}" value="${c.price}"/>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Quantité</label>
-        <input type="text" class="form-input" id="co-amount-${i}" value="${c.amount}"/>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Sous-texte</label>
-        <input type="text" class="form-input" id="co-sub-${i}" value="${c.sub}"/>
-      </div>
-      <button class="annonce-del-btn" onclick="deleteCoinOffer(${i})">🗑️</button>
-    </div>`).join('');
-
-  document.getElementById('pack-offers-editor').innerHTML = d.packOffers.map((p, i) => `
-    <div class="annonce-editor-item" style="grid-template-columns:1fr 1fr 1fr auto;margin-bottom:0.5rem;">
-      <div class="form-group">
-        <label class="form-label">Prix</label>
-        <input type="text" class="form-input" id="po-price-${i}" value="${p.price}"/>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Nom du pack</label>
-        <input type="text" class="form-input" id="po-name-${i}" value="${p.name}"/>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Items (séparés par |)</label>
-        <input type="text" class="form-input" id="po-items-${i}" value="${p.items.join(' | ')}"/>
-      </div>
-      <button class="annonce-del-btn" onclick="deletePackOffer(${i})">🗑️</button>
-    </div>`).join('');
-}
-
-function deleteCoinOffer(i) {
-  if (!confirm('Supprimer cette offre ?')) return;
-  const d = getData();
-  d.coinOffers.splice(i, 1);
-  saveData(d);
-  renderBoutique();
-}
-
-function deletePackOffer(i) {
-  if (!confirm('Supprimer ce pack ?')) return;
-  const d = getData();
-  d.packOffers.splice(i, 1);
-  saveData(d);
-  renderBoutique();
-}
-
-function saveBoutique() {
-  const d = getData();
-  d.coinOffers = d.coinOffers.map((c, i) => ({
-    ...c,
-    price: document.getElementById(`co-price-${i}`)?.value || c.price,
-    amount: document.getElementById(`co-amount-${i}`)?.value || c.amount,
-    sub: document.getElementById(`co-sub-${i}`)?.value || c.sub,
-  }));
-  d.packOffers = d.packOffers.map((p, i) => ({
-    ...p,
-    price: document.getElementById(`po-price-${i}`)?.value || p.price,
-    name: document.getElementById(`po-name-${i}`)?.value || p.name,
-    items: (document.getElementById(`po-items-${i}`)?.value || p.items.join(' | ')).split(' | '),
-  }));
-  saveData(d);
-  showSaveBanner();
-  addLog('edit', '🪙 Boutique mise à jour');
-  showNotif('✅ Boutique sauvegardée !', 'success');
-}
-
-// ===== SERVER =====
-function saveServer() {
-  const d = getData();
-  d.serverIp = document.getElementById('f-server-ip').value;
-  d.serverStatus = document.getElementById('f-server-status').value;
-  d.serverPlayers = document.getElementById('f-server-players').value;
-  d.discordMembers = document.getElementById('f-server-discord').value;
-  saveData(d);
-  document.getElementById('dash-status').textContent = d.serverStatus;
-  document.getElementById('dash-players').textContent = d.serverPlayers + ' joueurs';
-  document.getElementById('dash-discord').textContent = d.discordMembers;
-  showSaveBanner();
-  addLog('edit', '🎮 Statut serveur mis à jour : ' + d.serverStatus);
-  showNotif('✅ Statut serveur sauvegardé !', 'success');
-}
-
-// ===== COUNTDOWN =====
-function updateCountdownPreview() {
-  const val = document.getElementById('f-opening-date')?.value;
-  if (!val) return;
-  const target = new Date(val);
-  const now = new Date();
-  const diff = target - now;
-  if (diff <= 0) { document.getElementById('countdown-preview').textContent = 'Déjà ouvert !'; return; }
-  const d = Math.floor(diff / 86400000);
-  const h = Math.floor((diff % 86400000) / 3600000);
-  const m = Math.floor((diff % 3600000) / 60000);
-  const s = Math.floor((diff % 60000) / 1000);
-  document.getElementById('countdown-preview').textContent = `${d}j ${h}h ${m}m ${s}s`;
-  document.getElementById('dash-countdown').textContent = d;
-}
-
-function saveCountdown() {
-  const d = getData();
-  d.openingDate = document.getElementById('f-opening-date').value;
-  saveData(d);
-  showSaveBanner();
-  addLog('edit', '⏳ Date d\'ouverture mise à jour : ' + d.openingDate);
-  showNotif('✅ Countdown sauvegardé !', 'success');
-}
-
-// ===== MARQUEE =====
-function renderMarquee() {
-  const d = getData();
-  document.getElementById('marquee-editor').innerHTML = d.marqueeItems.map((item, i) => `
-    <div style="display:grid;grid-template-columns:1fr auto;gap:0.7rem;margin-bottom:0.5rem;align-items:center;">
-      <input type="text" class="form-input" id="mq-${i}" value="${item}" placeholder="🌴 &lt;Texte en couleur&gt; — Texte normal"/>
-      <button class="annonce-del-btn" onclick="deleteMarqueeItem(${i})">🗑️</button>
-    </div>`).join('');
-}
-
-function addMarqueeItem() {
-  const d = getData();
-  d.marqueeItems.push('🌴 <MyStiC RP> — Nouveau message');
-  saveData(d);
-  renderMarquee();
-}
-
-function deleteMarqueeItem(i) {
-  const d = getData();
-  d.marqueeItems.splice(i, 1);
-  saveData(d);
-  renderMarquee();
-}
-
-function saveMarquee() {
-  const d = getData();
-  d.marqueeItems = d.marqueeItems.map((item, i) => document.getElementById(`mq-${i}`)?.value || item);
-  saveData(d);
-  showSaveBanner();
-  addLog('edit', '📡 Bandeau défilant mis à jour');
-  showNotif('✅ Bandeau sauvegardé !', 'success');
-}
-
-// ===== LOGS =====
-function addLog(type, msg) {
-  const logs = JSON.parse(localStorage.getItem('mystic_logs') || '[]');
-  logs.unshift({type, msg, time: new Date().toLocaleString('fr-FR')});
-  if (logs.length > 100) logs.pop();
-  localStorage.setItem('mystic_logs', JSON.stringify(logs));
-  renderLogs();
-}
-
-function renderLogs() {
-  const logs = JSON.parse(localStorage.getItem('mystic_logs') || '[]');
-  const typeClass = {login: 'lt-login', edit: 'lt-edit', delete: 'lt-delete'};
-  const html = logs.map(l => `
-    <div class="log-item">
-      <span class="log-type ${typeClass[l.type] || 'lt-edit'}">${l.type}</span>
-      <span class="log-msg">${l.msg}</span>
-      <span class="log-time">${l.time}</span>
-    </div>`).join('');
-  ['logs-list', 'dash-logs'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.innerHTML = html || '<div class="log-item"><span class="log-msg" style="color:var(--muted);">Aucun log</span></div>';
+async function saveToCloud(payload) {
+  const res = await fetch(BIN_URL, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
+    body: JSON.stringify(payload)
   });
+  if (!res.ok) throw new Error('HTTP ' + res.status);
 }
 
-function clearLogs() {
-  if (!confirm('Effacer tous les logs ?')) return;
-  localStorage.removeItem('mystic_logs');
-  renderLogs();
-  showNotif('🗑️ Logs effacés', 'info');
+// ==================== SAVE ====================
+let unsaved = false;
+
+function markUnsaved() {
+  unsaved = true;
+  setSyncUI('unsaved');
 }
 
-// ===== SETTINGS =====
-function changeCode() {
-  const newCode = document.getElementById('f-new-code').value;
-  if (!newCode) { showNotif('⚠️ Code vide', 'error'); return; }
-  if (newCode.length < 8) { showNotif('⚠️ Code trop court (8 chars min)', 'error'); return; }
-  localStorage.setItem(ADMIN_CODE_KEY, newCode);
-  document.getElementById('f-new-code').value = '';
-  addLog('edit', '🔐 Code admin changé');
-  showNotif('✅ Code changé avec succès !', 'success');
-}
-
-function saveSettings() {
-  showSaveBanner();
-  showNotif('✅ Paramètres sauvegardés !', 'success');
-}
-
-function exportData() {
-  const data = {
-    mystic_data: getData(),
-    mystic_logs: JSON.parse(localStorage.getItem('mystic_logs') || '[]'),
-    exported_at: new Date().toISOString()
+async function saveAll() {
+  // Collect form data
+  data.hero = {
+    title1: getVal('hero-title1'), title2: getVal('hero-title2'),
+    tagline: getVal('hero-tagline'), btn1: getVal('hero-btn1'),
+    btn1sub: getVal('hero-btn1-sub'), badge: getVal('hero-badge'),
+    stat1val: getVal('stat1-val'), stat1label: getVal('stat1-label'),
+    stat2val: getVal('stat2-val'), stat2label: getVal('stat2-label'),
+    stat3val: getVal('stat3-val'), stat3label: getVal('stat3-label'),
+    serverStatus: getVal('server-status-select'),
+    serverPlayers: getVal('server-players'), serverPing: getVal('server-ping'),
   };
-  const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'mystic-rp-backup-' + new Date().toISOString().slice(0,10) + '.json';
-  a.click();
-  URL.revokeObjectURL(url);
-  addLog('edit', '📦 Données exportées');
-  showNotif('📦 Export téléchargé !', 'success');
+  data.serveur = {
+    ip: getVal('server-ip'), maxPlayers: getVal('server-maxplayers'),
+    nameSeo: getVal('server-name-seo'), metaDesc: getVal('server-meta-desc'),
+    discordMembers: getVal('discord-members-count'), statusText: getVal('server-status-text'),
+    rejoinEyebrow: getVal('rejoin-eyebrow'), rejoinDesc: getVal('rejoin-desc'),
+  };
+  data.discord = {
+    url: getVal('discord-url'), boutiqueChannel: getVal('discord-boutique-channel'),
+    fivemUrl: getVal('fivem-url'), reglementUrl: getVal('reglement-url'),
+    footerTagline: getVal('footer-tagline'), footerCopy: getVal('footer-copy'),
+    footerFounders: getVal('footer-founders'),
+  };
+  data.countdown = { date: getVal('opening-date'), title: getVal('countdown-title-text') };
+  // Compat champs directs pour l'index
+  data.serverIp = data.serveur.ip;
+  data.serverStatus = data.serveur.statusText;
+  data.discordMembers = data.serveur.discordMembers;
+  data.openingDate = data.countdown.date;
+
+  setSyncUI('saving');
+  try {
+    await saveToCloud(data);
+    setSyncUI('saved');
+    unsaved = false;
+    const now = new Date();
+    const ltEl = document.getElementById('last-save-time');
+    if (ltEl) ltEl.textContent = now.toLocaleTimeString('fr-FR');
+    addChangelog('Publié sur le cloud ☁️ — visible par tous', 'success');
+    toast('☁️ Publié ! Le site est à jour pour tout le monde.', 'success');
+    updateDashboard();
+  } catch(e) {
+    setSyncUI('error');
+    toast('❌ Erreur : ' + e.message, 'error');
+  }
 }
 
-function importData() {
-  document.getElementById('import-file').click();
+function savePing() { if (unsaved) toast('💡 Pensez à publier vos modifications !', 'warn'); }
+
+// ==================== DASHBOARD ====================
+function updateDashboard() {
+  document.getElementById('dash-members').textContent = data.serveur?.discordMembers || getVal('discord-members-count') || '34';
+  document.getElementById('dash-annonces').textContent = data.annonces.length;
+  document.getElementById('dash-rules').textContent = data.rules.length;
+  document.getElementById('dash-faq').textContent = data.faq.length;
+  document.getElementById('dash-boutique').textContent = data.coins.length + data.packs.length;
+
+  // Countdown days
+  const target = new Date(data.countdown?.date || '2026-05-01T18:00:00');
+  const diff = target - new Date();
+  document.getElementById('dash-countdown').textContent = diff > 0 ? Math.floor(diff / 86400000) : 'OPEN';
 }
 
-function handleImport(e) {
-  const file = e.target.files[0];
+// ==================== COUNTDOWN PREVIEW ====================
+function updateCountdownPreview() {
+  const target = new Date(getVal('opening-date') || data.countdown.date);
+  const diff = target - new Date();
+  if (diff <= 0) {
+    ['cdp-days','cdp-hours','cdp-mins','cdp-secs'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = '00'; });
+    return;
+  }
+  const fmt = n => String(Math.floor(n)).padStart(2, '0');
+  const days = diff / 86400000; const hours = (diff % 86400000) / 3600000;
+  const mins = (diff % 3600000) / 60000; const secs = (diff % 60000) / 1000;
+  [['cdp-days',days],['cdp-hours',hours],['cdp-mins',mins],['cdp-secs',secs]].forEach(([id,val]) => {
+    const el = document.getElementById(id); if (el) el.textContent = fmt(val);
+  });
+  const el = document.getElementById('dash-countdown');
+  if (el) el.textContent = Math.floor(days);
+}
+
+// ==================== EXPORT / IMPORT ====================
+function exportConfig() {
+  saveAll();
+  const json = JSON.stringify(data, null, 2);
+  document.getElementById('json-preview').textContent = json;
+  const blob = new Blob([json], { type: 'application/json' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'mystic-rp-config-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click(); toast('📤 Configuration exportée', 'success');
+}
+
+function importConfig(event) {
+  const file = event.target.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = (ev) => {
+  reader.onload = async (e) => {
     try {
-      const data = JSON.parse(ev.target.result);
-      if (data.mystic_data) {
-        saveData(data.mystic_data);
-        if (data.mystic_logs) localStorage.setItem('mystic_logs', JSON.stringify(data.mystic_logs));
-        initAdmin();
-        addLog('edit', '📥 Données importées');
-        showNotif('✅ Import réussi !', 'success');
-      } else {
-        showNotif('❌ Format invalide', 'error');
-      }
-    } catch {
-      showNotif('❌ Fichier corrompu', 'error');
-    }
+      const imported = JSON.parse(e.target.result);
+      data = deepMerge(data, imported);
+      populateForms();
+      renderAll();
+      updateDashboard();
+      setSyncUI('saving');
+      await saveToCloud(data);
+      setSyncUI('saved');
+      addChangelog('Configuration importée et publiée sur le cloud', 'success');
+      toast('📥 Importé et publié sur le cloud !', 'success');
+    } catch(e) { setSyncUI('error'); toast('❌ Fichier JSON invalide ou erreur réseau', 'error'); }
   };
   reader.readAsText(file);
 }
 
-function resetData() {
-  if (!confirm('⚠️ ATTENTION : Réinitialiser TOUTES les données du site ?\nCette action est irréversible !')) return;
-  if (!confirm('Êtes-vous absolument certain ?')) return;
-  localStorage.removeItem('mystic_data');
-  localStorage.removeItem('mystic_logs');
-  initAdmin();
-  addLog('delete', '⚠️ Données réinitialisées');
-  showNotif('⚠️ Données réinitialisées', 'info');
+function confirmReset() { openModal('modal-confirm-reset'); }
+async function resetAll() {
+  try {
+    await saveToCloud({init: true});
+  } catch(e) {}
+  closeModal('modal-confirm-reset');
+  location.reload();
 }
 
-// ===== UTILS =====
-function showSaveBanner() {
-  const b = document.getElementById('save-banner');
-  b.classList.add('show');
-  setTimeout(() => b.classList.remove('show'), 4000);
+function generateHTML() {
+  saveAll();
+  const config = JSON.stringify(data, null, 2);
+  const snippet = `<!--\n  MyStiC RP - Configuration exportée le ${new Date().toLocaleDateString('fr-FR')}\n  Collez ce JSON dans votre index.html pour mettre à jour le site.\n-->\n<script>\nconst MYSTIC_CONFIG = ${config};\n<\/script>`;
+  const blob = new Blob([snippet], { type: 'text/html' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'mystic-config-' + new Date().toISOString().slice(0,10) + '.html';
+  a.click();
+  document.getElementById('json-preview').textContent = snippet;
+  toast('🔧 Fichier de configuration HTML généré', 'success');
 }
 
-function showNotif(msg, type = 'info') {
-  const stack = document.getElementById('notif-stack');
-  const n = document.createElement('div');
-  n.className = 'notif ' + type;
-  n.textContent = msg;
-  stack.appendChild(n);
-  setTimeout(() => n.classList.add('show'), 50);
-  setTimeout(() => { n.classList.remove('show'); setTimeout(() => n.remove(), 300); }, 3500);
+// ==================== CHANGELOG ====================
+function addChangelog(msg, type = 'info') {
+  const item = document.createElement('div');
+  item.className = 'changelog-item';
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+  item.innerHTML = `<div class="changelog-dot ${type}"></div><div><div class="changelog-text"><strong>${msg}</strong></div><div class="changelog-time">${timeStr}</div></div>`;
+  const list = document.getElementById('changelog-list');
+  list.insertBefore(item, list.firstChild);
+  // Keep last 15
+  while (list.children.length > 15) list.removeChild(list.lastChild);
+}
+
+// ==================== TOAST ====================
+function toast(msg, type = 'info') {
+  const container = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = 'toast-item ' + type;
+  t.innerHTML = msg;
+  container.appendChild(t);
+  setTimeout(() => t.classList.add('show'), 50);
+  setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 3500);
+}
+
+// ==================== HELPERS ====================
+function escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); saveAll(); }
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
+  }
+});
+
+// Mobile sidebar
+if (window.innerWidth <= 900) {
+  document.getElementById('mobile-sidebar-btn').style.display = 'flex';
 }
 </script>
 </body>
