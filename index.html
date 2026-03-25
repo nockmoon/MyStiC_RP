@@ -531,7 +531,7 @@ footer{background:var(--dark2);border-top:1px solid rgba(0,229,160,0.1);padding:
     <div class="section-eyebrow">À respecter</div>
     <h2 class="section-heading reveal">Règlement</h2>
     <p class="section-body reveal">Le respect des règles garantit une expérience RP de qualité. Toute infraction grave peut entraîner un bannissement définitif.</p>
-    <div class="rules-stack" id="rules-stack">
+    <div class="rules-stack" id="rules-stack-dyn">
       <div class="rule-row reveal"><div class="rule-n">01</div><div><div class="rule-t">Respect & Bienveillance</div><div class="rule-d">Respect obligatoire envers tous, en jeu comme hors jeu. Aucune insulte ni discrimination tolérée.</div></div></div>
       <div class="rule-row reveal"><div class="rule-n">02</div><div><div class="rule-t">No Metagaming</div><div class="rule-d">Interdit d'utiliser des informations hors jeu pour en bénéficier en jeu.</div></div></div>
       <div class="rule-row reveal"><div class="rule-n">03</div><div><div class="rule-t">No RDM / VDM</div><div class="rule-d">Tuer ou percuter un joueur sans raison RP valable est strictement interdit.</div></div></div>
@@ -559,7 +559,7 @@ footer{background:var(--dark2);border-top:1px solid rgba(0,229,160,0.1);padding:
       <div class="step-card reveal"><div class="step-n">03</div><div class="step-icon">🌴</div><div class="step-t">Connecte-toi</div><div class="step-d">Lance FiveM, entre l'IP du serveur et commence ton aventure MyStiC RP !</div></div>
     </div>
     <div class="countdown-wrap reveal">
-      <div class="countdown-title">⏳ Ouverture du serveur dans</div>
+      <div class="countdown-title" id="countdown-title-dyn">⏳ Ouverture du serveur dans</div>
       <div class="countdown-grid">
         <div class="countdown-item"><div class="countdown-num" id="cd-days">00</div><div class="countdown-label">Jours</div></div>
         <div class="countdown-item"><div class="countdown-num" id="cd-hours">00</div><div class="countdown-label">Heures</div></div>
@@ -594,7 +594,7 @@ footer{background:var(--dark2);border-top:1px solid rgba(0,229,160,0.1);padding:
     <div class="section-eyebrow">L'équipe</div>
     <h2 class="section-heading reveal">Notre Staff</h2>
     <p class="section-body reveal">Une équipe passionnée, disponible et à l'écoute de la communauté, 7j/7.</p>
-    <div class="staff-grid" id="staff-grid" style="grid-template-columns:repeat(2,minmax(260px,380px));justify-content:center;">
+    <div class="staff-grid" id="staff-grid-dyn" style="grid-template-columns:repeat(2,minmax(260px,380px));justify-content:center;">
       <div class="staff-card reveal"><div class="staff-avatar">👑</div><div class="staff-name">Noctaris</div><div class="staff-badge badge-owner">Fondateur</div><div class="staff-bio">Fondateur de MyStiC RP. Visionnaire du projet, il assure la direction globale depuis le premier jour.</div></div>
       <div class="staff-card reveal"><div class="staff-avatar">⚡</div><div class="staff-name">GlitchTek</div><div class="staff-badge badge-creator">Créateur</div><div class="staff-bio">Architecte technique de MyStiC RP, il a construit les systèmes et scripts qui font l'identité unique du serveur.</div></div>
     </div>
@@ -670,8 +670,11 @@ footer{background:var(--dark2);border-top:1px solid rgba(0,229,160,0.1);padding:
 </footer>
 
 <script>
-// ===== DATA (modifiable via admin) =====
-const SITE_DATA = JSON.parse(localStorage.getItem('mystic_data') || 'null') || {
+// ===== JSONBIN CONFIG =====
+const BIN_ID = '69c4310bb7ec241ddca225fd';
+const API_KEY = '$2a$10$fdqVfN/2J/Y3YJk6LKQG0uWf9Q1bHOLY7NvJZKJquB3Gi4e1.G3Ym';
+
+const DEFAULT_DATA = {
   serverIp: 'Bientôt disponible',
   serverStatus: '🟢 En ligne',
   serverPlayers: '0 / 64',
@@ -686,40 +689,225 @@ const SITE_DATA = JSON.parse(localStorage.getItem('mystic_data') || 'null') || {
   presHeading: 'Le Serveur',
   presBody: 'MyStiC RP est un serveur FiveM francophone dédié au roleplay de qualité. Économie réaliste, scripts exclusifs, staff actif et communauté soudée.',
   footerTagline: 'Le serveur FiveM francophone premium. Roleplay immersif, économie réaliste, communauté soudée.',
-  marqueeText: '🌴 MyStiC RP — Ouverture bientôt !',
   annonces: [
-    {author: '🌴 MyStiC RP', date: 'Aujourd\'hui', text: '🚀 Le serveur MyStiC RP ouvre bientôt ! Rejoins le Discord pour être alerté en premier.'},
-    {author: '⚡ GlitchTek', date: 'Il y a 2 jours', text: '🛠️ Les scripts sont en cours de finalisation. La boutique Mystcoin sera disponible dès l\'ouverture.'},
+    {author: '🌴 MyStiC RP', date: "Aujourd'hui", text: '🚀 Le serveur MyStiC RP ouvre bientôt ! Rejoins le Discord pour être alerté en premier.'},
+    {author: '⚡ GlitchTek', date: 'Il y a 2 jours', text: "🛠️ Les scripts sont en cours de finalisation. La boutique Mystcoin sera disponible dès l'ouverture."},
     {author: '👑 Noctaris', date: 'Il y a 3 jours', text: '📋 Le règlement complet est désormais disponible sur le site. Prenez le temps de le lire !'}
-  ]
+  ],
+  // Champs étendus admin
+  hero: null, serveur: null, discord: null, countdown: null,
+  features: null, rules: null, faq: null, staff: null, marquee: null, coins: null, packs: null
 };
+
+let SITE_DATA = DEFAULT_DATA;
 
 function applyData() {
   const d = SITE_DATA;
-  document.getElementById('server-ip-text').textContent = d.serverIp;
-  document.getElementById('copy-ip-btn').style.display = d.serverIp === 'Bientôt disponible' ? 'none' : 'inline-flex';
-  document.getElementById('srv-status').textContent = d.serverStatus;
-  document.getElementById('srv-players').textContent = d.serverPlayers;
-  document.getElementById('srv-discord').textContent = d.discordMembers + ' membres';
-  document.getElementById('stat-discord').textContent = d.discordMembers;
-  document.getElementById('hero-title-line1').textContent = d.heroTitle1;
-  document.getElementById('hero-title-line2').textContent = d.heroTitle2;
-  document.getElementById('hero-tagline').innerHTML = d.heroTagline.replace(/\n/g, '<br/>');
-  document.getElementById('hero-status-text').textContent = d.heroStatusText;
-  document.getElementById('hero-cs-label').textContent = d.heroLabel;
-  document.getElementById('hero-cs-sub').textContent = d.heroSub;
-  document.getElementById('pres-heading').textContent = d.presHeading;
-  document.getElementById('pres-body').textContent = d.presBody;
-  document.getElementById('footer-tagline').textContent = d.footerTagline;
+
+  // Compat : champs directs OU sous-objets admin
+  const hero = d.hero || {};
+  const srv = d.serveur || {};
+  const disc = d.discord || {};
+  const cd = d.countdown || {};
+
+  const serverIp     = srv.ip           || d.serverIp      || 'Bientôt disponible';
+  const serverStatus = srv.statusText   || d.serverStatus  || '🟢 En ligne';
+  const players      = hero.serverPlayers || d.serverPlayers || '0 / 64';
+  const members      = srv.discordMembers || d.discordMembers || '34';
+  const openDate     = cd.date          || d.openingDate   || '2026-05-01T18:00:00';
+  const heroT1       = hero.title1      || d.heroTitle1    || 'MyStiC';
+  const heroT2       = hero.title2      || d.heroTitle2    || 'RP 🌴';
+  const heroTagline  = hero.tagline     || d.heroTagline   || '';
+  const heroBadge    = hero.badge       || d.heroStatusText|| 'Serveur en ligne — FiveM FR';
+  const heroLabel    = hero.btn1        || d.heroLabel     || 'Ouverture bientôt';
+  const heroSub      = hero.btn1sub     || d.heroSub       || 'Rejoins le Discord pour être alerté';
+  const presH        = d.presHeading    || 'Le Serveur';
+  const presB        = d.presBody       || '';
+  const footerTL     = disc.footerTagline || d.footerTagline || '';
+  const discordUrl   = disc.url         || 'https://discord.gg/GBMj67FYdM';
+  const countTitle   = cd.title         || '⏳ Ouverture du serveur dans';
+
+  // IP
+  const ipEl = document.getElementById('server-ip-text');
+  if(ipEl) ipEl.textContent = serverIp;
+  const copyBtn = document.getElementById('copy-ip-btn');
+  if(copyBtn) copyBtn.style.display = serverIp === 'Bientôt disponible' ? 'none' : 'inline-flex';
+
+  // Status bar
+  const srvStatusEl = document.getElementById('srv-status');
+  if(srvStatusEl) srvStatusEl.textContent = serverStatus;
+  const srvPlayersEl = document.getElementById('srv-players');
+  if(srvPlayersEl) srvPlayersEl.textContent = players;
+  const srvDiscordEl = document.getElementById('srv-discord');
+  if(srvDiscordEl) srvDiscordEl.textContent = members + ' membres';
+  const statDiscordEl = document.getElementById('stat-discord');
+  if(statDiscordEl) statDiscordEl.textContent = members;
+
+  // Hero
+  const h1El = document.getElementById('hero-title-line1');
+  if(h1El) h1El.textContent = heroT1;
+  const h2El = document.getElementById('hero-title-line2');
+  if(h2El) h2El.textContent = heroT2;
+  const tagEl = document.getElementById('hero-tagline');
+  if(tagEl) tagEl.innerHTML = heroTagline.replace(/\n/g,'<br/>');
+  const stEl = document.getElementById('hero-status-text');
+  if(stEl) stEl.textContent = heroBadge;
+  const lbEl = document.getElementById('hero-cs-label');
+  if(lbEl) lbEl.textContent = heroLabel;
+  const sbEl = document.getElementById('hero-cs-sub');
+  if(sbEl) sbEl.textContent = heroSub;
+
+  // Présentation
+  const phEl = document.getElementById('pres-heading');
+  if(phEl) phEl.textContent = presH;
+  const pbEl = document.getElementById('pres-body');
+  if(pbEl) pbEl.textContent = presB;
+
+  // Footer
+  const ftEl = document.getElementById('footer-tagline');
+  if(ftEl) ftEl.textContent = footerTL;
+
+  // Countdown title
+  const ctEl = document.getElementById('countdown-title-dyn');
+  if(ctEl) ctEl.textContent = countTitle;
+
+  // Discord links
+  document.querySelectorAll('a[data-discord]').forEach(a => a.href = discordUrl);
+
   // Annonces
+  const annonces = d.annonces || [];
   const al = document.getElementById('annonces-list');
-  al.innerHTML = d.annonces.map(a => `
-    <div class="annonce-item">
-      <div class="annonce-top"><span class="annonce-author">${a.author}</span><span class="annonce-date">${a.date}</span></div>
-      <div class="annonce-text">${a.text}</div>
-    </div>`).join('');
+  if(al && annonces.length) {
+    al.innerHTML = annonces.map(a => `
+      <div class="annonce-item">
+        <div class="annonce-top"><span class="annonce-author">${a.author}</span><span class="annonce-date">${a.date}</span></div>
+        <div class="annonce-text">${a.text}</div>
+      </div>`).join('');
+  }
+
+  // Features (si admin les a modifiées)
+  const features = d.features;
+  if(features && features.length) {
+    const fg = document.getElementById('features-grid');
+    if(fg) fg.innerHTML = features.map(f=>`
+      <div class="feat-card reveal">
+        <div class="feat-icon">${f.icon}</div>
+        <div class="feat-title">${f.title}</div>
+        <div class="feat-desc">${f.desc}</div>
+      </div>`).join('');
+    reObserve();
+  }
+
+  // Rules
+  const rules = d.rules;
+  if(rules && rules.length) {
+    const rs = document.getElementById('rules-stack-dyn');
+    if(rs) rs.innerHTML = rules.map((r,i)=>`
+      <div class="rule-row">
+        <div class="rule-n">${String(i+1).padStart(2,'0')}</div>
+        <div><div class="rule-t">${r.title}</div><div class="rule-d">${r.desc}</div></div>
+      </div>`).join('');
+  }
+
+  // FAQ
+  const faqItems = d.faq;
+  if(faqItems && faqItems.length) {
+    const fl = document.getElementById('faq-list');
+    if(fl) fl.innerHTML = faqItems.map(f=>`
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">${f.q} <span class="faq-arrow">+</span></button>
+        <div class="faq-a">${f.a}</div>
+      </div>`).join('');
+  }
+
+  // Staff
+  const staffItems = d.staff;
+  if(staffItems && staffItems.length) {
+    const sg = document.getElementById('staff-grid-dyn');
+    if(sg) {
+      const roleLabels = {owner:'Fondateur',creator:'Créateur',admin:'Administrateur',mod:'Modérateur',dev:'Développeur',helper:'Helper'};
+      const badgeClass = {owner:'badge-owner',creator:'badge-creator',admin:'badge-admin',mod:'badge-mod',dev:'badge-dev',helper:'badge-helper'};
+      sg.innerHTML = staffItems.map(s=>`
+        <div class="staff-card reveal">
+          <div class="staff-avatar">${s.avatar}</div>
+          <div class="staff-name">${s.name}</div>
+          <div class="staff-badge ${badgeClass[s.role]||'badge-owner'}">${roleLabels[s.role]||s.role}</div>
+          <div class="staff-bio">${s.bio}</div>
+        </div>`).join('');
+      reObserve();
+    }
+  }
+
+  // Marquee
+  const marqueeItems = d.marquee;
+  if(marqueeItems && marqueeItems.length) {
+    const mi = document.getElementById('marquee-inner');
+    if(mi) {
+      const doubled = [...marqueeItems, ...marqueeItems];
+      mi.innerHTML = doubled.map(m=>{
+        const parts = m.text.split(' — ');
+        if(parts.length>=2) return `<span class="marquee-item">${parts[0].trim()} <span>—</span> ${parts.slice(1).join(' — ')}</span>`;
+        return `<span class="marquee-item">${m.text}</span>`;
+      }).join('');
+    }
+  }
+
+  // Coins
+  const coins = d.coins;
+  if(coins && coins.length) {
+    const cg = document.getElementById('coin-grid');
+    if(cg) cg.innerHTML = coins.map(c=>`
+      <div class="coin-card${c.featured?' featured':''}">
+        <span style="font-size:2.5rem;margin-bottom:1rem;display:block;">${c.emoji}</span>
+        <div class="coin-price">${c.price}</div>
+        <div class="coin-amount">${c.amount}</div>
+        <div class="coin-sub">${c.sub}</div>
+        <a href="${discordUrl}" target="_blank" class="coin-buy-btn">🎫 Ticket</a>
+      </div>`).join('');
+  }
+
+  // Packs
+  const packs = d.packs;
+  if(packs && packs.length) {
+    const pg = document.getElementById('pack-grid');
+    if(pg) pg.innerHTML = packs.map(p=>`
+      <div class="pack-card">
+        <div class="pack-price-badge">${p.price}</div>
+        <div class="pack-name">${p.name}</div>
+        <ul class="pack-items">${p.items.map(item=>`<li>${item}</li>`).join('')}</ul>
+        <a href="${discordUrl}" target="_blank" class="pack-buy-btn">🎫 Acheter via ticket</a>
+      </div>`).join('');
+  }
+
+  // Stocker pour le countdown
+  window._openingDate = openDate;
 }
-applyData();
+
+function reObserve() {
+  const revObs = new IntersectionObserver((e)=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis');}),{threshold:0.07});
+  document.querySelectorAll('.reveal:not(.vis)').forEach(el=>revObs.observe(el));
+}
+
+// ===== CHARGEMENT JSONBIN =====
+async function loadFromCloud() {
+  try {
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+      headers: { 'X-Master-Key': API_KEY }
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const json = await res.json();
+    const record = json.record;
+    // Si données réelles (pas juste {init:true})
+    if (record && Object.keys(record).length > 1) {
+      SITE_DATA = Object.assign({}, DEFAULT_DATA, record);
+    }
+  } catch(e) {
+    console.warn('JSONBin indisponible, données par défaut utilisées:', e.message);
+  }
+  applyData();
+}
+
+loadFromCloud();
 
 // ===== SCROLL =====
 window.addEventListener('scroll', () => {
@@ -753,7 +941,7 @@ function toggleFaq(btn){
 
 // ===== COPY IP =====
 function copyIP(){
-  const ip=SITE_DATA.serverIp;
+  const ip=SITE_DATA.serverIp || (SITE_DATA.serveur && SITE_DATA.serveur.ip) || 'Bientôt disponible';
   if(ip==='Bientôt disponible')return;
   navigator.clipboard.writeText(ip).catch(()=>{const t=document.createElement('textarea');t.value=ip;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);});
   showToast('✓ IP copiée !');
@@ -829,7 +1017,7 @@ function toggleTheme(){
 
 // ===== COUNTDOWN =====
 function updateCountdown(){
-  const target=new Date(SITE_DATA.openingDate);
+  const target=new Date(window._openingDate || '2026-05-01T18:00:00');
   const now=new Date();const diff=target-now;
   if(diff<=0){['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='00';});return;}
   const fmt=n=>String(Math.floor(n)).padStart(2,'0');
