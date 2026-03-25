@@ -5,121 +5,111 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>MyStiC RP 🌴 — Serveur FiveM Francophone</title>
 <meta name="description" content="MyStiC RP — Le serveur FiveM francophone premium. Roleplay immersif, économie réaliste, communauté soudée."/>
-<meta name="keywords" content="MyStiC RP, serveur FiveM, FiveM français, roleplay GTA, serveur RP francophone, GTA V RP, FiveM francophone, roleplay immersif"/>
-<meta name="author" content="Noctaris &amp; GlitchTek"/>
+<meta name="keywords" content="MyStiC RP, FiveM français, roleplay GTA, serveur RP francophone"/>
 <meta name="robots" content="index, follow"/>
-<meta name="language" content="French"/>
-<link rel="canonical" href="https://nockmoon.github.io/"/>
-<!-- Open Graph (aperçu sur réseaux sociaux) -->
+<link rel="canonical" href="https://nockmoon.github.io/MyStiC_RP/"/>
 <meta property="og:type" content="website"/>
-<meta property="og:url" content="https://nockmoon.github.io/"/>
+<meta property="og:url" content="https://nockmoon.github.io/MyStiC_RP/"/>
 <meta property="og:title" content="MyStiC RP 🌴 — Serveur FiveM Francophone"/>
-<meta property="og:description" content="MyStiC RP — Le serveur FiveM francophone premium. Roleplay immersif, économie réaliste, communauté soudée."/>
-<meta property="og:site_name" content="MyStiC RP"/>
-<meta property="og:locale" content="fr_FR"/>
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="MyStiC RP 🌴 — Serveur FiveM Francophone"/>
-<meta name="twitter:description" content="MyStiC RP — Le serveur FiveM francophone premium. Roleplay immersif, économie réaliste, communauté soudée."/>
+<meta property="og:description" content="MyStiC RP — Le serveur FiveM francophone premium."/>
+<meta name="theme-color" content="#00e5a0"/>
+<link rel="manifest" href="manifest.json"/>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
-:root {
-  --gold: #00e5a0;
-  --gold-light: #4dffc4;
-  --gold-dim: rgba(0,229,160,0.15);
-  --dark: #06090f;
-  --dark2: #0b0f18;
-  --dark3: #111825;
-  --dark4: #182030;
-  --accent: #ff6b35;
-  --text: #e8f4ec;
-  --muted: #5a7068;
-  --green: #00e5a0;
-  --red: #ff6b6b;
-  --purple: #ff9f40;
-  --orange: #ffcd3c;
-  --teal: #00c9e0;
-  --coral: #ff6b35;
-  --pink: #ff3ea5;
-  --coin: #f5a623;
+:root{
+  --gold:#00e5a0;--gold-light:#4dffc4;--dark:#06090f;--dark2:#0b0f18;
+  --dark3:#111825;--text:#e8f4ec;--muted:#5a7068;--teal:#00c9e0;
+  --coral:#ff6b35;--red:#ff6b6b;--orange:#ffcd3c;--purple:#c084fc;
+  --coin:#f5a623;--discord:#5865F2;
 }
-
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;font-size:16px;}
+html{scroll-behavior:smooth;}
 body{background:var(--dark);color:var(--text);font-family:'Outfit',sans-serif;overflow-x:hidden;cursor:none;}
 
-#cursor{position:fixed;width:12px;height:12px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:transform 0.1s ease,background 0.2s;mix-blend-mode:difference;}
-#cursor-trail{position:fixed;width:36px;height:36px;border:1px solid rgba(0,229,160,0.4);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:left 0.12s ease,top 0.12s ease,opacity 0.3s;}
+/* CURSOR */
+#cursor{position:fixed;width:12px;height:12px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:transform 0.1s,background 0.2s;mix-blend-mode:difference;}
+#cursor-trail{position:fixed;width:36px;height:36px;border:1px solid rgba(0,229,160,0.4);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:left 0.12s,top 0.12s,opacity 0.3s;}
 
+/* NOISE */
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:0.5;}
+
 #particles-canvas{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.6;}
-.page{display:none;position:relative;z-index:1;}
-.page.active{display:block;}
+
+/* SCROLL PROGRESS */
+#scroll-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--teal),var(--coral));z-index:99999;width:0%;box-shadow:0 0 8px rgba(0,229,160,0.6);}
+
+/* BACK TO TOP */
+#back-to-top{position:fixed;bottom:2rem;right:2rem;width:44px;height:44px;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:9000;opacity:0;transform:translateY(20px);transition:all 0.3s;font-size:1.1rem;backdrop-filter:blur(10px);color:var(--gold);}
+#back-to-top.show{opacity:1;transform:translateY(0);}
+#back-to-top:hover{background:rgba(0,229,160,0.2);box-shadow:0 0 20px rgba(0,229,160,0.3);}
+
+/* NOTIF */
+.notif-stack{position:fixed;bottom:5rem;right:2rem;z-index:9990;display:flex;flex-direction:column;gap:0.5rem;pointer-events:none;}
+.notif{background:var(--dark3);border-radius:10px;padding:0.8rem 1.2rem;font-size:0.83rem;color:var(--text);box-shadow:0 8px 30px rgba(0,0,0,0.5);transform:translateX(120%);transition:transform 0.3s;pointer-events:all;min-width:250px;max-width:320px;}
+.notif.show{transform:translateX(0);}
+.notif.success{border-left:3px solid var(--gold);}
+.notif.info{border-left:3px solid var(--teal);}
+.notif.warn{border-left:3px solid var(--orange);}
+
+/* COOKIE */
+#cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(11,15,24,0.97);backdrop-filter:blur(20px);border-top:1px solid rgba(0,229,160,0.15);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;transform:translateY(100%);transition:transform 0.4s;}
+#cookie-banner.show{transform:translateY(0);}
+.cookie-text{font-size:0.82rem;color:var(--muted);max-width:600px;}
+.cookie-btns{display:flex;gap:0.7rem;}
+.cookie-accept{background:var(--gold);color:var(--dark);font-weight:700;font-size:0.78rem;padding:0.5rem 1.2rem;border:none;border-radius:5px;cursor:pointer;}
+.cookie-refuse{background:transparent;color:var(--muted);font-size:0.78rem;padding:0.5rem 1rem;border:1px solid rgba(255,255,255,0.1);border-radius:5px;cursor:pointer;}
+
+/* SEARCH */
+#search-overlay{position:fixed;inset:0;background:rgba(6,9,15,0.95);backdrop-filter:blur(20px);z-index:9990;display:none;align-items:flex-start;justify-content:center;padding-top:15vh;}
+#search-overlay.open{display:flex;}
+.search-box{width:100%;max-width:600px;padding:0 2rem;}
+.search-input-wrap{position:relative;}
+.search-input{width:100%;background:var(--dark3);border:1px solid rgba(0,229,160,0.3);border-radius:12px;padding:1rem 1rem 1rem 3rem;font-size:1.1rem;color:var(--text);font-family:'Outfit',sans-serif;outline:none;}
+.search-input:focus{border-color:var(--gold);}
+.search-icon{position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:var(--muted);}
+.search-close-btn{position:absolute;right:1rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-family:'Outfit',sans-serif;}
+.search-results{margin-top:1rem;display:flex;flex-direction:column;gap:0.5rem;}
+.search-result-item{background:var(--dark3);border:1px solid rgba(0,229,160,0.08);border-radius:8px;padding:0.9rem 1.2rem;cursor:pointer;transition:border-color 0.2s;}
+.search-result-item:hover{border-color:rgba(0,229,160,0.3);}
+.search-result-title{font-weight:700;font-size:0.9rem;}
+.search-result-desc{font-size:0.78rem;color:var(--muted);}
+.search-hint{text-align:center;color:var(--muted);font-size:0.8rem;margin-top:1rem;}
+
+/* MARQUEE */
+.marquee-bar{background:rgba(0,229,160,0.04);border-bottom:1px solid rgba(0,229,160,0.08);padding:0.5rem 0;overflow:hidden;white-space:nowrap;position:relative;z-index:1;}
+.marquee-inner{display:inline-flex;gap:4rem;animation:marquee 35s linear infinite;}
+.marquee-inner:hover{animation-play-state:paused;}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.marquee-item{font-size:0.76rem;color:var(--muted);display:inline-flex;align-items:center;gap:0.5rem;}
+.marquee-item span{color:var(--gold);}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:1rem 3rem;background:rgba(6,9,15,0.82);backdrop-filter:blur(24px);border-bottom:1px solid rgba(0,229,160,0.12);transition:all 0.3s ease;}
-nav.scrolled{padding:0.7rem 3rem;background:rgba(6,9,15,0.96);border-bottom-color:rgba(0,229,160,0.22);box-shadow:0 4px 40px rgba(0,0,0,0.5);}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:1rem 3rem;background:rgba(6,9,15,0.82);backdrop-filter:blur(24px);border-bottom:1px solid rgba(0,229,160,0.12);transition:all 0.3s;}
+nav.scrolled{padding:0.7rem 3rem;background:rgba(6,9,15,0.96);box-shadow:0 4px 40px rgba(0,0,0,0.5);}
 .nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:0.08em;color:var(--gold);text-shadow:0 0 40px rgba(0,229,160,0.5);cursor:pointer;border:none;background:none;display:flex;align-items:center;gap:0.3rem;transition:text-shadow 0.3s;}
-.nav-logo:hover{text-shadow:0 0 60px rgba(0,229,160,0.9);}
 .nav-logo span{color:var(--text);}
 .nav-links{list-style:none;display:flex;align-items:center;gap:2rem;}
-.nav-links a,.nav-links button{text-decoration:none;background:none;border:none;color:var(--muted);font-size:0.8rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;transition:color 0.2s;cursor:pointer;font-family:'Outfit',sans-serif;padding:0;}
-.nav-links a:hover,.nav-links button:hover{color:var(--gold);}
-.nav-right{display:flex;align-items:center;gap:1rem;}
-.nav-back-btn{display:none;align-items:center;gap:0.4rem;background:none;border:none;color:var(--muted);font-size:0.8rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;transition:color 0.2s;}
-.nav-back-btn:hover{color:var(--text);}
-.btn-discord-nav{display:flex;align-items:center;gap:0.5rem;background:#5865F2;color:#fff;padding:0.45rem 1.1rem;border-radius:4px;font-weight:600;font-size:0.78rem;letter-spacing:0.06em;text-decoration:none;text-transform:uppercase;transition:background 0.2s,transform 0.2s;font-family:'Outfit',sans-serif;}
+.nav-links button{text-decoration:none;background:none;border:none;color:var(--muted);font-size:0.8rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;transition:color 0.2s;cursor:pointer;font-family:'Outfit',sans-serif;padding:0;}
+.nav-links button:hover{color:var(--gold);}
+.nav-right{display:flex;align-items:center;gap:0.8rem;}
+.btn-icon{background:none;border:1px solid rgba(0,229,160,0.15);color:var(--muted);width:34px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.9rem;transition:all 0.2s;}
+.btn-icon:hover{border-color:var(--gold);color:var(--gold);}
+.btn-discord-nav{display:flex;align-items:center;gap:0.5rem;background:var(--discord);color:#fff;padding:0.45rem 1.1rem;border-radius:4px;font-weight:600;font-size:0.78rem;text-decoration:none;text-transform:uppercase;transition:background 0.2s,transform 0.2s;font-family:'Outfit',sans-serif;}
 .btn-discord-nav:hover{background:#4752c4;transform:translateY(-1px);}
-.mobile-menu-btn{display:none;background:none;border:none;color:var(--text);font-size:1.4rem;cursor:pointer;padding:0.3rem;}
-.mobile-nav{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(6,9,15,0.98);backdrop-filter:blur(30px);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;}
+.mobile-menu-btn{display:none;background:none;border:none;color:var(--text);font-size:1.4rem;cursor:pointer;}
+.mobile-nav{display:none;position:fixed;inset:0;background:rgba(6,9,15,0.98);backdrop-filter:blur(30px);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;}
 .mobile-nav.open{display:flex;}
-.mobile-nav a,.mobile-nav button{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;letter-spacing:0.1em;color:var(--muted);text-decoration:none;background:none;border:none;cursor:pointer;transition:color 0.2s;}
-.mobile-nav a:hover,.mobile-nav button:hover{color:var(--gold);}
+.mobile-nav button,.mobile-nav a{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;letter-spacing:0.1em;color:var(--muted);text-decoration:none;background:none;border:none;cursor:pointer;transition:color 0.2s;}
+.mobile-nav button:hover,.mobile-nav a:hover{color:var(--gold);}
 .mobile-close{position:absolute;top:1.5rem;right:1.5rem;background:none;border:none;color:var(--text);font-size:1.8rem;cursor:pointer;}
 
-/* BUTTONS */
+/* BTN */
 .btn-primary{display:inline-flex;align-items:center;gap:0.5rem;background:var(--gold);color:var(--dark);font-family:'Outfit',sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.9rem 2rem;border:none;border-radius:5px;text-decoration:none;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s,background 0.2s;position:relative;overflow:hidden;}
 .btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,0.2) 50%,transparent 60%);transform:translateX(-100%);transition:transform 0.4s;}
 .btn-primary:hover::before{transform:translateX(100%);}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,229,160,0.4);background:var(--gold-light);}
-.btn-secondary{display:inline-flex;align-items:center;gap:0.5rem;background:transparent;color:var(--text);font-family:'Outfit',sans-serif;font-weight:500;font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.9rem 2rem;border:1px solid rgba(232,244,236,0.18);border-radius:5px;text-decoration:none;cursor:pointer;transition:border-color 0.2s,color 0.2s,background 0.2s;}
-.btn-secondary:hover{border-color:var(--gold);color:var(--gold);background:rgba(0,229,160,0.05);}
-.btn-ghost{display:inline-flex;align-items:center;gap:0.4rem;background:none;border:none;color:var(--muted);font-family:'Outfit',sans-serif;font-size:0.82rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:color 0.2s;padding:0;}
-.btn-ghost:hover{color:var(--gold);}
-
-/* HERO */
-#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;padding:8rem 2rem 5rem;overflow:hidden;}
-.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 90% 70% at 50% -10%,rgba(0,229,160,0.16) 0%,transparent 55%),radial-gradient(ellipse 60% 50% at 85% 85%,rgba(255,107,53,0.12) 0%,transparent 50%),radial-gradient(ellipse 50% 40% at 15% 75%,rgba(0,201,224,0.1) 0%,transparent 50%);}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,229,160,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,160,0.025) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 80%);}
-.hero-palms{position:absolute;bottom:0;left:0;right:0;height:300px;pointer-events:none;opacity:0.1;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1400 300'%3E%3Cellipse cx='100' cy='300' rx='7' ry='220' fill='%2300e5a0'/%3E%3Cellipse cx='100' cy='80' rx='90' ry='28' fill='%2300e5a0' transform='rotate(-25 100 80)'/%3E%3Cellipse cx='100' cy='80' rx='85' ry='26' fill='%2300e5a0' transform='rotate(15 100 80)'/%3E%3Cellipse cx='100' cy='80' rx='75' ry='24' fill='%2300e5a0' transform='rotate(-55 100 80)'/%3E%3Cellipse cx='350' cy='300' rx='6' ry='160' fill='%2300e5a0'/%3E%3Cellipse cx='350' cy='140' rx='70' ry='22' fill='%2300e5a0' transform='rotate(-20 350 140)'/%3E%3Cellipse cx='1050' cy='300' rx='7' ry='240' fill='%2300e5a0'/%3E%3Cellipse cx='1050' cy='60' rx='95' ry='30' fill='%2300e5a0' transform='rotate(18 1050 60)'/%3E%3Cellipse cx='1050' cy='60' rx='90' ry='28' fill='%2300e5a0' transform='rotate(-22 1050 60)'/%3E%3Cellipse cx='1300' cy='300' rx='6' ry='180' fill='%2300e5a0'/%3E%3Cellipse cx='1300' cy='120' rx='75' ry='24' fill='%2300e5a0' transform='rotate(-15 1300 120)'/%3E%3C/svg%3E") no-repeat bottom center/cover;}
-.hero-status{display:inline-flex;align-items:center;gap:0.6rem;background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.25);border-radius:100px;padding:0.4rem 1.1rem;font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--green);margin-bottom:2rem;animation:fadeDown 0.7s ease both;}
-.status-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
-.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(5.5rem,16vw,13rem);line-height:0.88;letter-spacing:0.03em;animation:fadeDown 0.7s 0.1s ease both;}
-.hero-title .line1{display:block;background:linear-gradient(135deg,var(--gold) 0%,var(--teal) 45%,var(--coral) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 40px rgba(0,229,160,0.35));}
-.hero-title .line2{display:block;color:var(--text);}
-.hero-tagline{font-size:1rem;color:var(--muted);max-width:480px;line-height:1.75;margin:1.6rem auto 2.8rem;font-weight:300;animation:fadeDown 0.7s 0.2s ease both;}
-.hero-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;animation:fadeDown 0.7s 0.3s ease both;}
-.hero-stats{display:flex;gap:4rem;justify-content:center;margin-top:5rem;animation:fadeDown 0.7s 0.45s ease both;position:relative;}
-.stat{text-align:center;}
-.stat-num{font-family:'Bebas Neue',sans-serif;font-size:3.2rem;line-height:1;background:linear-gradient(135deg,var(--gold),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.stat-label{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--muted);margin-top:0.4rem;}
-.stat-divider{width:1px;background:rgba(0,229,160,0.15);align-self:stretch;}
-.scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:0.5rem;animation:fadeDown 0.7s 0.6s ease both;}
-.scroll-hint span{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);}
-.scroll-arrow{width:1px;height:40px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollPulse 2s infinite;}
-@keyframes scrollPulse{0%{opacity:0;transform:scaleY(0);transform-origin:top}50%{opacity:1}100%{opacity:0;transform:scaleY(1);transform-origin:top}}
-@keyframes fadeDown{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:translateY(0)}}
-
-.coming-soon-btn{display:inline-flex;align-items:center;gap:1rem;background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.3);border-radius:8px;padding:0.85rem 1.8rem;position:relative;overflow:hidden;animation:borderGlow 3s ease-in-out infinite;}
-@keyframes borderGlow{0%,100%{box-shadow:0 0 10px rgba(0,229,160,0.1);}50%{box-shadow:0 0 25px rgba(0,229,160,0.3),inset 0 0 15px rgba(0,229,160,0.05);}}
-.coming-soon-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(0,229,160,0.07),transparent);transform:translateX(-100%);animation:shimmer 2.5s infinite;}
-@keyframes shimmer{to{transform:translateX(100%);}}
-.cs-icon{font-size:1.5rem;animation:ticktock 1s ease-in-out infinite alternate;}
-@keyframes ticktock{from{transform:rotate(-10deg);}to{transform:rotate(10deg);}}
-.cs-text{display:flex;flex-direction:column;text-align:left;}
-.cs-label{font-weight:700;font-size:0.9rem;color:var(--gold);letter-spacing:0.06em;}
-.cs-sub{font-size:0.72rem;color:var(--muted);margin-top:0.1rem;}
+.btn-secondary{display:inline-flex;align-items:center;gap:0.5rem;background:transparent;color:var(--text);font-family:'Outfit',sans-serif;font-weight:500;font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.9rem 2rem;border:1px solid rgba(232,244,236,0.18);border-radius:5px;text-decoration:none;cursor:pointer;transition:border-color 0.2s,color 0.2s;}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold);}
 
 /* SECTIONS */
 .section-wrap{padding:7rem 2rem;}
@@ -129,6 +119,42 @@ nav.scrolled{padding:0.7rem 3rem;background:rgba(6,9,15,0.96);border-bottom-colo
 .section-heading{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,6vw,5rem);letter-spacing:0.04em;line-height:0.95;margin-bottom:1.2rem;}
 .section-body{color:var(--muted);font-size:0.95rem;line-height:1.8;max-width:520px;font-weight:300;}
 .divider-line{height:1px;background:linear-gradient(90deg,transparent,rgba(0,229,160,0.18),transparent);margin:0 2rem;}
+.reveal{opacity:0;transform:translateY(25px);transition:opacity 0.6s,transform 0.6s;}
+.reveal.vis{opacity:1;transform:translateY(0);}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;padding:8rem 2rem 5rem;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 90% 70% at 50% -10%,rgba(0,229,160,0.16) 0%,transparent 55%),radial-gradient(ellipse 60% 50% at 85% 85%,rgba(255,107,53,0.12) 0%,transparent 50%),radial-gradient(ellipse 50% 40% at 15% 75%,rgba(0,201,224,0.1) 0%,transparent 50%);}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,229,160,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,160,0.025) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 80%);}
+.hero-palms{position:absolute;bottom:0;left:0;right:0;height:300px;pointer-events:none;opacity:0.1;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1400 300'%3E%3Cellipse cx='100' cy='300' rx='7' ry='220' fill='%2300e5a0'/%3E%3Cellipse cx='100' cy='80' rx='90' ry='28' fill='%2300e5a0' transform='rotate(-25 100 80)'/%3E%3Cellipse cx='100' cy='80' rx='75' ry='24' fill='%2300e5a0' transform='rotate(-55 100 80)'/%3E%3Cellipse cx='1050' cy='300' rx='7' ry='240' fill='%2300e5a0'/%3E%3Cellipse cx='1050' cy='60' rx='95' ry='30' fill='%2300e5a0' transform='rotate(18 1050 60)'/%3E%3Cellipse cx='1300' cy='300' rx='6' ry='180' fill='%2300e5a0'/%3E%3Cellipse cx='1300' cy='120' rx='75' ry='24' fill='%2300e5a0' transform='rotate(-15 1300 120)'/%3E%3C/svg%3E") no-repeat bottom center/cover;}
+.hero-status{display:inline-flex;align-items:center;gap:0.6rem;background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.25);border-radius:100px;padding:0.4rem 1.1rem;font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;animation:fadeDown 0.7s ease both;}
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--green,#00e5a0);box-shadow:0 0 8px var(--green,#00e5a0);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(5.5rem,16vw,13rem);line-height:0.88;letter-spacing:0.03em;animation:fadeDown 0.7s 0.1s ease both;}
+.hero-title .line1{display:block;background:linear-gradient(135deg,var(--gold) 0%,var(--teal) 45%,var(--coral) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 40px rgba(0,229,160,0.35));}
+.hero-title .line2{display:block;color:var(--text);}
+.hero-tagline{font-size:1rem;color:var(--muted);max-width:480px;line-height:1.75;margin:1.6rem auto 2.8rem;font-weight:300;animation:fadeDown 0.7s 0.2s ease both;}
+.hero-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;animation:fadeDown 0.7s 0.3s ease both;}
+.hero-stats{display:flex;gap:4rem;justify-content:center;margin-top:5rem;animation:fadeDown 0.7s 0.45s ease both;}
+.stat{text-align:center;}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:3.2rem;line-height:1;background:linear-gradient(135deg,var(--gold),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.stat-label{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--muted);margin-top:0.4rem;}
+.stat-divider{width:1px;background:rgba(0,229,160,0.15);align-self:stretch;}
+.scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:0.5rem;}
+.scroll-hint span{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);}
+.scroll-arrow{width:1px;height:40px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollPulse 2s infinite;}
+@keyframes scrollPulse{0%{opacity:0;transform:scaleY(0);transform-origin:top}50%{opacity:1}100%{opacity:0;transform:scaleY(1);transform-origin:top}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:translateY(0)}}
+
+.coming-soon-btn{display:inline-flex;align-items:center;gap:1rem;background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.3);border-radius:8px;padding:0.85rem 1.8rem;position:relative;overflow:hidden;animation:borderGlow 3s ease-in-out infinite;}
+@keyframes borderGlow{0%,100%{box-shadow:0 0 10px rgba(0,229,160,0.1);}50%{box-shadow:0 0 25px rgba(0,229,160,0.3);}}
+.coming-soon-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(0,229,160,0.07),transparent);transform:translateX(-100%);animation:shimmer 2.5s infinite;}
+@keyframes shimmer{to{transform:translateX(100%);}}
+.cs-icon{font-size:1.5rem;animation:ticktock 1s ease-in-out infinite alternate;}
+@keyframes ticktock{from{transform:rotate(-10deg);}to{transform:rotate(10deg);}}
+.cs-text{display:flex;flex-direction:column;text-align:left;}
+.cs-label{font-weight:700;font-size:0.9rem;color:var(--gold);}
+.cs-sub{font-size:0.72rem;color:var(--muted);margin-top:0.1rem;}
 
 /* PRESENTATION */
 #presentation{background:var(--dark2);}
@@ -141,12 +167,24 @@ nav.scrolled{padding:0.7rem 3rem;background:rgba(6,9,15,0.96);border-bottom-colo
 .feat-icon{font-size:1.7rem;margin-bottom:0.9rem;}
 .feat-title{font-weight:700;font-size:0.9rem;margin-bottom:0.4rem;}
 .feat-desc{font-size:0.8rem;color:var(--muted);line-height:1.55;}
-.pres-visual{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:4/3;background:var(--dark3);border:1px solid rgba(0,229,160,0.12);display:flex;align-items:center;justify-content:center;}
-.pres-visual-glow{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(0,229,160,0.09) 0%,rgba(255,107,53,0.05) 50%,transparent 70%);animation:glowPulse 4s ease-in-out infinite alternate;}
-@keyframes glowPulse{from{opacity:0.6;}to{opacity:1;}}
-.pres-visual-text{font-family:'Bebas Neue',sans-serif;font-size:5rem;color:rgba(0,229,160,0.08);letter-spacing:0.05em;text-align:center;line-height:1;user-select:none;position:relative;z-index:1;}
-.pres-badge{position:absolute;top:1.2rem;right:1.2rem;background:rgba(0,229,160,0.12);border:1px solid rgba(0,229,160,0.3);border-radius:100px;padding:0.35rem 0.9rem;font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--green);display:flex;align-items:center;gap:0.4rem;}
-.pres-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+
+/* ANNONCES PANEL */
+.discord-panel{background:var(--dark3);border:1px solid rgba(88,101,242,0.2);border-radius:16px;padding:1.5rem;display:flex;flex-direction:column;gap:1rem;}
+.discord-panel-header{display:flex;flex-direction:column;gap:0.2rem;}
+.discord-panel-title{font-weight:700;font-size:0.95rem;display:flex;align-items:center;gap:0.6rem;}
+.discord-live-dot{width:8px;height:8px;border-radius:50%;background:#5865F2;box-shadow:0 0 8px rgba(88,101,242,0.8);animation:pulse 2s infinite;flex-shrink:0;}
+.discord-panel-sub{font-size:0.75rem;color:var(--muted);}
+.annonces-list{display:flex;flex-direction:column;gap:0.8rem;max-height:320px;overflow-y:auto;padding-right:0.3rem;}
+.annonces-list::-webkit-scrollbar{width:4px;}
+.annonces-list::-webkit-scrollbar-thumb{background:rgba(88,101,242,0.4);border-radius:4px;}
+.annonce-item{background:rgba(88,101,242,0.06);border:1px solid rgba(88,101,242,0.12);border-radius:9px;padding:1rem 1.1rem;transition:border-color 0.2s,transform 0.2s;}
+.annonce-item:hover{border-color:rgba(88,101,242,0.3);transform:translateX(3px);}
+.annonce-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;}
+.annonce-author{font-weight:700;font-size:0.82rem;}
+.annonce-date{font-size:0.7rem;color:var(--muted);}
+.annonce-text{font-size:0.83rem;color:var(--muted);line-height:1.6;}
+.discord-join-btn{display:flex;align-items:center;justify-content:center;gap:0.5rem;background:var(--discord);color:#fff;padding:0.7rem 1.2rem;border-radius:8px;font-weight:600;font-size:0.82rem;text-decoration:none;text-transform:uppercase;transition:background 0.2s,transform 0.2s;font-family:'Outfit',sans-serif;}
+.discord-join-btn:hover{background:#4752c4;transform:translateY(-1px);}
 
 /* REGLEMENT */
 #reglement-home{background:var(--dark);}
@@ -162,134 +200,71 @@ nav.scrolled{padding:0.7rem 3rem;background:rgba(6,9,15,0.96);border-bottom-colo
 /* REJOINDRE */
 #rejoindre{background:var(--dark2);}
 .steps-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3.5rem;position:relative;}
-.steps-row::before{content:'';position:absolute;top:4.5rem;left:calc(16.66% + 1rem);right:calc(16.66% + 1rem);height:1px;background:linear-gradient(90deg,var(--gold),var(--teal),var(--coral));opacity:0.2;pointer-events:none;}
-.step-card{background:var(--dark3);border:1px solid rgba(0,229,160,0.07);border-radius:12px;padding:2.2rem 1.8rem;text-align:center;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;position:relative;overflow:hidden;}
+.steps-row::before{content:'';position:absolute;top:4.5rem;left:calc(16.66% + 1rem);right:calc(16.66% + 1rem);height:1px;background:linear-gradient(90deg,var(--gold),var(--teal),var(--coral));opacity:0.2;}
+.step-card{background:var(--dark3);border:1px solid rgba(0,229,160,0.07);border-radius:12px;padding:2.2rem 1.8rem;text-align:center;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;}
 .step-card:hover{border-color:rgba(0,229,160,0.35);transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,229,160,0.07);}
 .step-n{font-family:'Bebas Neue',sans-serif;font-size:5rem;color:rgba(0,229,160,0.06);line-height:1;margin-bottom:0.3rem;}
 .step-icon{font-size:2.2rem;margin-bottom:1rem;}
 .step-t{font-weight:700;font-size:1rem;margin-bottom:0.6rem;}
 .step-d{font-size:0.83rem;color:var(--muted);line-height:1.65;}
-.server-info-box{margin-top:4rem;background:var(--dark3);border:1px solid rgba(0,229,160,0.2);border-radius:12px;padding:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;position:relative;overflow:hidden;}
+.server-info-box{margin-top:4rem;background:var(--dark3);border:1px solid rgba(0,229,160,0.2);border-radius:12px;padding:2.5rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;}
 .server-ip-label{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--muted);margin-bottom:0.4rem;}
-.server-ip{font-size:1.4rem;font-weight:700;color:var(--gold);letter-spacing:0.04em;display:flex;align-items:center;gap:0.8rem;}
-.copy-ip-btn{background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.22);color:var(--muted);padding:0.35rem 0.9rem;border-radius:5px;font-size:0.75rem;cursor:pointer;transition:all 0.2s;font-family:'Outfit',sans-serif;letter-spacing:0.08em;}
+.server-ip{font-size:1.4rem;font-weight:700;color:var(--gold);display:flex;align-items:center;gap:0.8rem;}
+.copy-ip-btn{background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.22);color:var(--muted);padding:0.35rem 0.9rem;border-radius:5px;font-size:0.75rem;cursor:pointer;transition:all 0.2s;font-family:'Outfit',sans-serif;}
 .copy-ip-btn:hover{background:rgba(0,229,160,0.18);color:var(--gold);border-color:var(--gold);}
 .server-info-actions{display:flex;gap:0.9rem;flex-wrap:wrap;}
 
-/* ===================== BOUTIQUE ===================== */
+/* COUNTDOWN */
+.countdown-wrap{background:var(--dark3);border:1px solid rgba(0,229,160,0.15);border-radius:14px;padding:2rem;text-align:center;margin-top:2rem;}
+.countdown-title{font-size:0.72rem;text-transform:uppercase;letter-spacing:0.2em;color:var(--muted);margin-bottom:1.2rem;}
+.countdown-grid{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+.countdown-item{background:var(--dark2);border:1px solid rgba(0,229,160,0.1);border-radius:10px;padding:1rem 1.2rem;min-width:80px;text-align:center;}
+.countdown-num{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;line-height:1;background:linear-gradient(135deg,var(--gold),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.countdown-label{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--muted);margin-top:0.3rem;}
+
+/* STATUS BAR */
+.server-status-bar{display:flex;align-items:center;gap:1.5rem;background:rgba(0,229,160,0.04);border:1px solid rgba(0,229,160,0.1);border-radius:10px;padding:0.8rem 1.5rem;margin-top:1.5rem;flex-wrap:wrap;}
+.status-item{display:flex;align-items:center;gap:0.4rem;font-size:0.82rem;}
+.status-label{color:var(--muted);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;}
+.status-val{font-weight:700;}
+.share-btn{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);color:var(--gold);font-size:0.78rem;font-weight:600;padding:0.45rem 1rem;border-radius:6px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;margin-left:auto;}
+.share-btn:hover{background:rgba(0,229,160,0.15);}
+
+/* BOUTIQUE */
 #boutique{background:var(--dark);}
-
-.boutique-intro{
-  display:flex;align-items:center;gap:1.5rem;
-  background:rgba(245,166,35,0.07);border:1px solid rgba(245,166,35,0.2);
-  border-radius:12px;padding:1.4rem 2rem;margin-bottom:3rem;
-}
-.boutique-intro-icon{font-size:2.5rem;}
-.boutique-intro-text{}
-.boutique-intro-title{font-weight:700;font-size:1rem;color:var(--coin);margin-bottom:0.3rem;}
-.boutique-intro-desc{font-size:0.85rem;color:var(--muted);line-height:1.6;}
-
-.boutique-ticket-banner{
-  display:flex;align-items:center;justify-content:center;gap:1rem;
-  background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.2);
-  border-radius:10px;padding:1rem 2rem;margin-bottom:3rem;
-  font-size:0.88rem;font-weight:600;color:var(--gold);
-  position:relative;overflow:hidden;
-}
+.boutique-ticket-banner{display:flex;align-items:center;justify-content:center;gap:1rem;background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.2);border-radius:10px;padding:1rem 2rem;margin-bottom:3rem;font-size:0.88rem;font-weight:600;color:var(--gold);position:relative;overflow:hidden;}
 .boutique-ticket-banner::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(0,229,160,0.05),transparent);transform:translateX(-100%);animation:shimmer 3s infinite;}
-
-.coin-section-title{
-  font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:0.06em;
-  color:var(--coin);margin:2.5rem 0 1.2rem;
-  display:flex;align-items:center;gap:0.7rem;
-}
+.coin-section-title{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:0.06em;color:var(--coin);margin:2.5rem 0 1.2rem;display:flex;align-items:center;gap:0.7rem;}
 .coin-section-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(245,166,35,0.3),transparent);}
-
 .coin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem;margin-bottom:2rem;}
-
-.coin-card{
-  background:var(--dark3);border:1px solid rgba(245,166,35,0.1);
-  border-radius:12px;padding:1.8rem 1.5rem;text-align:center;
-  position:relative;overflow:hidden;
-  transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;
-  cursor:pointer;
-}
+.coin-card{background:var(--dark3);border:1px solid rgba(245,166,35,0.1);border-radius:12px;padding:1.8rem 1.5rem;text-align:center;position:relative;overflow:hidden;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;cursor:pointer;}
 .coin-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--coin),transparent);transform:scaleX(0);transition:transform 0.3s;}
 .coin-card:hover{border-color:rgba(245,166,35,0.4);transform:translateY(-5px);box-shadow:0 15px 40px rgba(245,166,35,0.1);}
 .coin-card:hover::before{transform:scaleX(1);}
-
-.coin-card.featured{
-  border-color:rgba(245,166,35,0.3);
-  background:linear-gradient(135deg,var(--dark3),rgba(245,166,35,0.05));
-}
-.coin-card.featured::after{
-  content:'POPULAIRE';position:absolute;top:0.7rem;right:0.7rem;
-  background:var(--coin);color:var(--dark);font-size:0.58rem;
-  font-weight:800;letter-spacing:0.14em;padding:0.2rem 0.5rem;border-radius:100px;
-}
-
+.coin-card.featured{border-color:rgba(245,166,35,0.3);background:linear-gradient(135deg,var(--dark3),rgba(245,166,35,0.05));}
+.coin-card.featured::after{content:'POPULAIRE';position:absolute;top:0.7rem;right:0.7rem;background:var(--coin);color:var(--dark);font-size:0.58rem;font-weight:800;letter-spacing:0.14em;padding:0.2rem 0.5rem;border-radius:100px;}
 .coin-emoji{font-size:2.5rem;margin-bottom:1rem;display:block;}
-.coin-price{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--coin);line-height:1;margin-bottom:0.3rem;}
-.coin-amount{font-size:0.85rem;font-weight:700;color:var(--text);margin-bottom:0.2rem;}
-.coin-sub{font-size:0.75rem;color:var(--muted);}
-.coin-img{width:64px;height:64px;object-fit:contain;margin-bottom:1rem;display:block;margin-left:auto;margin-right:auto;filter:drop-shadow(0 0 10px rgba(245,166,35,0.5));transition:transform 0.3s,filter 0.3s;}
+.coin-img{width:64px;height:64px;object-fit:contain;margin:0 auto 1rem;display:block;filter:drop-shadow(0 0 10px rgba(245,166,35,0.5));transition:transform 0.3s,filter 0.3s;}
 .coin-card:hover .coin-img{transform:scale(1.1) rotate(-5deg);filter:drop-shadow(0 0 18px rgba(245,166,35,0.8));}
-
-.coin-card .coin-buy-btn{
-  display:inline-flex;align-items:center;gap:0.4rem;
-  background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.3);
-  color:var(--coin);font-size:0.75rem;font-weight:700;
-  letter-spacing:0.1em;text-transform:uppercase;
-  padding:0.5rem 1.2rem;border-radius:5px;margin-top:1.2rem;
-  cursor:pointer;font-family:'Outfit',sans-serif;
-  transition:background 0.2s,transform 0.2s;
-  text-decoration:none;
-}
-.coin-card .coin-buy-btn:hover{background:rgba(245,166,35,0.22);transform:translateY(-1px);}
+.coin-price{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--coin);line-height:1;margin-bottom:0.3rem;}
+.coin-amount{font-size:0.85rem;font-weight:700;margin-bottom:0.2rem;}
+.coin-sub{font-size:0.75rem;color:var(--muted);}
+.coin-buy-btn{display:inline-flex;align-items:center;gap:0.4rem;background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.3);color:var(--coin);font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.5rem 1.2rem;border-radius:5px;margin-top:1.2rem;cursor:pointer;font-family:'Outfit',sans-serif;transition:background 0.2s;text-decoration:none;}
+.coin-buy-btn:hover{background:rgba(245,166,35,0.22);}
 .coin-card.featured .coin-buy-btn{background:var(--coin);color:var(--dark);}
-.coin-card.featured .coin-buy-btn:hover{background:#f7bc50;}
-
-/* PACKS */
 .pack-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.2rem;}
-
-.pack-card{
-  background:var(--dark3);border:1px solid rgba(0,229,160,0.08);
-  border-radius:12px;padding:1.8rem 1.5rem;
-  position:relative;overflow:hidden;
-  transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;
-  cursor:pointer;
-}
+.pack-card{background:var(--dark3);border:1px solid rgba(0,229,160,0.08);border-radius:12px;padding:1.8rem 1.5rem;position:relative;overflow:hidden;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;}
 .pack-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),var(--teal),transparent);transform:scaleX(0);transition:transform 0.3s;}
 .pack-card:hover{border-color:rgba(0,229,160,0.3);transform:translateY(-5px);box-shadow:0 15px 40px rgba(0,229,160,0.07);}
 .pack-card:hover::before{transform:scaleX(1);}
-
-.pack-price-badge{
-  display:inline-flex;font-family:'Bebas Neue',sans-serif;font-size:1.6rem;
-  color:var(--gold);margin-bottom:0.8rem;letter-spacing:0.04em;
-}
-.pack-name{font-weight:800;font-size:1rem;margin-bottom:1rem;color:var(--text);}
+.pack-price-badge{display:inline-flex;font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--gold);margin-bottom:0.8rem;}
+.pack-name{font-weight:800;font-size:1rem;margin-bottom:1rem;}
 .pack-items{list-style:none;display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1.3rem;}
 .pack-items li{font-size:0.82rem;color:var(--muted);display:flex;align-items:center;gap:0.5rem;}
 .pack-items li::before{content:'✓';color:var(--gold);font-weight:700;font-size:0.75rem;}
-.pack-buy-btn{
-  display:flex;align-items:center;justify-content:center;gap:0.4rem;
-  background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);
-  color:var(--gold);font-size:0.75rem;font-weight:700;
-  letter-spacing:0.1em;text-transform:uppercase;
-  padding:0.55rem 1.2rem;border-radius:5px;
-  cursor:pointer;font-family:'Outfit',sans-serif;
-  transition:background 0.2s;width:100%;
-  text-decoration:none;
-}
+.pack-buy-btn{display:flex;align-items:center;justify-content:center;gap:0.4rem;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--gold);font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.55rem 1.2rem;border-radius:5px;cursor:pointer;font-family:'Outfit',sans-serif;transition:background 0.2s;width:100%;text-decoration:none;}
 .pack-buy-btn:hover{background:rgba(0,229,160,0.18);}
-
-.ticket-note{
-  display:flex;align-items:flex-start;gap:0.8rem;
-  background:rgba(88,101,242,0.08);border:1px solid rgba(88,101,242,0.2);
-  border-radius:10px;padding:1.2rem 1.5rem;margin-top:3rem;
-  font-size:0.84rem;color:var(--muted);line-height:1.65;
-}
-.ticket-note-icon{font-size:1.4rem;flex-shrink:0;}
+.ticket-note{display:flex;align-items:flex-start;gap:0.8rem;background:rgba(88,101,242,0.08);border:1px solid rgba(88,101,242,0.2);border-radius:10px;padding:1.2rem 1.5rem;margin-top:3rem;font-size:0.84rem;color:var(--muted);line-height:1.65;}
 .ticket-note strong{color:var(--text);}
 
 /* STAFF */
@@ -323,9 +298,9 @@ nav.scrolled{padding:0.7rem 3rem;background:rgba(6,9,15,0.96);border-bottom-colo
 footer{background:var(--dark2);border-top:1px solid rgba(0,229,160,0.1);padding:4rem 2rem 2rem;}
 .footer-inner{max-width:1100px;margin:0 auto;}
 .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem;}
-.footer-logo-text{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;background:linear-gradient(135deg,var(--gold),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 20px rgba(0,229,160,0.25));margin-bottom:0.8rem;}
+.footer-logo-text{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;background:linear-gradient(135deg,var(--gold),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:0.8rem;}
 .footer-tagline{font-size:0.83rem;color:var(--muted);line-height:1.6;max-width:250px;font-weight:300;}
-.footer-discord{display:inline-flex;align-items:center;gap:0.5rem;background:#5865F2;color:#fff;padding:0.6rem 1.2rem;border-radius:5px;font-size:0.8rem;font-weight:600;text-decoration:none;margin-top:1.2rem;transition:background 0.2s,transform 0.2s;}
+.footer-discord{display:inline-flex;align-items:center;gap:0.5rem;background:var(--discord);color:#fff;padding:0.6rem 1.2rem;border-radius:5px;font-size:0.8rem;font-weight:600;text-decoration:none;margin-top:1.2rem;transition:background 0.2s,transform 0.2s;}
 .footer-discord:hover{background:#4752c4;transform:translateY(-1px);}
 .footer-col-title{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--gold);margin-bottom:1.2rem;font-weight:600;}
 .footer-links-list{list-style:none;display:flex;flex-direction:column;gap:0.65rem;}
@@ -336,12 +311,10 @@ footer{background:var(--dark2);border-top:1px solid rgba(0,229,160,0.1);padding:
 .footer-made{font-size:0.75rem;color:rgba(100,120,112,0.4);}
 
 /* TOAST */
-#toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--dark3);border:1px solid rgba(0,229,160,0.3);border-radius:8px;padding:0.8rem 1.6rem;font-size:0.83rem;color:var(--gold);z-index:99999;transition:transform 0.3s ease;box-shadow:0 8px 30px rgba(0,0,0,0.5);pointer-events:none;}
+#toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--dark3);border:1px solid rgba(0,229,160,0.3);border-radius:8px;padding:0.8rem 1.6rem;font-size:0.83rem;color:var(--gold);z-index:99999;transition:transform 0.3s;pointer-events:none;}
 #toast.show{transform:translateX(-50%) translateY(0);}
 
-.reveal{opacity:0;transform:translateY(25px);transition:opacity 0.6s ease,transform 0.6s ease;}
-.reveal.vis{opacity:1;transform:translateY(0);}
-
+/* RESPONSIVE */
 @media(max-width:900px){
   nav{padding:1rem 1.5rem;}
   .nav-links{display:none;}
@@ -364,42 +337,53 @@ footer{background:var(--dark2);border-top:1px solid rgba(0,229,160,0.1);padding:
 </style>
 </head>
 <body>
-
+<div id="scroll-progress"></div>
+<button id="back-to-top" aria-label="Retour en haut">↑</button>
+<div class="notif-stack" id="notif-stack"></div>
+<div id="cookie-banner">
+  <div class="cookie-text">🍪 Nous utilisons des cookies pour améliorer votre expérience.</div>
+  <div class="cookie-btns">
+    <button class="cookie-accept" onclick="acceptCookies()">Accepter</button>
+    <button class="cookie-refuse" onclick="refuseCookies()">Refuser</button>
+  </div>
+</div>
+<div id="search-overlay">
+  <div class="search-box">
+    <div class="search-input-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" class="search-input" id="search-input" placeholder="Rechercher sur le site..." autocomplete="off"/>
+      <button class="search-close-btn" onclick="closeSearch()">ESC</button>
+    </div>
+    <div class="search-results" id="search-results"></div>
+    <div class="search-hint">Ctrl+K pour ouvrir · ESC pour fermer</div>
+  </div>
+</div>
 <div id="cursor"></div>
 <div id="cursor-trail"></div>
 <canvas id="particles-canvas"></canvas>
-<div id="toast">✓ IP copiée dans le presse-papiers !</div>
+<div id="toast"></div>
 
 <!-- NAV -->
 <nav id="main-nav">
-  <button class="nav-logo" onclick="goHome()">MyStiC<span> RP</span> 🌴</button>
+  <button class="nav-logo" onclick="navScrollTo('hero')">MyStiC<span> RP</span> 🌴</button>
   <ul class="nav-links" id="nav-links-home">
-    <li><button style="color:var(--muted);background:none;border:none;font-size:0.8rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;" onclick="navScrollTo('presentation')">Serveur</button></li>
-    <li><button style="color:var(--muted);background:none;border:none;font-size:0.8rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;" onclick="navScrollTo('boutique')">Boutique</button></li>
-    <li><button style="color:var(--muted);background:none;border:none;font-size:0.8rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;" onclick="navScrollTo('reglement-home')">Règlement</button></li>
-    <li><button style="color:var(--muted);background:none;border:none;font-size:0.8rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;" onclick="navScrollTo('rejoindre')">Rejoindre</button></li>
-    <li><button style="color:var(--muted);background:none;border:none;font-size:0.8rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;" onclick="navScrollTo('staff')">Staff</button></li>
-    <li><button style="color:var(--muted);background:none;border:none;font-size:0.8rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;" onclick="navScrollTo('faq')">FAQ</button></li>
+    <li><button onclick="navScrollTo('presentation')">Serveur</button></li>
+    <li><button onclick="navScrollTo('boutique')" style="color:var(--coin)">🪙 Boutique</button></li>
+    <li><button onclick="navScrollTo('reglement-home')">Règlement</button></li>
+    <li><button onclick="navScrollTo('rejoindre')">Rejoindre</button></li>
+    <li><button onclick="navScrollTo('staff')">Staff</button></li>
+    <li><button onclick="navScrollTo('faq')">FAQ</button></li>
   </ul>
-  <ul class="nav-links" id="nav-links-regle" style="display:none;">
-    <li><a href="#r-generales">Générales</a></li>
-    <li><a href="#r-metiers">Métiers</a></li>
-    <li><a href="#r-gangs">Gangs</a></li>
-    <li><a href="#r-sanctions">Sanctions</a></li>
-  </ul>
-<div class="nav-right">
-    <button class="nav-back-btn" id="nav-back" onclick="goHome()">← Retour</button>
-    
-    <button onclick="toggleSettings()" style="background:none; border:none; color:var(--muted); cursor:pointer; padding:5px; display:flex; align-items:center; transition:0.3s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">
-        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="margin-right:5px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-    </button>
-
+  <div class="nav-right">
+    <button class="btn-icon" onclick="openSearch()" title="Rechercher (Ctrl+K)">🔍</button>
+    <button class="btn-icon" id="theme-toggle" onclick="toggleTheme()" title="Changer le thème">🌙</button>
     <a href="https://discord.gg/GBMj67FYdM" target="_blank" class="btn-discord-nav">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.08.116 18.12a19.79 19.79 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
       Discord
     </a>
     <button class="mobile-menu-btn" onclick="toggleMobile()">☰</button>
-</div>
+  </div>
+</nav>
 
 <div class="mobile-nav" id="mobile-nav">
   <button class="mobile-close" onclick="toggleMobile()">✕</button>
@@ -409,415 +393,484 @@ footer{background:var(--dark2);border-top:1px solid rgba(0,229,160,0.1);padding:
   <button onclick="toggleMobile();navScrollTo('rejoindre')">Rejoindre</button>
   <button onclick="toggleMobile();navScrollTo('staff')">Staff</button>
   <button onclick="toggleMobile();navScrollTo('faq')">FAQ</button>
-  <a href="https://discord.gg/GBMj67FYdM" target="_blank" onclick="toggleMobile()" style="color:var(--teal)">Discord</a>
+  <a href="https://discord.gg/GBMj67FYdM" target="_blank" onclick="toggleMobile()">Discord</a>
 </div>
 
-<!-- PAGE ACCUEIL -->
-<div id="page-home" class="page active">
+<!-- MARQUEE -->
+<div class="marquee-bar" style="margin-top:72px;">
+  <div class="marquee-inner" id="marquee-inner">
+    <span class="marquee-item">🌴 <span>MyStiC RP</span> — Ouverture bientôt !</span>
+    <span class="marquee-item">🪙 <span>Boutique Mystcoin</span> — Disponible dès l'ouverture</span>
+    <span class="marquee-item">📋 <span>Règlement</span> — Lisez-le avant de rejoindre</span>
+    <span class="marquee-item">💬 <span>Discord</span> — Rejoignez la communauté</span>
+    <span class="marquee-item">🎮 <span>FiveM</span> — Serveur francophone premium</span>
+    <span class="marquee-item">⚡ <span>Scripts exclusifs</span> — 100+ métiers RP</span>
+    <span class="marquee-item">🌴 <span>MyStiC RP</span> — Ouverture bientôt !</span>
+    <span class="marquee-item">🪙 <span>Boutique Mystcoin</span> — Disponible dès l'ouverture</span>
+    <span class="marquee-item">📋 <span>Règlement</span> — Lisez-le avant de rejoindre</span>
+    <span class="marquee-item">💬 <span>Discord</span> — Rejoignez la communauté</span>
+    <span class="marquee-item">🎮 <span>FiveM</span> — Serveur francophone premium</span>
+    <span class="marquee-item">⚡ <span>Scripts exclusifs</span> — 100+ métiers RP</span>
+  </div>
+</div>
 
-  <section id="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-grid"></div>
-    <div class="hero-palms"></div>
-    <div class="hero-status"><div class="status-dot"></div>Serveur en ligne — FiveM FR</div>
-    <h1 class="hero-title">
-      <span class="line1">MyStiC</span>
-      <span class="line2">RP 🌴</span>
-    </h1>
-    <p class="hero-tagline">Une expérience roleplay immersive et unique.<br/>Rejoins notre communauté et écris ta propre histoire.</p>
-    <div class="hero-actions">
-      <div class="coming-soon-btn">
-        <span class="cs-icon">⏳</span>
-        <div class="cs-text">
-          <span class="cs-label">Ouverture bientôt</span>
-          <span class="cs-sub">Rejoins le Discord pour être alerté</span>
-        </div>
+<!-- HERO -->
+<section id="hero" style="margin-top:0;padding-top:6rem;">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-palms"></div>
+  <div class="hero-status" id="hero-status"><div class="status-dot"></div><span id="hero-status-text">Serveur en ligne — FiveM FR</span></div>
+  <h1 class="hero-title">
+    <span class="line1" id="hero-title-line1">MyStiC</span>
+    <span class="line2" id="hero-title-line2">RP 🌴</span>
+  </h1>
+  <p class="hero-tagline" id="hero-tagline">Une expérience roleplay immersive et unique.<br/>Rejoins notre communauté et écris ta propre histoire.</p>
+  <div class="hero-actions">
+    <div class="coming-soon-btn">
+      <span class="cs-icon">⏳</span>
+      <div class="cs-text">
+        <span class="cs-label" id="hero-cs-label">Ouverture bientôt</span>
+        <span class="cs-sub" id="hero-cs-sub">Rejoins le Discord pour être alerté</span>
       </div>
-      <button class="btn-secondary" onclick="navScrollTo('presentation')">Découvrir le serveur</button>
     </div>
-    <div class="hero-stats">
-      <div class="stat"><div class="stat-num">34</div><div class="stat-label">Membres Discord</div></div>
-      <div class="stat-divider"></div>
-      <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">En ligne</div></div>
-      <div class="stat-divider"></div>
-      <div class="stat"><div class="stat-num">100+</div><div class="stat-label">Métiers RP</div></div>
-    </div>
-    <div class="scroll-hint"><span>Défiler</span><div class="scroll-arrow"></div></div>
-  </section>
+    <button class="btn-secondary" onclick="navScrollTo('presentation')">Découvrir le serveur</button>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num" id="stat-discord">34</div><div class="stat-label">Membres Discord</div></div>
+    <div class="stat-divider"></div>
+    <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">En ligne</div></div>
+    <div class="stat-divider"></div>
+    <div class="stat"><div class="stat-num" id="stat-metiers">100+</div><div class="stat-label">Métiers RP</div></div>
+  </div>
+  <div class="scroll-hint"><span>Défiler</span><div class="scroll-arrow"></div></div>
+</section>
 
-  <div class="divider-line"></div>
+<div class="divider-line"></div>
 
-  <!-- PRÉSENTATION -->
-  <section id="presentation" class="section-wrap">
-    <div class="container">
-      <div class="section-eyebrow">Qui sommes-nous</div>
-      <h2 class="section-heading reveal">Le Serveur</h2>
-      <p class="section-body reveal">MyStiC RP est un serveur FiveM francophone dédié au roleplay de qualité. Économie réaliste, scripts exclusifs, staff actif et communauté soudée.</p>
-      <div class="pres-layout">
-        <div class="features-grid">
-          <div class="feat-card reveal"><div class="feat-icon">🏙️</div><div class="feat-title">Ville vivante</div><div class="feat-desc">Une ville dynamique avec des PNJs et événements RP aléatoires chaque jour.</div></div>
-          <div class="feat-card reveal"><div class="feat-icon">💼</div><div class="feat-title">100+ Métiers</div><div class="feat-desc">Métiers légaux et illégaux entièrement scriptés et uniques au serveur.</div></div>
-          <div class="feat-card reveal"><div class="feat-icon">🏠</div><div class="feat-title">Immobilier</div><div class="feat-desc">Achète, personnalise et vends des biens immobiliers partout dans la ville.</div></div>
-          <div class="feat-card reveal"><div class="feat-icon">🚗</div><div class="feat-title">Véhicules customs</div><div class="feat-desc">Des centaines de véhicules exclusifs et entièrement personnalisables.</div></div>
-          <div class="feat-card reveal"><div class="feat-icon">⚖️</div><div class="feat-title">Justice & Police</div><div class="feat-desc">Système judiciaire complet : avocat, tribunal, prison et code pénal.</div></div>
-          <div class="feat-card reveal"><div class="feat-icon">🌟</div><div class="feat-title">Events réguliers</div><div class="feat-desc">Événements RP organisés chaque semaine par le staff passionné.</div></div>
-        </div>
-        <div>
-          <div class="pres-visual reveal">
-            <div class="pres-visual-glow"></div>
-            <div class="pres-badge">🟢 Online</div>
-            <div class="pres-visual-text">MyStiC<br/>RP<br/>🌴</div>
+<!-- PRÉSENTATION -->
+<section id="presentation" class="section-wrap">
+  <div class="container">
+    <div class="section-eyebrow">Qui sommes-nous</div>
+    <h2 class="section-heading reveal" id="pres-heading">Le Serveur</h2>
+    <p class="section-body reveal" id="pres-body">MyStiC RP est un serveur FiveM francophone dédié au roleplay de qualité. Économie réaliste, scripts exclusifs, staff actif et communauté soudée.</p>
+    <div class="pres-layout">
+      <div class="features-grid" id="features-grid">
+        <div class="feat-card reveal"><div class="feat-icon">🏙️</div><div class="feat-title">Ville vivante</div><div class="feat-desc">Une ville dynamique avec des PNJs et événements RP aléatoires chaque jour.</div></div>
+        <div class="feat-card reveal"><div class="feat-icon">💼</div><div class="feat-title">100+ Métiers</div><div class="feat-desc">Métiers légaux et illégaux entièrement scriptés et uniques au serveur.</div></div>
+        <div class="feat-card reveal"><div class="feat-icon">🏠</div><div class="feat-title">Immobilier</div><div class="feat-desc">Achète, personnalise et vends des biens immobiliers partout dans la ville.</div></div>
+        <div class="feat-card reveal"><div class="feat-icon">🚗</div><div class="feat-title">Véhicules customs</div><div class="feat-desc">Des centaines de véhicules exclusifs et entièrement personnalisables.</div></div>
+        <div class="feat-card reveal"><div class="feat-icon">⚖️</div><div class="feat-title">Justice & Police</div><div class="feat-desc">Système judiciaire complet : avocat, tribunal, prison et code pénal.</div></div>
+        <div class="feat-card reveal"><div class="feat-icon">🌟</div><div class="feat-title">Events réguliers</div><div class="feat-desc">Événements RP organisés chaque semaine par le staff passionné.</div></div>
+      </div>
+      <div>
+        <div class="discord-panel reveal">
+          <div class="discord-panel-header">
+            <div class="discord-panel-title"><span class="discord-live-dot"></span>Annonces MyStiC RP</div>
+            <div class="discord-panel-sub">Dernières nouvelles du serveur</div>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider-line"></div>
-
-  <!-- ===================== BOUTIQUE ===================== -->
-  <section id="boutique" class="section-wrap">
-    <div class="container">
-      <div class="section-eyebrow">Boutique officielle</div>
-      <h2 class="section-heading reveal">Mystcoin 🪙</h2>
-      <p class="section-body reveal">La monnaie officielle de MyStiC RP. Obtiens des Mystcoins et débloque des avantages exclusifs sur le serveur.</p>
-
-      <div class="boutique-ticket-banner reveal">
-        🎫 &nbsp;<strong>Tout achat se fait exclusivement via ticket sur le Discord</strong>&nbsp; — ouvre un ticket dans le salon <strong>#🎁・boutique</strong>
-      </div>
-
-      <div class="boutique-intro reveal">
-        <div class="boutique-intro-icon">🪙</div>
-        <div class="boutique-intro-text">
-          <div class="boutique-intro-title">Qu'est-ce que le Mystcoin ?</div>
-          <div class="boutique-intro-desc">Le Mystcoin est la monnaie premium de MyStiC RP. Il te permet d'obtenir des VIP, véhicules exclusifs et avantages en jeu. Tous les achats sont traités manuellement par le staff via ticket Discord pour garantir la sécurité de chaque transaction.</div>
-        </div>
-      </div>
-
-      <!-- MYSTCOINS -->
-      <div class="coin-section-title reveal">🪙 Recharges Mystcoin</div>
-      <div class="coin-grid reveal">
-        <div class="coin-card" onclick="openDiscord()">
-          <span class="coin-emoji">🪙</span>
-          <div class="coin-price">10€</div>
-          <div class="coin-amount">1 500 Mystcoins</div>
-          <div class="coin-sub">0,67€ / 100 Mcoins</div>
-          <a href="https://discord.gg/GBMj67FYdM" target="_blank" class="coin-buy-btn">🎫 Ouvrir un ticket</a>
-        </div>
-        <div class="coin-card featured" onclick="openDiscord()">
-          <span class="coin-emoji">💰</span>
-          <div class="coin-price">20€</div>
-          <div class="coin-amount">3 200 Mystcoins</div>
-          <div class="coin-sub">+200 bonus inclus</div>
-          <a href="https://discord.gg/GBMj67FYdM" target="_blank" class="coin-buy-btn">🎫 Ouvrir un ticket</a>
-        </div>
-        <div class="coin-card" onclick="openDiscord()">
-          <span class="coin-emoji">💎</span>
-          <div class="coin-price">30€</div>
-          <div class="coin-amount">4 500 Mystcoins</div>
-          <div class="coin-sub">+ VIP 1 semaine offert</div>
-          <a href="https://discord.gg/GBMj67FYdM" target="_blank" class="coin-buy-btn">🎫 Ouvrir un ticket</a>
-        </div>
-        <div class="coin-card" onclick="openDiscord()">
-          <span class="coin-emoji">👑</span>
-          <div class="coin-price">50€</div>
-          <div class="coin-amount">6 000 Mystcoins</div>
-          <div class="coin-sub">+ VIP 1 mois offert</div>
-          <a href="https://discord.gg/GBMj67FYdM" target="_blank" class="coin-buy-btn">🎫 Ouvrir un ticket</a>
-        </div>
-      </div>
-
-      <!-- PACKS -->
-      <div class="coin-section-title reveal">🎁 Packs exclusifs</div>
-      <div class="pack-grid reveal">
-        <div class="pack-card">
-          <div class="pack-price-badge">5€</div>
-          <div class="pack-name">Pack Moto 🏍️</div>
-          <ul class="pack-items">
-            <li>1 moto exclusive en jeu</li>
-            <li>Livraison immédiate via ticket</li>
-          </ul>
-          <a href="https://discord.gg/GBMj67FYdM" target="_blank" class="pack-buy-btn">🎫 Acheter via ticket</a>
-        </div>
-        <div class="pack-card">
-          <div class="pack-price-badge">10€</div>
-          <div class="pack-name">Pack VIP 1S ⭐</div>
-          <ul class="pack-items">
-            <li>Statut VIP pendant 1 semaine</li>
-            <li>Avantages exclusifs en jeu</li>
-            <li>Rôle Discord dédié</li>
-          </ul>
-          <a href="https://discord.gg/GBMj67FYdM" target="_blank" class="pack-buy-btn">🎫 Acheter via ticket</a>
-        </div>
-        <div class="pack-card">
-          <div class="pack-price-badge">20€</div>
-          <div class="pack-name">Pack Voiture + VIP 2S 🚗</div>
-          <ul class="pack-items">
-            <li>1 voiture exclusive en jeu</li>
-            <li>Statut VIP pendant 2 semaines</li>
-            <li>Rôle Discord dédié</li>
-            <li>Avantages exclusifs en jeu</li>
-          </ul>
-          <a href="https://discord.gg/GBMj67FYdM" target="_blank" class="pack-buy-btn">🎫 Acheter via ticket</a>
-        </div>
-      </div>
-
-      <div class="ticket-note reveal">
-        <div class="ticket-note-icon">🎫</div>
-        <div>
-          <strong>Comment acheter ?</strong> Rejoins notre Discord et ouvre un ticket dans le salon <strong>#🎁・boutique</strong>. Indique le pack ou la quantité de Mystcoins souhaitée. Un membre du staff traitera ta commande dans les plus brefs délais. <strong>Aucun achat direct</strong> — tout se fait via ticket pour ta sécurité.
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider-line"></div>
-
-  <!-- RÈGLEMENT -->
-  <section id="reglement-home" class="section-wrap">
-    <div class="container">
-      <div class="section-eyebrow">À respecter</div>
-      <h2 class="section-heading reveal">Règlement</h2>
-      <p class="section-body reveal">Le respect des règles garantit une expérience RP de qualité pour tous. Toute infraction grave peut entraîner un bannissement définitif.</p>
-      <div class="rules-stack">
-        <div class="rule-row reveal"><div class="rule-n">01</div><div><div class="rule-t">Respect & Bienveillance</div><div class="rule-d">Respect obligatoire envers tous, en jeu comme hors jeu. Aucune insulte ni discrimination tolérée.</div></div></div>
-        <div class="rule-row reveal"><div class="rule-n">02</div><div><div class="rule-t">No Metagaming</div><div class="rule-d">Interdit d'utiliser des informations hors jeu (Discord, stream…) pour en bénéficier en jeu.</div></div></div>
-        <div class="rule-row reveal"><div class="rule-n">03</div><div><div class="rule-t">No RDM / VDM</div><div class="rule-d">Tuer ou percuter un joueur sans raison RP valable est strictement interdit.</div></div></div>
-        <div class="rule-row reveal"><div class="rule-n">04</div><div><div class="rule-t">Fear RP</div><div class="rule-d">Ton personnage doit craindre pour sa vie en situation de danger réaliste.</div></div></div>
-        <div class="rule-row reveal"><div class="rule-n">05</div><div><div class="rule-t">Zoning RP</div><div class="rule-d">Hôpital, mairie et tribunal sont des zones neutres. Aucun acte hostile sans accord staff.</div></div></div>
-        <div class="rule-row reveal"><div class="rule-n">06</div><div><div class="rule-t">Anti-Cheat Tolérance Zéro</div><div class="rule-d">Tout hack ou exploit entraîne un bannissement immédiat et définitif sans appel.</div></div></div>
-      </div>
-      <div class="see-all-wrap reveal">
-        <a href="reglement.html" target="_blank" class="btn-primary">📜 Voir le règlement complet</a>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider-line"></div>
-
-  <!-- REJOINDRE -->
-  <section id="rejoindre" class="section-wrap">
-    <div class="container">
-      <div class="section-eyebrow">C'est parti</div>
-      <h2 class="section-heading reveal">Comment Rejoindre</h2>
-      <p class="section-body reveal">Suis ces 3 étapes simples pour démarrer ton aventure. C'est gratuit et ça prend moins de 5 minutes.</p>
-      <div class="steps-row">
-        <div class="step-card reveal"><div class="step-n">01</div><div class="step-icon">🎮</div><div class="step-t">Installe FiveM</div><div class="step-d">Télécharge et installe le client FiveM gratuitement sur fivem.net. GTA V est requis.</div></div>
-        <div class="step-card reveal"><div class="step-n">02</div><div class="step-icon">💬</div><div class="step-t">Rejoins le Discord</div><div class="step-d">Accepte le règlement et lis les annonces importantes sur notre Discord officiel.</div></div>
-        <div class="step-card reveal"><div class="step-n">03</div><div class="step-icon">🌴</div><div class="step-t">Connecte-toi</div><div class="step-d">Lance FiveM, entre l'IP du serveur et commence ton aventure MyStiC RP !</div></div>
-      </div>
-      <div class="server-info-box reveal">
-        <div>
-          <div class="server-ip-label">IP du serveur</div>
-          <div class="server-ip"><span>Bientôt disponible</span><button class="copy-ip-btn" onclick="copyIP()">📋 Copier</button></div>
-        </div>
-        <div class="server-info-actions">
-          <a href="https://discord.gg/GBMj67FYdM" target="_blank" class="btn-primary">💬 Discord</a>
-          <a href="https://fivem.net" target="_blank" class="btn-secondary">🎮 FiveM</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider-line"></div>
-
-  <!-- STAFF -->
-  <section id="staff" class="section-wrap">
-    <div class="container">
-      <div class="section-eyebrow">L'équipe</div>
-      <h2 class="section-heading reveal">Notre Staff</h2>
-      <p class="section-body reveal">Une équipe passionnée, disponible et à l'écoute de la communauté, 7j/7.</p>
-      <div class="staff-grid" style="grid-template-columns:repeat(2,minmax(260px,380px));justify-content:center;">
-        <div class="staff-card reveal"><div class="staff-avatar">👑</div><div class="staff-name">Noctaris</div><div class="staff-badge badge-owner">Fondateur</div><div class="staff-bio">Fondateur de MyStiC RP. Visionnaire du projet, il assure la direction globale et le développement du serveur depuis le premier jour.</div></div>
-        <div class="staff-card reveal"><div class="staff-avatar">⚡</div><div class="staff-name">GlitchTek</div><div class="staff-badge badge-creator">Créateur</div><div class="staff-bio">Créateur du serveur. Architecte technique de MyStiC RP, il a construit les systèmes et scripts qui font l'identité unique du serveur.</div></div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider-line"></div>
-
-  <!-- FAQ -->
-  <section id="faq" class="section-wrap">
-    <div class="container">
-      <div class="section-eyebrow">Questions fréquentes</div>
-      <h2 class="section-heading reveal">FAQ</h2>
-      <p class="section-body reveal">Toutes les réponses aux questions qu'on nous pose le plus souvent.</p>
-      <div class="faq-list reveal">
-        <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Le serveur est-il gratuit ? <span class="faq-arrow">+</span></button><div class="faq-a">Oui, MyStiC RP est entièrement gratuit. Tu as juste besoin de GTA V et du client FiveM (aussi gratuit). Les Mystcoins sont optionnels et permettent d'obtenir des avantages cosmétiques.</div></div>
-        <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Comment acheter des Mystcoins ? <span class="faq-arrow">+</span></button><div class="faq-a">Tous les achats se font via ticket sur notre Discord dans le salon #🎁・boutique. Ouvre un ticket, indique ce que tu souhaites acheter et un membre du staff s'occupera de ta commande rapidement.</div></div>
-        <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">J'ai un problème en jeu, comment contacter le staff ? <span class="faq-arrow">+</span></button><div class="faq-a">Ouvre un ticket directement sur notre Discord via le salon dédié. Le staff répond dans les plus brefs délais, généralement en moins d'une heure pendant les heures de pointe. Évite de contacter les membres du staff en DM.</div></div>
-        <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Comment créer un gang ou une organisation ? <span class="faq-arrow">+</span></button><div class="faq-a">Il faut 5 membres actifs minimum et une validation du staff. Remplis le formulaire de création de gang disponible sur le Discord. Le gang doit avoir un background RP cohérent, un nom et un territoire. La réponse arrive sous 48h.</div></div>
-        <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Est-ce que la whitelist est obligatoire ? <span class="faq-arrow">+</span></button><div class="faq-a">Actuellement le serveur est accessible sans whitelist stricte, mais tu dois avoir lu et accepté le règlement sur le Discord. Des passes whitelist pour certains métiers spéciaux (policier, médecin) sont en place pour garantir la qualité du RP.</div></div>
-        <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Le serveur supporte-t-il les streamers ? <span class="faq-arrow">+</span></button><div class="faq-a">Absolument ! Nous adorons les streamers et créateurs de contenu. Des rôles dédiés sont disponibles sur le Discord. Si tu streams régulièrement, contacte le staff pour potentiellement obtenir un partenariat et des avantages exclusifs.</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-inner">
-      <div class="footer-top">
-        <div>
-          <div class="footer-logo-text">MyStiC RP 🌴</div>
-          <p class="footer-tagline">Le serveur FiveM francophone premium. Roleplay immersif, économie réaliste, communauté soudée.</p>
-          <a href="https://discord.gg/GBMj67FYdM" target="_blank" class="footer-discord">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.08.116 18.12a19.79 19.79 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.12-.098.246-.198.373-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
-            Rejoindre le Discord
+          <div class="annonces-list" id="annonces-list">
+            <div class="annonce-item">
+              <div class="annonce-top"><span class="annonce-author">🌴 MyStiC RP</span><span class="annonce-date">Aujourd'hui</span></div>
+              <div class="annonce-text">🚀 Le serveur MyStiC RP ouvre bientôt ! Rejoins le Discord pour être alerté en premier.</div>
+            </div>
+            <div class="annonce-item">
+              <div class="annonce-top"><span class="annonce-author">⚡ GlitchTek</span><span class="annonce-date">Il y a 2 jours</span></div>
+              <div class="annonce-text">🛠️ Les scripts sont en cours de finalisation. La boutique Mystcoin sera disponible dès l'ouverture.</div>
+            </div>
+            <div class="annonce-item">
+              <div class="annonce-top"><span class="annonce-author">👑 Noctaris</span><span class="annonce-date">Il y a 3 jours</span></div>
+              <div class="annonce-text">📋 Le règlement complet est désormais disponible sur le site. Prenez le temps de le lire !</div>
+            </div>
+          </div>
+          <a href="https://discord.gg/GBMj67FYdM" target="_blank" class="discord-join-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.08.116 18.12a19.79 19.79 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+            Voir toutes les annonces sur Discord
           </a>
         </div>
-        <div>
-          <div class="footer-col-title">Navigation</div>
-          <ul class="footer-links-list">
-            <li><button onclick="navScrollTo('presentation')">Le Serveur</button></li>
-            <li><button onclick="navScrollTo('boutique')">Boutique 🪙</button></li>
-            <li><button onclick="navScrollTo('reglement-home')">Règlement</button></li>
-            <li><button onclick="navScrollTo('rejoindre')">Comment Rejoindre</button></li>
-            <li><button onclick="navScrollTo('staff')">Notre Staff</button></li>
-            <li><button onclick="navScrollTo('faq')">FAQ</button></li>
-          </ul>
-        </div>
-        <div>
-          <div class="footer-col-title">Boutique</div>
-          <ul class="footer-links-list">
-            <li><button onclick="navScrollTo('boutique')">Mystcoins 🪙</button></li>
-            <li><button onclick="navScrollTo('boutique')">Pack Moto 🏍️</button></li>
-            <li><button onclick="navScrollTo('boutique')">Pack VIP ⭐</button></li>
-            <li><button onclick="navScrollTo('boutique')">Pack Voiture 🚗</button></li>
-          </ul>
-        </div>
-        <div>
-          <div class="footer-col-title">Liens</div>
-          <ul class="footer-links-list">
-            <li><a href="https://discord.gg/GBMj67FYdM" target="_blank">Discord Officiel</a></li>
-            <li><a href="https://fivem.net" target="_blank">Télécharger FiveM</a></li>
-            <li><a href="reglement.html" target="_blank">Règlement complet</a></li>
-            <li><a href="https://store.steampowered.com/app/271590/Grand_Theft_Auto_V/" target="_blank">GTA V</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <div class="footer-copy">© 2026 MyStiC RP — Tous droits réservés. Non affilié à Rockstar Games.</div>
-        <div class="footer-made">Fondé par Noctaris & GlitchTek 🌴</div>
       </div>
     </div>
-  </footer>
+  </div>
+</section>
 
-</div>
+<div class="divider-line"></div>
+
+<!-- BOUTIQUE -->
+<section id="boutique" class="section-wrap">
+  <div class="container">
+    <div class="section-eyebrow">Boutique officielle</div>
+    <h2 class="section-heading reveal">Mystcoin 🪙</h2>
+    <p class="section-body reveal">La monnaie officielle de MyStiC RP. Obtiens des Mystcoins et débloque des avantages exclusifs.</p>
+    <div class="boutique-ticket-banner reveal">
+      🎫 &nbsp;<strong>Tout achat se fait exclusivement via ticket Discord</strong>&nbsp; — salon <strong>#🎁・boutique</strong>
+    </div>
+    <div class="coin-section-title reveal">🪙 Recharges Mystcoin</div>
+    <div class="coin-grid reveal" id="coin-grid">
+      <div class="coin-card"><img src="data:image/png;base64,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" class="coin-img"/><div class="coin-price">10€</div><div class="coin-amount">1 500 Mystcoins</div><div class="coin-sub">Idéal pour débuter</div><a href="https://discord.gg/GBMj67FYdM" target="_blank" class="coin-buy-btn">🎫 Ticket</a></div>
+      <div class="coin-card featured"><img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAA0AC8DASIAAhEBAxEB/8QAHAAAAgICAwAAAAAAAAAAAAAAAAgFBwQGAQID/8QANhAAAQMDAQUFBQcFAAAAAAAAAQIDBAAFEQYHEiExQRNRYXGhCBSBkbEVIjI0QmLRFlJUsuH/xAAZAQADAQEBAAAAAAAAAAAAAAAABQYEBwP/xAAvEQABAgUBBwEIAwAAAAAAAAABAgMABAURMSEGEkFRYdHwIhMUMnGBkaGxweHx/9oADAMBAAIRAxEAPwBbaKzbHa517u8W02yOqRMlOBtptPUn6AcyegBNNhs42Xab0PDZfmRmbrfSApch1G8ls9zYP4QO/wDEfDkFdWrLFMQCvVRwB5oI2yci5NqsjHOFbg6U1TOZD8LTV5lNEZC2YLq0/MJqPuECdbn+wuEKTEd/sfaUhXyIp9GXblJBWwzlI7k8PXmawLvHt14iLtuoLXHmR1cFNvNA48cHkfEYNTKNs1hQLjPpPX+tYbK2fNiEruRCI16MNqedDacZPfVq7dNlP9HlN9sJcfsLy91SVHeVFUeQJ6pPIE9eB44JrC1/nm/j9DVnJzjU40HmTcHyxhC8ytlZQsaxefsjWJlUi86pkNha4qUxYxI5FQ3lkdxxujyJq/bOW3p594Z7ZSgSkHkD5VUPslLQ7s+vUZJHapuJWR1wWkY/1NW/p5K/tBLgQpSUA7xA5ZFcxrzi3Ksre4ED6WH+xX0xCUSJIzaMp51MlDbplSkNqcDbaUI3QD5V3kOMuRZKJCFyFsDG8pG6pJPLiK5bhyExI7RbO83I7RXlXZ+O92VxIaWe2IKABzxS/wBepPHt3jRdFwAcdx/EQEq3xb7ZJ9hnoC40xhTagRnGRjI8QcEeIpJERHYF+dgvjDsd1xpY/cnIPqKeazoJkqX0SnjSV6oebkbRr0+0QW3LlKWkjlgrWRVVsS4u7rfDQ/sefKFG0KE7yVDMbv7MusGtOawdtkxzci3RKUBR/S6knd+eT6CmjkNyWUmTbn1iOv7yg3g7v/PGkDSSlQUkkEHII6VeGy7bpLtDDVv1EXXUI4JlJG8cfuA458RnPUda07R0N1133qXF75AzpxHPTQjwedJqCEJ9k4bcr4PQ8uhhgff7h/nPen8V6MSbq+4G2ZT61HoMfxWsxNrmh5jIecn2rJGfvutpV8QrdPzFQWrNu+mrZEW1bXW5Lv6W4qQoE+YAT6nyqObkppa9xKVk8rEfe+IfrmGkpuQkdbjwxs21HVETQ+ipkpbyFznEFLQzxW4oEJ+A4+ppMbcpS7ihayVKUVEk9Tg1M6+1ld9ZXYzbk4Q2knsWArKWwfqe8/QcKhbX+eb+P0NdIoFJVT2SXPjVnpbAiRqc6JlwbuB+evaMWiiin0LYKKKKIIK5SopVvJJBHUUUUQR//9k=" class="coin-img"/><div class="coin-price">20€</div><div class="coin-amount">3 200 Mystcoins</div><div class="coin-sub">+200 bonus inclus</div><a href="https://discord.gg/GBMj67FYdM" target="_blank" class="coin-buy-btn">🎫 Ticket</a></div>
+      <div class="coin-card"><img src="data:image/png;base64,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" class="coin-img"/><div class="coin-price">30€</div><div class="coin-amount">4 500 Mystcoins</div><div class="coin-sub">+ VIP 1 semaine offert</div><a href="https://discord.gg/GBMj67FYdM" target="_blank" class="coin-buy-btn">🎫 Ticket</a></div>
+      <div class="coin-card"><img src="data:image/png;base64,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" class="coin-img"/><div class="coin-price">50€</div><div class="coin-amount">6 000 Mystcoins</div><div class="coin-sub">+ VIP 1 mois offert</div><a href="https://discord.gg/GBMj67FYdM" target="_blank" class="coin-buy-btn">🎫 Ticket</a></div>
+    </div>
+    <div class="coin-section-title reveal">🎁 Packs exclusifs</div>
+    <div class="pack-grid reveal" id="pack-grid">
+      <div class="pack-card"><div class="pack-price-badge">5€</div><div class="pack-name">Pack Moto 🏍️</div><ul class="pack-items"><li>1 moto exclusive en jeu</li><li>Livraison via ticket</li></ul><a href="https://discord.gg/GBMj67FYdM" target="_blank" class="pack-buy-btn">🎫 Acheter via ticket</a></div>
+      <div class="pack-card"><div class="pack-price-badge">10€</div><div class="pack-name">Pack VIP 1S ⭐</div><ul class="pack-items"><li>Statut VIP 1 semaine</li><li>Avantages exclusifs en jeu</li><li>Rôle Discord dédié</li></ul><a href="https://discord.gg/GBMj67FYdM" target="_blank" class="pack-buy-btn">🎫 Acheter via ticket</a></div>
+      <div class="pack-card"><div class="pack-price-badge">20€</div><div class="pack-name">Pack Voiture + VIP 2S 🚗</div><ul class="pack-items"><li>1 voiture exclusive en jeu</li><li>Statut VIP 2 semaines</li><li>Rôle Discord dédié</li><li>Avantages exclusifs</li></ul><a href="https://discord.gg/GBMj67FYdM" target="_blank" class="pack-buy-btn">🎫 Acheter via ticket</a></div>
+    </div>
+    <div class="ticket-note reveal">
+      <span style="font-size:1.4rem;flex-shrink:0;">🎫</span>
+      <div><strong>Comment acheter ?</strong> Rejoins notre Discord et ouvre un ticket dans <strong>#🎁・boutique</strong>. Indique le pack souhaité — un membre du staff traitera ta commande rapidement. <strong>Aucun achat direct</strong>, tout passe par ticket pour ta sécurité.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-line"></div>
+
+<!-- RÈGLEMENT -->
+<section id="reglement-home" class="section-wrap" style="background:var(--dark2);">
+  <div class="container">
+    <div class="section-eyebrow">À respecter</div>
+    <h2 class="section-heading reveal">Règlement</h2>
+    <p class="section-body reveal">Le respect des règles garantit une expérience RP de qualité. Toute infraction grave peut entraîner un bannissement définitif.</p>
+    <div class="rules-stack" id="rules-stack">
+      <div class="rule-row reveal"><div class="rule-n">01</div><div><div class="rule-t">Respect & Bienveillance</div><div class="rule-d">Respect obligatoire envers tous, en jeu comme hors jeu. Aucune insulte ni discrimination tolérée.</div></div></div>
+      <div class="rule-row reveal"><div class="rule-n">02</div><div><div class="rule-t">No Metagaming</div><div class="rule-d">Interdit d'utiliser des informations hors jeu pour en bénéficier en jeu.</div></div></div>
+      <div class="rule-row reveal"><div class="rule-n">03</div><div><div class="rule-t">No RDM / VDM</div><div class="rule-d">Tuer ou percuter un joueur sans raison RP valable est strictement interdit.</div></div></div>
+      <div class="rule-row reveal"><div class="rule-n">04</div><div><div class="rule-t">Fear RP</div><div class="rule-d">Ton personnage doit craindre pour sa vie en situation de danger réaliste.</div></div></div>
+      <div class="rule-row reveal"><div class="rule-n">05</div><div><div class="rule-t">Zoning RP</div><div class="rule-d">Hôpital, mairie et tribunal sont des zones neutres. Aucun acte hostile sans accord staff.</div></div></div>
+      <div class="rule-row reveal"><div class="rule-n">06</div><div><div class="rule-t">Anti-Cheat Tolérance Zéro</div><div class="rule-d">Tout hack ou exploit entraîne un bannissement immédiat et définitif sans appel.</div></div></div>
+    </div>
+    <div class="see-all-wrap reveal">
+      <a href="reglement.html" target="_blank" class="btn-primary">📜 Voir le règlement complet</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider-line"></div>
+
+<!-- REJOINDRE -->
+<section id="rejoindre" class="section-wrap">
+  <div class="container">
+    <div class="section-eyebrow">C'est parti</div>
+    <h2 class="section-heading reveal">Comment Rejoindre</h2>
+    <p class="section-body reveal">Suis ces 3 étapes simples pour démarrer ton aventure. C'est gratuit et ça prend moins de 5 minutes.</p>
+    <div class="steps-row">
+      <div class="step-card reveal"><div class="step-n">01</div><div class="step-icon">🎮</div><div class="step-t">Installe FiveM</div><div class="step-d">Télécharge et installe le client FiveM gratuitement sur fivem.net. GTA V est requis.</div></div>
+      <div class="step-card reveal"><div class="step-n">02</div><div class="step-icon">💬</div><div class="step-t">Rejoins le Discord</div><div class="step-d">Accepte le règlement et lis les annonces importantes sur notre Discord officiel.</div></div>
+      <div class="step-card reveal"><div class="step-n">03</div><div class="step-icon">🌴</div><div class="step-t">Connecte-toi</div><div class="step-d">Lance FiveM, entre l'IP du serveur et commence ton aventure MyStiC RP !</div></div>
+    </div>
+    <div class="countdown-wrap reveal">
+      <div class="countdown-title">⏳ Ouverture du serveur dans</div>
+      <div class="countdown-grid">
+        <div class="countdown-item"><div class="countdown-num" id="cd-days">00</div><div class="countdown-label">Jours</div></div>
+        <div class="countdown-item"><div class="countdown-num" id="cd-hours">00</div><div class="countdown-label">Heures</div></div>
+        <div class="countdown-item"><div class="countdown-num" id="cd-mins">00</div><div class="countdown-label">Minutes</div></div>
+        <div class="countdown-item"><div class="countdown-num" id="cd-secs">00</div><div class="countdown-label">Secondes</div></div>
+      </div>
+    </div>
+    <div class="server-status-bar reveal">
+      <div class="status-item"><span class="status-label">Statut</span>&nbsp;<span class="status-val" id="srv-status">🟢 En ligne</span></div>
+      <div class="status-item"><span class="status-label">Joueurs</span>&nbsp;<span class="status-val" id="srv-players">0 / 64</span></div>
+      <div class="status-item"><span class="status-label">Discord</span>&nbsp;<span class="status-val" id="srv-discord">34 membres</span></div>
+      <button class="share-btn" onclick="shareWebsite()">🔗 Partager</button>
+    </div>
+    <div class="server-info-box reveal">
+      <div>
+        <div class="server-ip-label">IP du serveur</div>
+        <div class="server-ip"><span id="server-ip-text">Bientôt disponible</span><button class="copy-ip-btn" onclick="copyIP()" id="copy-ip-btn">📋 Copier</button></div>
+      </div>
+      <div class="server-info-actions">
+        <a href="https://discord.gg/GBMj67FYdM" target="_blank" class="btn-primary">💬 Discord</a>
+        <a href="https://fivem.net" target="_blank" class="btn-secondary">🎮 FiveM</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-line"></div>
+
+<!-- STAFF -->
+<section id="staff" class="section-wrap" style="background:var(--dark2);">
+  <div class="container">
+    <div class="section-eyebrow">L'équipe</div>
+    <h2 class="section-heading reveal">Notre Staff</h2>
+    <p class="section-body reveal">Une équipe passionnée, disponible et à l'écoute de la communauté, 7j/7.</p>
+    <div class="staff-grid" id="staff-grid" style="grid-template-columns:repeat(2,minmax(260px,380px));justify-content:center;">
+      <div class="staff-card reveal"><div class="staff-avatar">👑</div><div class="staff-name">Noctaris</div><div class="staff-badge badge-owner">Fondateur</div><div class="staff-bio">Fondateur de MyStiC RP. Visionnaire du projet, il assure la direction globale depuis le premier jour.</div></div>
+      <div class="staff-card reveal"><div class="staff-avatar">⚡</div><div class="staff-name">GlitchTek</div><div class="staff-badge badge-creator">Créateur</div><div class="staff-bio">Architecte technique de MyStiC RP, il a construit les systèmes et scripts qui font l'identité unique du serveur.</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-line"></div>
+
+<!-- FAQ -->
+<section id="faq" class="section-wrap">
+  <div class="container">
+    <div class="section-eyebrow">Questions fréquentes</div>
+    <h2 class="section-heading reveal">FAQ</h2>
+    <p class="section-body reveal">Toutes les réponses aux questions qu'on nous pose le plus souvent.</p>
+    <div class="faq-list reveal" id="faq-list">
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Le serveur est-il gratuit ? <span class="faq-arrow">+</span></button><div class="faq-a">Oui, MyStiC RP est entièrement gratuit. Tu as juste besoin de GTA V et du client FiveM. Les Mystcoins sont optionnels.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Comment acheter des Mystcoins ? <span class="faq-arrow">+</span></button><div class="faq-a">Tous les achats se font via ticket sur notre Discord dans le salon #🎁・boutique. Un membre du staff s'occupera de ta commande rapidement.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">J'ai un problème, comment contacter le staff ? <span class="faq-arrow">+</span></button><div class="faq-a">Ouvre un ticket sur notre Discord. Le staff répond généralement en moins d'une heure pendant les heures de pointe.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Comment créer un gang ? <span class="faq-arrow">+</span></button><div class="faq-a">5 membres actifs minimum + validation staff. Remplis le formulaire sur le Discord. Réponse sous 48h.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">La whitelist est-elle obligatoire ? <span class="faq-arrow">+</span></button><div class="faq-a">Non, mais tu dois avoir lu et accepté le règlement sur Discord. Des passes whitelist existent pour certains métiers spéciaux.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Le serveur supporte-t-il les streamers ? <span class="faq-arrow">+</span></button><div class="faq-a">Absolument ! Des rôles dédiés sont disponibles sur Discord. Contacte le staff pour un potentiel partenariat.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo-text">MyStiC RP 🌴</div>
+        <p class="footer-tagline" id="footer-tagline">Le serveur FiveM francophone premium. Roleplay immersif, économie réaliste, communauté soudée.</p>
+        <a href="https://discord.gg/GBMj67FYdM" target="_blank" class="footer-discord">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.08.116 18.12a19.79 19.79 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.12-.098.246-.198.373-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+          Rejoindre le Discord
+        </a>
+      </div>
+      <div>
+        <div class="footer-col-title">Navigation</div>
+        <ul class="footer-links-list">
+          <li><button onclick="navScrollTo('presentation')">Le Serveur</button></li>
+          <li><button onclick="navScrollTo('boutique')">Boutique 🪙</button></li>
+          <li><button onclick="navScrollTo('reglement-home')">Règlement</button></li>
+          <li><button onclick="navScrollTo('rejoindre')">Comment Rejoindre</button></li>
+          <li><button onclick="navScrollTo('staff')">Notre Staff</button></li>
+          <li><button onclick="navScrollTo('faq')">FAQ</button></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Boutique</div>
+        <ul class="footer-links-list">
+          <li><button onclick="navScrollTo('boutique')">Mystcoins 🪙</button></li>
+          <li><button onclick="navScrollTo('boutique')">Pack Moto 🏍️</button></li>
+          <li><button onclick="navScrollTo('boutique')">Pack VIP ⭐</button></li>
+          <li><button onclick="navScrollTo('boutique')">Pack Voiture 🚗</button></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Liens</div>
+        <ul class="footer-links-list">
+          <li><a href="https://discord.gg/GBMj67FYdM" target="_blank">Discord Officiel</a></li>
+          <li><a href="https://fivem.net" target="_blank">Télécharger FiveM</a></li>
+          <li><a href="reglement.html" target="_blank">Règlement complet</a></li>
+          <li><a href="admin.html" style="color:rgba(100,120,112,0.3);font-size:0.7rem;">⚙️ Admin</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 MyStiC RP — Tous droits réservés. Non affilié à Rockstar Games.</div>
+      <div class="footer-made">Fondé par Noctaris & GlitchTek 🌴</div>
+    </div>
+  </div>
+</footer>
 
 <script>
-let currentPage = 'home';
+// ===== DATA (modifiable via admin) =====
+const SITE_DATA = JSON.parse(localStorage.getItem('mystic_data') || 'null') || {
+  serverIp: 'Bientôt disponible',
+  serverStatus: '🟢 En ligne',
+  serverPlayers: '0 / 64',
+  discordMembers: '34',
+  openingDate: '2026-05-01T18:00:00',
+  heroTitle1: 'MyStiC',
+  heroTitle2: 'RP 🌴',
+  heroTagline: 'Une expérience roleplay immersive et unique.\nRejoins notre communauté et écris ta propre histoire.',
+  heroStatusText: 'Serveur en ligne — FiveM FR',
+  heroLabel: 'Ouverture bientôt',
+  heroSub: 'Rejoins le Discord pour être alerté',
+  presHeading: 'Le Serveur',
+  presBody: 'MyStiC RP est un serveur FiveM francophone dédié au roleplay de qualité. Économie réaliste, scripts exclusifs, staff actif et communauté soudée.',
+  footerTagline: 'Le serveur FiveM francophone premium. Roleplay immersif, économie réaliste, communauté soudée.',
+  marqueeText: '🌴 MyStiC RP — Ouverture bientôt !',
+  annonces: [
+    {author: '🌴 MyStiC RP', date: 'Aujourd\'hui', text: '🚀 Le serveur MyStiC RP ouvre bientôt ! Rejoins le Discord pour être alerté en premier.'},
+    {author: '⚡ GlitchTek', date: 'Il y a 2 jours', text: '🛠️ Les scripts sont en cours de finalisation. La boutique Mystcoin sera disponible dès l\'ouverture.'},
+    {author: '👑 Noctaris', date: 'Il y a 3 jours', text: '📋 Le règlement complet est désormais disponible sur le site. Prenez le temps de le lire !'}
+  ]
+};
 
-function navScrollTo(id) {
-  if (currentPage !== 'home') goHome();
-  setTimeout(() => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, currentPage !== 'home' ? 400 : 10);
+function applyData() {
+  const d = SITE_DATA;
+  document.getElementById('server-ip-text').textContent = d.serverIp;
+  document.getElementById('copy-ip-btn').style.display = d.serverIp === 'Bientôt disponible' ? 'none' : 'inline-flex';
+  document.getElementById('srv-status').textContent = d.serverStatus;
+  document.getElementById('srv-players').textContent = d.serverPlayers;
+  document.getElementById('srv-discord').textContent = d.discordMembers + ' membres';
+  document.getElementById('stat-discord').textContent = d.discordMembers;
+  document.getElementById('hero-title-line1').textContent = d.heroTitle1;
+  document.getElementById('hero-title-line2').textContent = d.heroTitle2;
+  document.getElementById('hero-tagline').innerHTML = d.heroTagline.replace(/\n/g, '<br/>');
+  document.getElementById('hero-status-text').textContent = d.heroStatusText;
+  document.getElementById('hero-cs-label').textContent = d.heroLabel;
+  document.getElementById('hero-cs-sub').textContent = d.heroSub;
+  document.getElementById('pres-heading').textContent = d.presHeading;
+  document.getElementById('pres-body').textContent = d.presBody;
+  document.getElementById('footer-tagline').textContent = d.footerTagline;
+  // Annonces
+  const al = document.getElementById('annonces-list');
+  al.innerHTML = d.annonces.map(a => `
+    <div class="annonce-item">
+      <div class="annonce-top"><span class="annonce-author">${a.author}</span><span class="annonce-date">${a.date}</span></div>
+      <div class="annonce-text">${a.text}</div>
+    </div>`).join('');
 }
+applyData();
 
-function goHome() {
-  currentPage = 'home';
-  document.getElementById('page-home').classList.add('active');
-  document.getElementById('nav-links-home').style.display = 'flex';
-  document.getElementById('nav-links-regle').style.display = 'none';
-  document.getElementById('nav-back').style.display = 'none';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function openDiscord() {
-  window.open('https://discord.gg/GBMj67FYdM', '_blank');
-}
-
-function toggleMobile() {
-  document.getElementById('mobile-nav').classList.toggle('open');
-}
-
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
-}, { threshold: 0.07 });
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
+// ===== SCROLL =====
 window.addEventListener('scroll', () => {
-  const nav = document.getElementById('main-nav');
-  if (window.scrollY > 50) nav.classList.add('scrolled');
-  else nav.classList.remove('scrolled');
+  const el = document.getElementById('scroll-progress');
+  if(el){const h=document.documentElement.scrollHeight-window.innerHeight;el.style.width=(window.scrollY/h*100)+'%';}
+  const btn = document.getElementById('back-to-top');
+  if(btn){if(window.scrollY>400)btn.classList.add('show');else btn.classList.remove('show');}
+  const nav=document.getElementById('main-nav');
+  if(window.scrollY>50)nav.classList.add('scrolled');else nav.classList.remove('scrolled');
+});
+document.getElementById('back-to-top').addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+// ===== NAV =====
+function navScrollTo(id){
+  const el=document.getElementById(id);
+  if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function toggleMobile(){document.getElementById('mobile-nav').classList.toggle('open');}
+
+// ===== REVEAL =====
+const revObs=new IntersectionObserver((e)=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis');}),{threshold:0.07});
+document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+
+// ===== FAQ =====
+function toggleFaq(btn){
+  const item=btn.parentElement;
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+  if(!isOpen)item.classList.add('open');
+}
+
+// ===== COPY IP =====
+function copyIP(){
+  const ip=SITE_DATA.serverIp;
+  if(ip==='Bientôt disponible')return;
+  navigator.clipboard.writeText(ip).catch(()=>{const t=document.createElement('textarea');t.value=ip;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);});
+  showToast('✓ IP copiée !');
+}
+
+// ===== TOAST =====
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// ===== NOTIF =====
+function showNotif(msg,type='info'){
+  const stack=document.getElementById('notif-stack');
+  const n=document.createElement('div');
+  n.className='notif '+type;n.textContent=msg;
+  stack.appendChild(n);
+  setTimeout(()=>n.classList.add('show'),50);
+  setTimeout(()=>{n.classList.remove('show');setTimeout(()=>n.remove(),300);},3500);
+}
+
+// ===== COOKIES =====
+function acceptCookies(){localStorage.setItem('cookies','accepted');document.getElementById('cookie-banner').classList.remove('show');showNotif('✅ Préférences enregistrées','success');}
+function refuseCookies(){localStorage.setItem('cookies','refused');document.getElementById('cookie-banner').classList.remove('show');}
+setTimeout(()=>{if(!localStorage.getItem('cookies'))document.getElementById('cookie-banner').classList.add('show');},2000);
+
+// ===== SEARCH =====
+const searchData=[
+  {title:'Le Serveur',desc:'Découvrez MyStiC RP',section:'presentation'},
+  {title:'Boutique Mystcoin',desc:'Acheter des Mystcoins et packs',section:'boutique'},
+  {title:'Règlement',desc:'Les règles du serveur',section:'reglement-home'},
+  {title:'Comment Rejoindre',desc:'Installe FiveM et connecte-toi',section:'rejoindre'},
+  {title:'Notre Staff',desc:'Noctaris & GlitchTek',section:'staff'},
+  {title:'FAQ',desc:'Questions fréquentes',section:'faq'},
+  {title:'Discord',desc:'Rejoindre le Discord officiel',section:null,url:'https://discord.gg/GBMj67FYdM'},
+];
+function openSearch(){document.getElementById('search-overlay').classList.add('open');setTimeout(()=>document.getElementById('search-input').focus(),100);}
+function closeSearch(){document.getElementById('search-overlay').classList.remove('open');document.getElementById('search-input').value='';document.getElementById('search-results').innerHTML='';}
+document.getElementById('search-input').addEventListener('input',function(){
+  const q=this.value.toLowerCase();const res=document.getElementById('search-results');
+  if(!q){res.innerHTML='';return;}
+  const matches=searchData.filter(d=>d.title.toLowerCase().includes(q)||d.desc.toLowerCase().includes(q));
+  res.innerHTML=matches.length?matches.map(m=>`<div class="search-result-item" onclick="${m.url?`window.open('${m.url}','_blank')`:'closeSearch();navScrollTo(\''+m.section+'\');'}"><div class="search-result-title">${m.title}</div><div class="search-result-desc">${m.desc}</div></div>`).join(''):`<div class="search-result-item"><div class="search-result-desc">Aucun résultat</div></div>`;
+});
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();openSearch();}
+  if(e.key==='Escape')closeSearch();
+});
+document.getElementById('search-overlay').addEventListener('click',function(e){if(e.target===this)closeSearch();});
+
+// ===== THEME =====
+let isDark=true;
+function toggleTheme(){
+  isDark=!isDark;
+  const btn=document.getElementById('theme-toggle');
+  if(!isDark){
+    document.documentElement.style.setProperty('--dark','#f0f4f0');
+    document.documentElement.style.setProperty('--dark2','#e4ece4');
+    document.documentElement.style.setProperty('--dark3','#d8e4d8');
+    document.documentElement.style.setProperty('--text','#0a1a0a');
+    document.documentElement.style.setProperty('--muted','#4a6a4a');
+    btn.textContent='☀️';showNotif('☀️ Mode clair','info');
+  }else{
+    document.documentElement.style.setProperty('--dark','#06090f');
+    document.documentElement.style.setProperty('--dark2','#0b0f18');
+    document.documentElement.style.setProperty('--dark3','#111825');
+    document.documentElement.style.setProperty('--text','#e8f4ec');
+    document.documentElement.style.setProperty('--muted','#5a7068');
+    btn.textContent='🌙';showNotif('🌙 Mode sombre','info');
+  }
+}
+
+// ===== COUNTDOWN =====
+function updateCountdown(){
+  const target=new Date(SITE_DATA.openingDate);
+  const now=new Date();const diff=target-now;
+  if(diff<=0){['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='00';});return;}
+  const fmt=n=>String(Math.floor(n)).padStart(2,'0');
+  document.getElementById('cd-days').textContent=fmt(diff/86400000);
+  document.getElementById('cd-hours').textContent=fmt((diff%86400000)/3600000);
+  document.getElementById('cd-mins').textContent=fmt((diff%3600000)/60000);
+  document.getElementById('cd-secs').textContent=fmt((diff%60000)/1000);
+}
+updateCountdown();setInterval(updateCountdown,1000);
+
+// ===== SHARE =====
+function shareWebsite(){
+  if(navigator.share){navigator.share({title:'MyStiC RP 🌴',text:'Rejoins le serveur FiveM francophone premium !',url:window.location.href});}
+  else{navigator.clipboard.writeText(window.location.href);showNotif('🔗 Lien copié !','success');}
+}
+
+// ===== WELCOME =====
+setTimeout(()=>{if(!sessionStorage.getItem('welcomed')){showNotif('👋 Bienvenue sur MyStiC RP !','info');sessionStorage.setItem('welcomed','1');}},3000);
+
+// ===== EASTER EGG =====
+let kCode=[];const konami=[38,38,40,40,37,39,37,39,66,65];
+document.addEventListener('keydown',e=>{kCode.push(e.keyCode);if(kCode.length>10)kCode.shift();if(JSON.stringify(kCode)===JSON.stringify(konami)){showNotif('🌴 Easter egg ! Tu es un vrai MyStiC !','success');}});
+
+// ===== CURSOR =====
+const cursor=document.getElementById('cursor');
+const trail=document.getElementById('cursor-trail');
+document.addEventListener('mousemove',e=>{cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';trail.style.left=e.clientX+'px';trail.style.top=e.clientY+'px';});
+document.querySelectorAll('a,button,.feat-card,.staff-card,.step-card,.rule-row,.faq-q,.coin-card,.pack-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.transform='translate(-50%,-50%) scale(2)';trail.style.opacity='0';});
+  el.addEventListener('mouseleave',()=>{cursor.style.transform='translate(-50%,-50%) scale(1)';trail.style.opacity='1';});
 });
 
-function toggleFaq(btn) {
-  const item = btn.parentElement;
-  const isOpen = item.classList.contains('open');
-  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-  if (!isOpen) item.classList.add('open');
-}
-
-function copyIP() {
-  const ip = 'connect.mystic-rp.fr';
-  navigator.clipboard.writeText(ip).catch(() => {
-    const ta = document.createElement('textarea');
-    ta.value = ip; document.body.appendChild(ta);
-    ta.select(); document.execCommand('copy');
-    document.body.removeChild(ta);
-  });
-  const toast = document.getElementById('toast');
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2500);
-}
-
-// CURSOR
-const cursor = document.getElementById('cursor');
-const trail = document.getElementById('cursor-trail');
-document.addEventListener('mousemove', e => {
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
-  trail.style.left = e.clientX + 'px';
-  trail.style.top = e.clientY + 'px';
-});
-document.querySelectorAll('a,button,.feat-card,.staff-card,.step-card,.rule-row,.faq-q,.coin-card,.pack-card').forEach(el => {
-  el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%,-50%) scale(2)'; trail.style.opacity = '0'; });
-  el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; trail.style.opacity = '1'; });
-});
-
-// PARTICLES
-const canvas = document.getElementById('particles-canvas');
-const ctx = canvas.getContext('2d');
-const COLORS = ['#00e5a0','#00c9e0','#ff6b35','#ffcd3c','#ff3ea5','#f5a623'];
-
-function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-class Particle {
-  constructor() { this.reset(); }
-  reset() {
-    this.x = Math.random() * canvas.width;
-    this.y = Math.random() * canvas.height;
-    this.size = Math.random() * 1.6 + 0.3;
-    this.speedX = (Math.random() - 0.5) * 0.3;
-    this.speedY = -Math.random() * 0.5 - 0.1;
-    this.opacity = Math.random() * 0.45 + 0.05;
-    this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
-    this.life = 1;
-    this.decay = Math.random() * 0.003 + 0.001;
-  }
-  update() {
-    this.x += this.speedX; this.y += this.speedY; this.life -= this.decay;
-    if (this.life <= 0 || this.y < -10) this.reset();
-  }
-  draw() {
-    ctx.save(); ctx.globalAlpha = this.opacity * this.life;
-    ctx.fillStyle = this.color; ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); ctx.restore();
-  }
-}
-
-const particles = [];
-for (let i = 0; i < 90; i++) particles.push(new Particle());
-
-function animateParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  particles.forEach(p => { p.update(); p.draw(); });
-  requestAnimationFrame(animateParticles);
-}
+// ===== PARTICLES =====
+const canvas=document.getElementById('particles-canvas');
+const ctx=canvas.getContext('2d');
+const COLORS=['#00e5a0','#00c9e0','#ff6b35','#ffcd3c','#ff3ea5','#f5a623'];
+function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+resizeCanvas();window.addEventListener('resize',resizeCanvas);
+class Particle{constructor(){this.reset();}reset(){this.x=Math.random()*canvas.width;this.y=Math.random()*canvas.height;this.size=Math.random()*1.6+0.3;this.speedX=(Math.random()-0.5)*0.3;this.speedY=-Math.random()*0.5-0.1;this.opacity=Math.random()*0.45+0.05;this.color=COLORS[Math.floor(Math.random()*COLORS.length)];this.life=1;this.decay=Math.random()*0.003+0.001;}update(){this.x+=this.speedX;this.y+=this.speedY;this.life-=this.decay;if(this.life<=0||this.y<-10)this.reset();}draw(){ctx.save();ctx.globalAlpha=this.opacity*this.life;ctx.fillStyle=this.color;ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fill();ctx.restore();}}
+const particles=[];for(let i=0;i<90;i++)particles.push(new Particle());
+function animateParticles(){ctx.clearRect(0,0,canvas.width,canvas.height);particles.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animateParticles);}
 animateParticles();
 </script>
 </body>
